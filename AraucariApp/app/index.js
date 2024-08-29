@@ -1,11 +1,10 @@
-import { StatusBar } from "expo-status-bar";
-import { Text, View } from 'react-native';
+import { Text } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-export default function App() {
+export default function HomeScreen() {
   return (
-    <View className="flex-1 items-center justify-center bg-white">
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <SafeAreaView className="flex items-center">
+      <Text className="text-red-600">Content is in safe area.</Text>
+    </SafeAreaView>
   );
 }
