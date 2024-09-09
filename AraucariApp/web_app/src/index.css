@@ -45,7 +45,7 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+
   cursor: pointer;
   transition: border-color 0.25s;
 }
@@ -76,4 +76,20 @@ nav{
   height: 100vh;
   width: 100px;
 
+}
+
+.Login input{
+  background-color: rgba(0, 0, 0, 0);
+}
+
+.Login{
+  height: 100vh;
+  width: 100vw;
+  background-image: url("../../vilcun.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.difuminado{
+  background-color: #0000007a;
 }
