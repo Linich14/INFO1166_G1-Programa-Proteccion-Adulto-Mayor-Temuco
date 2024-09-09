@@ -1,16 +1,17 @@
 function ModalCitas({ Nombre, Edad, Horario }) {
     return (
-        <article className="max-w-md mx-auto bg-white rounded-lg shadow-md border border-gray-200">
-            <section className="px-6 py-4 border-b border-gray-200 flex items-center">
+        <article className="max-w-lg mx-auto bg-white rounded-lg shadow-md border border-gray-200">
+            <section className="px-6 border-b border-black flex items-center">
                 <div className="mr-1">
                     <img
                         src=""
+                        alt=""
                     />
                 </div>
                <div className="flex-1 w-1/2">
-                    <h2 className="text-lg font-semibold">Cita en curso</h2>
+                    <h2 className="font-semibold">Cita en curso</h2>
                </div>
-                <span className="flex-1 w-1/4 text-sm text-right font-medium">Asesoría Jurídica</span>
+                <span className="flex-1 w-1/4 text-right font-semibold">Asesoría Jurídica</span>
                 <hr />
             </section>
 
