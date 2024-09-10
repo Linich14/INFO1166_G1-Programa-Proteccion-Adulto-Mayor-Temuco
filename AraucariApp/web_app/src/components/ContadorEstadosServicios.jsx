@@ -4,7 +4,7 @@ import CircleCheck  from '../../public/CircleCheck.svg?react';
 import Cancel from '../../public/Cancel.svg?react';
 
 
-function ContadorHoras() {
+function ContadorHorasServicio() {
     return (
         <article className="flex flex-row flex-wrap gap-4">
             <section className="bg-white rounded-lg shadow-md w-40 p-4">

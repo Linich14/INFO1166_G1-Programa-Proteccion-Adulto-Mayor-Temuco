@@ -1,4 +1,4 @@
-function ModalCitas({ Nombre, Edad, Horario }) {
+function CitaEnCurso ({ Nombre, Edad, Horario }) {
     return (
         <article className="max-w-lg mx-auto bg-white rounded-lg shadow-md border border-gray-200">
             <section className="px-6 border-b border-black flex items-center">
