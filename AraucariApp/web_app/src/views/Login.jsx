@@ -2,7 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 function Login() {
   return (
-    <main className="grid grid-cols-2 grid-rows-1 gap-4 h-screen Login">
+    <main className="grid grid-cols-2 grid-rows-1 gap-4 h-screen Login   ">
+      <div className='video-foreground video-background'>
+        <iframe src="https://www.youtube.com/embed/4PsAq2pfZjM?original_url=https%3A%2F%2Fyoutu.be%2F4PsAq2pfZjM&iv_load_policy=3&color=white&mute=1&autohide=1&controls=0&showinfo=0&modestbranding=1&version=3&loop=1&wmode=opaque&rel=0&hd=1&videoid=4PsAq2pfZjM&autoplay=1&html5=1&enablejsapi=1&origin=https%3A%2F%2Fwww.temuco.cl&widgetid=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+      </div>
+      
       <div className="flex justify-center items-center difuminado">
         <div className=" p-4 rounded-lg shadow-lg w-1/2 ">
           <h1 className="text-3xl font-bold mb-6">Inicio de Sesión</h1>
@@ -18,6 +22,7 @@ function Login() {
         </div>
       </div>
       <div className="flex justify-center items-center">
+      
         <div className="bg-white p-4 rounded-lg shadow-lg  justify-center items-center ">
           <img src="../../Logocolor.png" alt="" />
         </div>
