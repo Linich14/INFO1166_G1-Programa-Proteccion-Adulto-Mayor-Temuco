@@ -4,7 +4,7 @@ import {
 	useSafeAreaInsets,
 } from "react-native-safe-area-context";
 
-export default function AuthLayout() {
+export default function ServiciosLayout() {
 	const insets = useSafeAreaInsets();
 	return (
 		<SafeAreaProvider style={{ marginTop: insets.top }}>
@@ -15,15 +15,9 @@ export default function AuthLayout() {
 						backgroundColor: "#f4511e",
 					},
 					headerTintColor: "#fff",
-					headerTitleStyle: {
-						fontWeight: "bold",
-					},
+					headerTitleStyle: {},
 				}}
-			>
-				<Stack.Screen name="login" />
-				<Stack.Screen name="sign_up" />
-				<Stack.Screen name="password_recovery" />
-			</Stack>
+			></Stack>
 		</SafeAreaProvider>
 	);
 }

@@ -7,12 +7,12 @@ export default function Index() {
 	const auth = false;
 
 	if (!auth) {
-		return <Redirect href="(auth)/login" />;
+		return <Redirect href="/(auth)/login" />;
 	}
 
 	return (
 		<SafeAreaView className="flex items-center">
-			<Link href="/(auth)/login">Inicio de Cesion</Link>
+			<Link href="/home">Inicio de Cesion</Link>
 			<Text className="text-black">Content is in safe area.</Text>
 		</SafeAreaView>
 	);
