@@ -49,4 +49,4 @@ function ResumenDiarioServicios () {
     )
 }
 
-export default MockupResumenDiario;
+export default ResumenDiarioServicios;

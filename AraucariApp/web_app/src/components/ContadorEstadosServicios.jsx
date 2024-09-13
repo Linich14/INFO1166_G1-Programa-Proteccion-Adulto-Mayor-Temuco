@@ -34,4 +34,4 @@ function ContadorHorasServicio() {
     )
 }
 
-export default ContadorHoras
+export default ContadorHorasServicio
