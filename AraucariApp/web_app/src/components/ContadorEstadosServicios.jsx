@@ -6,7 +6,7 @@ import Cancel from '../../public/Cancel.svg?react';
 
 function ContadorHorasServicio() {
     return (
-        <article className="flex flex-row flex-wrap gap-4">
+        <article className="flex flex-row flex-wrap gap-4 w-fit">
             <section className="bg-white rounded-lg shadow-md w-40 p-4">
                 <div className="flex justify-center gap-1">
                     <img src={Pending} alt="Pending" className="w-6 h-6" />

@@ -1,7 +1,7 @@
 function RotacionSemanal() {
     return (
-        <article>
-            <section className="w-fit bg-white rounded-lg shadow-md border border-gray-200 p-2 w-fill">
+        <article className="w-fit bg-white rounded-lg shadow-md border border-gray-200 p-2">
+            <section className=" ">
                 <table className="">
                     <thead>
                         <tr className="text-left">
