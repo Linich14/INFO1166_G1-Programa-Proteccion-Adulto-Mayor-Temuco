@@ -1,17 +1,17 @@
 import { useState } from 'react'
 import NavBar from './components/NavBar'
-import Dashboard from './components/Dashboard' 
+import Dashboard_PrestadorServicios from './components/Dashboard-PrestadorServicios'
+import Login from './views/Login'
 function App() {
-  
-
   return (
     
-    <div className="grid grid-cols-2 grid-rows-1 gap-4">
-        <div className="fixed top-0 left-0 h-screen w-64">
+    <div className="grid grid-cols-[auto_1fr] min-h-screen">
+        <div className="fixed h-screen top-0 left-0">
           <NavBar />
         </div>
-        <div >
-          <Dashboard />
+        <div className="ml-[100px] col-span-2">
+          {/*Aquí irán los dashbaord: (De ejemplo está el de prestador de servicios.)*/}
+          <Dashboard_PrestadorServicios />
         </div>
     </div>
         
