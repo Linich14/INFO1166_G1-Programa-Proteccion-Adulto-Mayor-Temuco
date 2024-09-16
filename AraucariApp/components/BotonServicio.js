@@ -12,10 +12,7 @@ export default function BotonServicio({
 			<Pressable
 				className={`flex-auto aspect-square items-center justify-center ${textClassName}`}
 			>
-				<Image
-					className="h-1/2 aspect-square mb-2"
-					source={require("../assets/ServiciosIcons/Peluqueria.png")}
-				/>
+				<Image className="h-1/2 aspect-square mb-2" source={dirImagen} />
 				<Text className="font-bold text-lg">{nombre}</Text>
 			</Pressable>
 		</Link>
