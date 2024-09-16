@@ -3,17 +3,19 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import "../../constants/styles.css";
 import { Link, Redirect } from "expo-router";
 
+
 export default function Index() {
-	const auth = false;
+	const auth = true;
 
 	if (!auth) {
 		return <Redirect href="/(auth)/login" />;
 	}
 
 	return (
-		<SafeAreaView className="flex items-center">
-			<Link href="/home">Inicio de Cesion</Link>
-			<Text className="text-black">Content is in safe area.</Text>
-		</SafeAreaView>
+		//<SafeAreaView className="flex items-center">
+			//<Link href="/home">Inicio de Cesion</Link>
+			//<Text className="text-black">Content is in safe area.</Text>
+		//</SafeAreaView>
+		<Redirect href={"/(tabs)/home"}></Redirect>
 	);
 }

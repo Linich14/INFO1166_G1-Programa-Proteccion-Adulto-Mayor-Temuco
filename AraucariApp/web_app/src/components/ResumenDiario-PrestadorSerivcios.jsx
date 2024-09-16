@@ -1,4 +1,4 @@
-function MockupResumenDiario () {
+function ResumenDiarioServicios () {
     return (
         <article className="max-w-lg bg-white rounded-lg shadow-md border border-gray-200 p-4">
             <section className="flex items-center justify-between mb-4">
@@ -49,4 +49,4 @@ function MockupResumenDiario () {
     )
 }
 
-export default MockupResumenDiario;
+export default ResumenDiarioServicios;

@@ -1,6 +1,8 @@
-function ModalCitas({ Nombre, Edad, Horario }) {
+function CitasEnCurso ({ Nombre, Edad, Horario }) {
+
+
     return (
-        <article className="max-w-lg mx-auto bg-white rounded-lg shadow-md border border-gray-200">
+        <article className="max-w-lg bg-white rounded-lg shadow-md border border-gray-200">
             <section className="px-6 border-b border-black flex items-center">
                 <div className="mr-1">
                     <img
@@ -8,9 +10,9 @@ function ModalCitas({ Nombre, Edad, Horario }) {
                         alt=""
                     />
                 </div>
-               <div className="flex-1 w-1/2">
+                <div className="flex-1 w-1/2">
                     <h2 className="font-semibold">Cita en curso</h2>
-               </div>
+                </div>
                 <span className="flex-1 w-1/4 text-right font-semibold">Asesoría Jurídica</span>
                 <hr />
             </section>
@@ -37,8 +39,8 @@ function ModalCitas({ Nombre, Edad, Horario }) {
                     Más información
                 </button>
             </section>
-        </article>  
+        </article>
     );
 }
 
-export default ModalCitas;
+export default CitasEnCurso;
