@@ -1,5 +1,5 @@
 import { View, Text, Pressable } from "react-native";
-import BotonServicio from "../../components/BotonServicio";
+import BotonServicio from "../../../components/BotonServicio";
 import { list } from "postcss";
 
 export default function Index() {
@@ -23,14 +23,14 @@ export default function Index() {
 	};
 
 	const listaImagenes = {
-		Abogado: require("../../assets/ServiciosIcons/Abogado.png"),
-		Asistente_Social: require("../../assets/ServiciosIcons/Asistente_Social.png"),
-		Fonoaudiologo: require("../../assets/ServiciosIcons/Fonoaudiologo.png"),
-		Kinesiologo: require("../../assets/ServiciosIcons/Kinesiologo.png"),
-		Peluqueria: require("../../assets/ServiciosIcons/Peluqueria.png"),
-		Podologo: require("../../assets/ServiciosIcons/Podologo.png"),
-		Psicologia: require("../../assets/ServiciosIcons/Psicologia.png"),
-		Salida_Terreno: require("../../assets/ServiciosIcons/Salida_Terreno.png"),
+		Abogado: require("../../../assets/ServiciosIcons/Abogado.png"),
+		Asistente_Social: require("../../../assets/ServiciosIcons/Asistente_Social.png"),
+		Fonoaudiologo: require("../../../assets/ServiciosIcons/Fonoaudiologo.png"),
+		Kinesiologo: require("../../../assets/ServiciosIcons/Kinesiologo.png"),
+		Peluqueria: require("../../../assets/ServiciosIcons/Peluqueria.png"),
+		Podologo: require("../../../assets/ServiciosIcons/Podologo.png"),
+		Psicologia: require("../../../assets/ServiciosIcons/Psicologia.png"),
+		Salida_Terreno: require("../../../assets/ServiciosIcons/Salida_Terreno.png"),
 	};
 
 	return (

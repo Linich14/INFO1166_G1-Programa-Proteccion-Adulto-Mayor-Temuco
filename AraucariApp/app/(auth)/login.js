@@ -53,12 +53,12 @@ export default function Login() {
 			>
 				<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
 					<View className="h-full flex flex-col">
-						<StyledText
+						<Text
 							className="text-black p-2 px-12 mt-2 ml-auto rounded-l-full text-2xl font-bold"
 							style={{ backgroundColor: "#E4E4E4", elevation: 5 }}
 						>
 							Inicio de Sesión
-						</StyledText>
+						</Text>
 
 						<View className="flex flex-col w-3/4 mb-2 mt-auto rounded-r-3xl border-2 border-gris-100">
 							<Pressable

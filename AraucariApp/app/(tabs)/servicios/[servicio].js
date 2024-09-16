@@ -1,8 +1,8 @@
 import { useLocalSearchParams } from "expo-router";
 import React, { useState } from "react";
 import { View, Text, Pressable, Alert } from "react-native";
-import { Button, Chip, Icon } from "react-native-paper";
-import Calendario from "../../components/Calendario";
+import { Button, Chip } from "react-native-paper";
+import Calendario from "../../../components/Calendario";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { styled } from "nativewind";
 
