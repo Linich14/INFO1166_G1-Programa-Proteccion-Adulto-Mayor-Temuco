@@ -88,7 +88,7 @@ export default function Home() {
           </TouchableOpacity>
         </Link>
         
-        <Link href="/" asChild>
+        <Link href="/agenda" asChild>
           <TouchableOpacity className="bg-white rounded-lg p-6 items-center flex-1 mx-2 ">
             <Image 
             source={require('../../assets/HomeIcons/calendario.png')}
