@@ -6,20 +6,20 @@ import RotacionSemanal from "./RotacionSemanal";
 
 function Dashboard_PrestadorServicios() {
     return (
-        <div className="grid grid-cols-2 grid-row-2">
-            <article className="col-span-1">
+        <div className="flex flex-row flex-wrap p-4 gap-4 justify-center">
+            <article className="w-1/3">
                 <ContadorHorasServicio />
             </article>
                 
-            <article className="col-span-1">
+            <article className="w-1/3">
                 <ResumenDiarioServicios />
             </article>
 
-            <article className="col-span-1">
+            <article className="w-1/3">
                 <CitasEnCurso />
             </article>
 
-            <article className="col-span-1">
+            <article className="w-1/3">
                 <RotacionSemanal />
             </article>
         </div>

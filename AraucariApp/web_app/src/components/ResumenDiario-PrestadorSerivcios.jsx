@@ -1,15 +1,15 @@
 function ResumenDiarioServicios () {
     return (
-        <article className="max-w-lg bg-white rounded-lg shadow-md border border-gray-200 p-4">
+        <article className=" bg-white rounded-lg shadow-md border border-gray-200 p-4">
             <section className="flex items-center justify-between mb-4">
-                <h2 className="text-lg font-semibold">Resumen Diario</h2>
+                <h2 className="text-2xl font-semibold">Resumen Diario</h2>
                 <span>Martes 28 de agosto</span>
             </section>
 
             <section>
                 <table className="w-full text-left">
                     <thead>
-                        <tr>
+                        <tr className="text-2xl">
                             <th className="border-b">Horario</th>
                             <th className="border-b">Nombre</th>
                             <th className="border-b">Edad</th>
@@ -17,8 +17,8 @@ function ResumenDiarioServicios () {
                         </tr>
                     </thead>
                     {/* Datos de prueba, pero aquí se debería mostrar por cada fila los datos de un usuario */}
-                    <tbody>
-                        <tr>
+                    <tbody className="text-xl">
+                        <tr className="">
                             <td className="">8:00AM</td>
                             <td className="">Pedro Sanchez</td>
                             <td className="">38</td>
@@ -42,6 +42,31 @@ function ResumenDiarioServicios () {
                                 <span className="inline-block w-4 h-4 rounded-full bg-green-500"></span>
                             </td>
                         </tr>
+                        <tr>
+                            <td className="">8:00AM</td>
+                            <td className="">Pedro Sanchez</td>
+                            <td className="">38</td>
+                            <td className="">
+                                <span className="inline-block w-4 h-4 rounded-full bg-green-500"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td className="">8:00AM</td>
+                            <td className="">Pedro Sanchez</td>
+                            <td className="">38</td>
+                            <td className="">
+                                <span className="inline-block w-4 h-4 rounded-full bg-green-500"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td className="">8:00AM</td>
+                            <td className="">Pedro Sanchez</td>
+                            <td className="">38</td>
+                            <td className="">
+                                <span className="inline-block w-4 h-4 rounded-full bg-green-500"></span>
+                            </td>
+                        </tr>
+
                     </tbody>
                 </table>
             </section>
