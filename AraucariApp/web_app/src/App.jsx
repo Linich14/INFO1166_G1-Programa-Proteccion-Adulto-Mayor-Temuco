@@ -2,6 +2,7 @@ import { useState } from 'react'
 import NavBar from './components/NavBar'
 import Dashboard_PrestadorServicios from './components/Dashboard-PrestadorServicios'
 import Login from './views/Login'
+import AutorizarUsuario from './components/AutorizarUsuario'
 function App() {
   return (
     
@@ -11,7 +12,8 @@ function App() {
         </div>
         <div className="ml-[100px] col-span-2">
           {/*Aquí irán los dashbaord: (De ejemplo está el de prestador de servicios.)*/}
-          <Dashboard_PrestadorServicios />
+          {/*<Dashboard_PrestadorServicios />*/}
+          <AutorizarUsuario/>
         </div>
     </div>
         

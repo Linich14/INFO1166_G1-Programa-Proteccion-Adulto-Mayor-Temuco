@@ -2,12 +2,10 @@ import React, { useState } from 'react';
 
 function OlvidarContraseña() {
   const [email, setEmail] = useState('');
-  const [error, setError] = useState(null);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // Aquí puedes agregar la lógica para enviar el correo electrónico
-    // y recuperar la contraseña
+
     console.log('Enviar correo electrónico para recuperar contraseña:', email);
     setShowPopup(true);
     setPopupMessage('Sus datos han sido enviados correctamente.');
