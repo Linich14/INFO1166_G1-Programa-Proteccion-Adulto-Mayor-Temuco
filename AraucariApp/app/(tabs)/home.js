@@ -34,12 +34,12 @@ export default function Home() {
           </View>
           <View className="p-1 px-4">
             <View className="bg-white flex flex-row items-center space-x-2 p-1 py-2 rounded-[32px]">
-              <View className="items-center bg-yellow-500 rounded-[32px] p-2 basis-1/5 ml-3">
+              <View className="items-center bg-yellow-500 rounded-[32px] p-3 ml-3">
                 <Text className="text-white font-bold text-2xl">19</Text>
-                <Text className="text-white font-bold">Agosto</Text>
+                <Text className="text-white font-bold">Septiembre</Text>
               </View>
-              <View className="pl-12 items-center">
-                <Text className="text-center font-bold">Lunes 19 de agosto</Text>
+              <View className="pl-4 place-content-center">
+                <Text className="text-center font-bold">Lunes 19 de Septiembre</Text>
                 <Text className="text-center">Peluqeria con el señor/a {'\n'} Pedro Sanchez</Text>
                 <Text className="font-bold underline text-center">18:30 hrs</Text>
               </View>
@@ -47,12 +47,12 @@ export default function Home() {
           </View>
           <View className="p-1 px-4">
             <View className="bg-white flex flex-row items-center space-x-2 p-1 py-2 rounded-[32px]">
-              <View className="items-center bg-[#018E11] rounded-[32px] p-2 basis-1/5 ml-3">
+              <View className="items-center bg-[#018E11] rounded-[32px] p-3 ml-3">
                 <Text className="text-white font-bold text-2xl">21</Text>
-                <Text className="text-white font-bold">Agosto</Text>
+                <Text className="text-white font-bold">Septiembre</Text>
               </View>
-              <View className="pl-12 items-center">
-                <Text className="text-center font-bold">Miercoles 21 de agosto</Text>
+              <View className="pl-4 place-content-center">
+                <Text className="text-center font-bold">Miercoles 21 de Septiembre</Text>
                 <Text className="text-center">Podologia con el señor/a {'\n'} Elliot Mardones</Text>
                 <Text className="font-bold underline text-center">18:30 hrs</Text>
               </View>
@@ -102,9 +102,9 @@ export default function Home() {
 
         <View className="flex-row justify-between">
 
-          <TouchableOpacity className= "p-4 items-center flex-1 mr-2">
+          <View className= "p-4 items-center flex-1 mr-2">
             <Text className="text-center text-black font-bold text-base">Consulta los servicios que puedes atenderte en tu zona</Text>
-          </TouchableOpacity>
+          </View>
 
           <View className="p-4 items-center flex-1 ml-2">
             <Text className="text-center text-black font-bold text-base">Consulta tu agenda para ver tus horas recientes o por atenderte</Text>

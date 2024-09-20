@@ -90,6 +90,7 @@ export default function TabsLayout() {
 				{/* Pantallas no usadas */}
 				<Tabs.Screen name="index" options={{ href: null }} />
 				<Tabs.Screen name="agenda" options={{ href: null }} />
+				<Tabs.Screen name="reagendar" options={{ href: null }} />
 			</Tabs>
 			{/* Botón personalizado de Volver */}
 			<TouchableOpacity

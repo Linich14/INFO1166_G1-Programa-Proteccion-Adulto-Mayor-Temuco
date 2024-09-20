@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { View, Text, Alert} from "react-native";
+import { View, Text, Alert, Touchable, TouchableOpacity} from "react-native";
 import { Button } from "react-native-paper";
+import { Link } from 'expo-router';
 import Calendario from "./calendario_agenda"; // Asegúrate de tener el componente de Calendario
 import { useLocalSearchParams } from "expo-router";
 
@@ -15,6 +16,24 @@ export default function Servicio() {
       [{ text: "Continuar" }]
     );
   };
+    const CancelarCita = () => {
+      Alert.alert(
+        "Cancelar Cita",
+        "¿Estás seguro de que deseas cancelar la cita?",
+        [
+          {
+            text: "No",
+            onPress: () => console.log("Cancelado"),
+            style: "cancel"
+          },
+          {
+            text: "Sí",
+            onPress: () => console.log("Cita cancelada")
+          }
+        ],
+        { cancelable: true }
+      );
+    };
 
   return (
     <View className="w-full h-screen">
@@ -29,29 +48,49 @@ export default function Servicio() {
         <Calendario actualizarFecha={setFecha} />
       </View>
         <View className="p-1 px-4">
-            <View className="bg-white flex flex-row items-center space-x-2 p-1 py-2 rounded-[32px]">
-              <View className="items-center bg-yellow-500 rounded-[32px] p-2 basis-1/5 ml-3">
+          <View className="bg-white flex flex-row items-center space-x-2 p-1 py-2 rounded-[32px] pb-3">
+              <View className="items-center bg-yellow-500 rounded-[32px] p-3 ml-3">
                 <Text className="text-white font-bold text-2xl">19</Text>
-                <Text className="text-white font-bold">Agosto</Text>
+                <Text className="text-white font-bold">Septiembre</Text>
               </View>
-              <View className="pl-12 items-center">
-                <Text className="text-center font-bold">Lunes 19 de agosto</Text>
-                <Text className="text-center">Peluqeria con el señor/a {'\n'} Pedro Sanchez</Text>
-                <Text className="font-bold underline text-center">18:30 hrs</Text>
+              <View className="">
+                <Text className="font-bold">Lunes 19 de Septiembre</Text>
+                <Text className="">Peluqueria con el señor/a {'\n'}Pedro Sanchez</Text>
+                <Text className="font-bold underline">18:30 hrs</Text>
+              </View>
+          </View>
+          <View className="flex flex-row justify-end px-2 absolute bottom-0 right-0">
+              <Link href="../reagendar" asChild>
+                <TouchableOpacity className="bg-yellow-500 py-2 px-2 rounded-full border border-white mr-1">
+                        <Text className="text-white text-center">Reagendar</Text>
+                </TouchableOpacity>
+              </Link>
+              <TouchableOpacity className="bg-red-500 p-2 rounded-full border border-white" onPress={CancelarCita}>
+                <Text className="text-white text-center">Cancelar</Text>
+              </TouchableOpacity>
+          </View>
+        </View>
+          <View className="p-1 px-4">
+            <View className="bg-white flex flex-row items-center space-x-2 p-1 py-2 rounded-[32px] pb-3">
+              <View className="items-center bg-[#018E11] rounded-[32px] p-3 ml-3">
+                <Text className="text-white font-bold text-2xl">21</Text>
+                <Text className="text-white font-bold">Septiembre</Text>
+              </View>
+              <View className="">
+                <Text className="font-bold">Miercoles 21 de Septiembre</Text>
+                <Text className="">Podologia con el señor/a {'\n'}Elliot Mardones</Text>
+                <Text className="font-bold underline">18:30 hrs</Text>
               </View>
             </View>
-          </View>
-          <View className="p-1 px-4">
-            <View className="bg-white flex flex-row items-center space-x-2 p-1 py-2 rounded-[32px]">
-              <View className="items-center bg-[#018E11] rounded-[32px] p-2 basis-1/5 ml-3">
-                <Text className="text-white font-bold text-2xl">21</Text>
-                <Text className="text-white font-bold">Agosto</Text>
-              </View>
-              <View className="pl-12 items-center">
-                <Text className="text-center font-bold">Miercoles 21 de agosto</Text>
-                <Text className="text-center">Podologia con el señor/a {'\n'} Elliot Mardones</Text>
-                <Text className="font-bold underline text-center">18:30 hrs</Text>
-              </View>
+            <View className="flex flex-row justify-end px-2 absolute bottom-0 right-0">
+              <Link href="../reagendar" asChild>
+                <TouchableOpacity className="bg-yellow-500 py-2 px-2 rounded-full border border-white mr-1">
+                        <Text className="text-white text-center">Reagendar</Text>
+                </TouchableOpacity>
+              </Link>
+              <TouchableOpacity className="bg-red-500 p-2 rounded-full border border-white" onPress={CancelarCita}>
+                <Text className="text-white text-center">Cancelar</Text>
+              </TouchableOpacity>
             </View>
           </View>
       </View>

@@ -13,10 +13,10 @@ export default function Servicio() {
 	const [fecha, setFecha] = useState(new Date());
 
 	const horarios = [
-		"8:00 PM",
-		"8:30 AM",
-		"9:00 AM",
-		"9:30 AM",
+		"08:00 AM",
+		"08:30 AM",
+		"09:00 AM",
+		"09:30 AM",
 		"10:00 AM",
 		"10:30 AM",
 	];
@@ -72,16 +72,18 @@ export default function Servicio() {
 			)}
 
 			<View className="flex-1">
-				<Text className="p-2 px-10 font-bold mr-auto bg-white rounded-r-full my-2">
-					Horas disponibles
-				</Text>
+				<View className="bg-white rounded-r-full mr-auto my-2 px-10">
+					<Text className="p-1 font-bold text-lg">
+						Horas disponibles
+					</Text>
+				</View>
 
 				<View className="flex-row flex-wrap gap-2 justify-center mb-2">
 					{horarios.map((horario, index) => (
 						<Chip
 							key={index}
 							selected={seleccionado.includes(horario)}
-							className="basis-1/4 rounded-full"
+							className="rounded-[32px"
 							onPress={() => setSeleccionado(horario)}
 							showSelectedCheck={false}
 							disabled={desabilitados[index]}
