@@ -35,56 +35,56 @@ function AutorizarUsuario() {
             
         </div>
         <div className="grid grid-cols-2 grid-rows-3 p-3">
-            <div class="container mx-auto p-4 bg-white shadow-md rounded-lg ">
-                <h2 class="text-2xl font-bold mb-4">Datos Personales</h2>
-                <div class="mb-4">
-                    <p class="text-gray-700 "><span class="font-bold">Nombres:</span> {persona.nombre}</p>
+            <div className="container mx-auto p-4 bg-white shadow-md rounded-lg ">
+                <h2 className="text-2xl font-bold mb-4">Datos Personales</h2>
+                <div className="mb-4">
+                    <p className="text-gray-700 "><span className="font-bold">Nombres:</span> {persona.nombre}</p>
                     <hr className='h-px  bg-gray-900 border-1'/>
                 </div>
-                <div class="mb-4">
-                    <p class="text-gray-700"><span class="font-bold">Apellidos:</span> {persona.apellido}</p>
+                <div className="mb-4">
+                    <p className="text-gray-700"><span className="font-bold">Apellidos:</span> {persona.apellido}</p>
                     <hr className='h-px  bg-gray-900 border-1'/>
                 </div>
-                <div class="mb-4">
-                    <p class="text-gray-700"><span class="font-bold">Rut:</span> {persona.rut}</p>
+                <div className="mb-4">
+                    <p className="text-gray-700"><span className="font-bold">Rut:</span> {persona.rut}</p>
                     <hr className='h-px  bg-gray-900 border-0'/>
                 </div>
-                <div class="mb-4">
-                    <p class="text-gray-700"><span class="font-bold">Edad:</span> {persona.edad}</p>
+                <div className="mb-4">
+                    <p className="text-gray-700"><span className="font-bold">Edad:</span> {persona.edad}</p>
                     <hr className='h-px  bg-gray-900 border-0'/>
                 </div>
-                <div class="mb-4">
-                    <p class="text-gray-700"><span class="font-bold">F. Nac.:</span> {persona.fnac}</p>
+                <div className="mb-4">
+                    <p className="text-gray-700"><span className="font-bold">F. Nac.:</span> {persona.fnac}</p>
                     <hr className='h-px  bg-gray-900 border-0'/>
                 </div>
             </div>
 
 
                 <div className="col-start-1 row-start-2  p-3   ">
-                        <div class="container mx-auto p-4 bg-white shadow-md rounded-lg">
-                        <div class="mb-4">
-                            <p class="text-gray-700"><span class="font-bold">Direccion |</span> {persona.direccion}</p>
+                        <div className="container mx-auto p-4 bg-white shadow-md rounded-lg">
+                        <div className="mb-4">
+                            <p className="text-gray-700"><span className="font-bold">Direccion |</span> {persona.direccion}</p>
                             <hr className='h-px  bg-gray-900 border-0'/>
                         </div>
-                        <div class="mb-4">
-                            <p class="text-gray-700"><span class="font-bold">Sector |</span> {persona.sector}</p>
+                        <div className="mb-4">
+                            <p className="text-gray-700"><span className="font-bold">Sector |</span> {persona.sector}</p>
                             <hr className='h-px  bg-gray-900 border-0'/>
                         </div>
-                        <div class="">
-                            <p class="text-gray-700"><span class="font-bold">Ciudad |</span> {persona.ciudad}</p>
+                        <div className="">
+                            <p className="text-gray-700"><span className="font-bold">Ciudad |</span> {persona.ciudad}</p>
                             <hr className='h-px  bg-gray-900 border-0'/>
                         </div>
                     </div>
                 </div>
 
                 <div className="col-start-1 row-start-3 p-3 ">
-                    <div class="container mx-auto p-4 bg-white shadow-md rounded-lg">
-                    <div class="mb-4">
-                        <p class="text-gray-700"><span class="font-bold">Discapacidad |</span> {persona.condicion}</p>
+                    <div className="container mx-auto p-4 bg-white shadow-md rounded-lg">
+                    <div className="mb-4">
+                        <p className="text-gray-700"><span className="font-bold">Discapacidad |</span> {persona.condicion}</p>
                         <hr className='h-px  bg-gray-900 border-0'/>
                     </div>
-                    <div class="">
-                        <p class="text-gray-700"><span class="font-bold">Condicion |</span> {persona.condicion}</p>
+                    <div className="">
+                        <p className="text-gray-700"><span className="font-bold">Condicion |</span> {persona.condicion}</p>
                         <hr className='h-px  bg-gray-900 border-0'/>
                     </div>
 
