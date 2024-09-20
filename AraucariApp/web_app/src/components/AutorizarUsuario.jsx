@@ -1,9 +1,10 @@
-import React from 'react'
+import React,{useState} from 'react'
 import carnet from '../../public/carnet.svg'
 import verificar from '../../public/verificar.svg'
 
 function AutorizarUsuario() {
-
+    const [showPopup, setShowPopup] = useState(false);
+    const [popupMessage, setPopupMessage] = useState('');
     class adulto {
         constructor() {
           this.nombre = "Felipe Andres"
@@ -21,20 +22,25 @@ function AutorizarUsuario() {
       }
     var verifi = verificar
     var persona = new adulto()
+
+    const handleAutorizar = () => {
+        setShowPopup(true);
+        setPopupMessage(`¿Estás seguro de autorizar a ${persona.nombre} ${persona.apellido}?`);
+      };
     
   return (
-    <div className="grid grid-cols-1 grid-rows-2  bg-[#EBEFF0]">
-        <div className='grid grid-cols-2 bg-white  p-4 rounded-lg shadow-md  content-center m-4'>
+    <div className="grid grid-cols-1 grid-rows-2  bg-[#EBEFF0] h-screen">
+        <div className='grid grid-cols-2 bg-white  p-4 rounded-lg shadow-md  content-center m-4  autorizarusuarioTOP'>
             <div>
                 <h1 className='text-3xl font-bold p-1'>Validacion de Usuario</h1>
             </div>
             <div className='flex justify-end'>
                 
-                <button className='flex bg-[#0071CE] rounded-lg text-white p-2 items-center text-3xl font-bold'><img src={verifi} alt="check" />Autorizar</button>
+                <button className='flex bg-[#0071CE] rounded-lg text-white p-2 items-center text-3xl font-bold' onClick={handleAutorizar} ><img src={verifi} alt="check" />Autorizar</button>
             </div>
             
         </div>
-        <div className="grid grid-cols-2 grid-rows-3 p-3">
+        <div className="grid grid-cols-2 grid-rows-3 p-3 autorizarusuarioAbajo ">
             <div className="container mx-auto p-4 bg-white shadow-md rounded-lg ">
                 <h2 className="text-2xl font-bold mb-4">Datos Personales</h2>
                 <div className="mb-4">
@@ -96,7 +102,28 @@ function AutorizarUsuario() {
                     <h1 className='text-3xl font-bold'>Foto de Carnet</h1>
                 </div>
 
-
+                {showPopup && (
+            <div className="fixed top-0 left-0 w-full h-full bg-gray-900 bg-opacity-50 flex justify-center items-center">
+              <div className="bg-white rounded-lg p-4">
+                <h2 className="text-2xl font-bold mb-4">Confirmación</h2>
+                <p className="text-gray-700">{popupMessage}</p>
+                <p className="text-gray-700">Datos del usuario:</p>
+                <ul>
+                  <li><span className="font-bold">Nombre:</span> {persona.nombre}</li>
+                  <li><span className="font-bold">Apellido:</span> {persona.apellido}</li>
+                  <li><span className="font-bold">RUT:</span> {persona.rut}</li>
+                  <li><span className="font-bold">Fecha de nacimiento:</span> {persona.fnac}</li>
+                  <li><span className="font-bold">Edad:</span> {persona.edad}</li>
+                  <li><span className="font-bold">Dirección:</span> {persona.direccion}</li>
+                  <li><span className="font-bold">Sector:</span> {persona.sector}</li>
+                  <li><span className="font-bold">Ciudad:</span> {persona.ciudad}</li>
+                  <li><span className="font-bold">Discapacidad:</span> {persona.discapacidad}</li>
+                  <li><span className="font-bold">Condición:</span> {persona.condicion}</li>
+                </ul>
+                <button className="bg-[#0071CE] rounded-lg text-white p-2 items-center text-3xl font-bold" onClick={() => setShowPopup(false)}>Aceptar</button>
+              </div>
+            </div>
+          )}
         </div>       
 
     </div>

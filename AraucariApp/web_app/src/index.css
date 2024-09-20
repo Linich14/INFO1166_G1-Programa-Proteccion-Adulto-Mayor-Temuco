@@ -120,3 +120,12 @@ nav{
   z-index: -1;
   overflow: hidden;
 }
+
+
+.autorizarusuarioTOP{
+  height: 100px;
+}
+.autorizarusuarioAbajo{
+  height: 100vh;
+  margin-top: -300px;
+}
