@@ -1,6 +1,17 @@
-import { Calendar } from 'react-native-calendars';
+import { Calendar, LocaleConfig } from 'react-native-calendars';
 import { View, StyleSheet, Text } from 'react-native';
 import React from 'react';
+import { Ionicons } from '@expo/vector-icons'; // Asegúrate de tener Ionicons instalado
+
+// Configuración de la localización en español
+LocaleConfig.locales['es'] = {
+  monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+  monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+  dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+  dayNamesShort: ['D', 'L', 'M', 'X', 'J', 'V', 'S'],
+  today: 'Hoy'
+};
+LocaleConfig.defaultLocale = 'es';
 
 export default function CalendarioSoloVista() {
   // Fechas que quieres marcar
@@ -46,6 +57,15 @@ export default function CalendarioSoloVista() {
             </View>
           );
         }}
+        renderArrow={(direction) => (
+          <View style={styles.arrowContainer}>
+            <Ionicons
+              name={direction === 'left' ? 'chevron-back' : 'chevron-forward'}
+              size={24}
+              color="#0071CE" // Color azul para las flechas
+            />
+          </View>
+        )}
         renderDay={(day, state) => {
           return (
             <View
@@ -81,8 +101,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#FFFFFF',
   },
+  arrowContainer: {
+    backgroundColor: '#FFFFFF', // Fondo blanco para las flechas
+    borderRadius: 50, // Hacer las esquinas redondeadas
+    padding: 5, // Espaciado interno para que no esté pegada la flecha al borde
+  },
   dayContainer: {
-    backgroundColor: '#007BFF', // Fondo azul para los días del calendario
+    backgroundColor: '#0071CE', // Fondo azul para los días del calendario
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 10, // Borde redondeado
