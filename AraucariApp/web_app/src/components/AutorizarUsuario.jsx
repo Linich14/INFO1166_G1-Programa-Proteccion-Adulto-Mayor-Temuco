@@ -27,6 +27,10 @@ function AutorizarUsuario() {
         setShowPopup(true);
         setPopupMessage(`¿Estás seguro de autorizar a ${persona.nombre} ${persona.apellido}?`);
       };
+    const handleDenegar = () => {
+        setShowPopup(true);
+        setPopupMessage(`¿Quieres denegar a ${persona.nombre} ${persona.apellido}?`);
+      };
     
   return (
     <div className="grid grid-cols-1 grid-rows-2  bg-[#EBEFF0] h-screen">
@@ -36,7 +40,8 @@ function AutorizarUsuario() {
             </div>
             <div className='flex justify-end'>
                 
-                <button className='flex bg-[#0071CE] rounded-lg text-white p-2 items-center text-3xl font-bold' onClick={handleAutorizar} ><img src={verifi} alt="check" />Autorizar</button>
+                <button className='flex bg-[#0071CE] rounded-lg text-white p-2 items-center text-3xl font-bold m-2' onClick={handleAutorizar} ><img src={verifi} alt="check" />Autorizar</button>
+                <button className='flex bg-[#0071CE] rounded-lg text-white p-2 items-center text-3xl font-bold m-2' onClick={handleDenegar} ><img src={verifi} alt="check" />Denegar</button>
             </div>
             
         </div>

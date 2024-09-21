@@ -29,7 +29,7 @@ function NavBar ({ onOptionClick })  {
 
       <div className=" text-white p-4 flex flex-col justify-center">
         <img src="../../avatar.png" alt="" className='w-30 h-30' />
-        <p className='text-lg hover:text-gray-300 text-center'>Pedro Sanchez</p>
+        <a href="#" onClick={() => handleOptionClick('perfil')}><p className='text-lg hover:text-gray-300 text-center'>Pedro Sanchez</p></a>
       </div>
     </nav>
   );

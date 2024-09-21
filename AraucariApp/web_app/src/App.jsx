@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import NavBar from './components/NavBar'
 import Dashboard_PrestadorServicios from './components/Dashboard-PrestadorServicios'
 import AutorizarUsuario from './components/AutorizarUsuario'
-
+import PerfilMunicipal from './components/PerfilMunicipal'
 function App() {
   const [selectedOption, setSelectedOption] = useState(null);
 
@@ -17,7 +17,8 @@ function App() {
           <NavBar onOptionClick={handleOptionChange} />
         </div>
         <div className="ml-[100px] col-span-2">
-          
+          {selectedOption == null && <PerfilMunicipal/>}
+          {selectedOption == 'perfil' && <PerfilMunicipal/>}
           {/*Aquí irán los dashbaord: (De ejemplo está el de prestador de servicios.)*/}
           {selectedOption == 'home' && <Dashboard_PrestadorServicios/>}
           {selectedOption == 'menu' && <AutorizarUsuario/>}
