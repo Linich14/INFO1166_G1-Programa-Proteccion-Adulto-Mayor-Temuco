@@ -47,7 +47,9 @@ export default function Servicio() {
         <View className="bg-muni-50 py-2 rounded-b-2xl">
         <Calendario actualizarFecha={setFecha} />
       </View>
-        <View className="p-1 px-4">
+        
+      </View>
+      <View className="p-1 px-4">
           <View className="bg-white flex flex-row items-center space-x-2 p-1 py-2 rounded-[32px] pb-3">
               <View className="items-center bg-yellow-500 rounded-[32px] p-3 ml-3">
                 <Text className="text-white font-bold text-2xl">19</Text>
@@ -93,7 +95,6 @@ export default function Servicio() {
               </TouchableOpacity>
             </View>
           </View>
-      </View>
     </View>
   );
 }

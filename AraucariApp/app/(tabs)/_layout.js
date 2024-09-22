@@ -37,26 +37,29 @@ export default function TabsLayout() {
 	}, [router]);
 
 	return (
-		<View style={styles.container}>
+		<View style={styles.container} className="">
 			<Tabs
 				initialRouteName="home"
 				screenOptions={{
 					headerShown: false,
 					tabBarStyle: {
 						backgroundColor: "white",
+						padding: 1,
+						margin: 1,
 						elevation: 0,
-						height: 65,
+						height: 105,
 						justifyContent: 'space-between',
+						borderRadius: 16,
 					},
 					tabBarIconStyle: {
 						marginTop: 0,
 					},
 					tabBarItemStyle: {
-						borderRadius: 35,
+						borderRadius: 15,
 						backgroundColor: "#0071CE",
 						marginVertical: 1,
 						marginTop: 4,
-						marginHorizontal: 4,
+						marginHorizontal: 10,
 					},
 					tabBarActiveTintColor: "white",
 					tabBarInactiveTintColor: "#9D9D9D",
@@ -91,6 +94,7 @@ export default function TabsLayout() {
 				<Tabs.Screen name="index" options={{ href: null }} />
 				<Tabs.Screen name="agenda" options={{ href: null }} />
 				<Tabs.Screen name="reagendar" options={{ href: null }} />
+				<Tabs.Screen name="marcarAsis" options={{ href: null }} />
 			</Tabs>
 			{/* Botón personalizado de Volver */}
 			<TouchableOpacity
@@ -130,18 +134,15 @@ const styles = StyleSheet.create({
 	},
 	backButton: {
 		position: 'absolute',
-		bottom: 10,
-		left: '47%',
+		bottom: 30,
+		left: '82%',
 		transform: [{ translateX: -50 }],
 		backgroundColor: '#0071CE',
 		paddingHorizontal: 20,
 		paddingVertical: 10,
 		borderRadius: 25,
-		flexDirection: 'row',
 		alignItems: 'center',
 		elevation: 10,
-		borderColor: 'white',
-		borderWidth: 1,
 	},
 	backButtonText: {
 		color: 'white',
