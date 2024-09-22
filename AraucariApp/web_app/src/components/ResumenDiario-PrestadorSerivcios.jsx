@@ -7,7 +7,7 @@ function ResumenDiarioServicios () {
             </section>
 
             <section>
-                <table className="w-full text-left">
+                <table className="w-full text-center">
                     <thead>
                         <tr className="text-2xl">
                             <th className="border-b">Horario</th>
@@ -32,6 +32,54 @@ function ResumenDiarioServicios () {
                             <td className="">38</td>
                             <td className="">
                                 <span className="inline-block w-4 h-4 rounded-full bg-slate-400 text-center"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td className="">8:00AM</td>
+                            <td className="">Pedro Sanchez</td>
+                            <td className="">38</td>
+                            <td className="">
+                                <span className="inline-block w-4 h-4 rounded-full bg-green-500"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td className="">8:00AM</td>
+                            <td className="">Pedro Sanchez</td>
+                            <td className="">38</td>
+                            <td className="">
+                                <span className="inline-block w-4 h-4 rounded-full bg-green-500"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td className="">8:00AM</td>
+                            <td className="">Pedro Sanchez</td>
+                            <td className="">38</td>
+                            <td className="">
+                                <span className="inline-block w-4 h-4 rounded-full bg-green-500"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td className="">8:00AM</td>
+                            <td className="">Pedro Sanchez</td>
+                            <td className="">38</td>
+                            <td className="">
+                                <span className="inline-block w-4 h-4 rounded-full bg-green-500"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td className="">8:00AM</td>
+                            <td className="">Pedro Sanchez</td>
+                            <td className="">38</td>
+                            <td className="">
+                                <span className="inline-block w-4 h-4 rounded-full bg-green-500"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td className="">8:00AM</td>
+                            <td className="">Pedro Sanchez</td>
+                            <td className="">38</td>
+                            <td className="">
+                                <span className="inline-block w-4 h-4 rounded-full bg-green-500"></span>
                             </td>
                         </tr>
                         <tr>

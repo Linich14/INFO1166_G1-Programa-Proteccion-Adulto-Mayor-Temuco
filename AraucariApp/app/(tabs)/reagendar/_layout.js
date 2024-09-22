@@ -12,7 +12,7 @@ export default function ServiciosLayout() {
 				screenOptions={{
 					headerShown: false,
 					headerStyle: {
-						backgroundColor: "#f4511e",
+						backgroundColor: "#D1D5DB",
 					},
 					headerTintColor: "#fff",
 					headerTitleStyle: {},

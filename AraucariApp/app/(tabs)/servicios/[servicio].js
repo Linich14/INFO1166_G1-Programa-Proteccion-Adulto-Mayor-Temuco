@@ -83,7 +83,7 @@ export default function Servicio() {
 						<Chip
 							key={index}
 							selected={seleccionado.includes(horario)}
-							className="rounded-[32px"
+							className="rounded-[32px]"
 							onPress={() => setSeleccionado(horario)}
 							showSelectedCheck={false}
 							disabled={desabilitados[index]}

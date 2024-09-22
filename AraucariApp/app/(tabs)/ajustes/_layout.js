@@ -4,7 +4,7 @@ import {
 	useSafeAreaInsets,
 } from "react-native-safe-area-context";
 
-export default function ServiciosLayout() {
+export default function AjustesLayout() {
 	const insets = useSafeAreaInsets();
 	return (
 		<SafeAreaProvider style={{ marginTop: insets.top }}>
@@ -12,7 +12,7 @@ export default function ServiciosLayout() {
 				screenOptions={{
 					headerShown: false,
 					headerStyle: {
-						backgroundColor: "#D1D5DB",
+						backgroundColor: "#f4511e",
 					},
 					headerTintColor: "#fff",
 					headerTitleStyle: {},

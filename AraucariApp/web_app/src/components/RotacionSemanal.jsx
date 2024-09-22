@@ -1,6 +1,6 @@
 function RotacionSemanal() {
     return (
-        <article className=" bg-white rounded-lg shadow-md border border-gray-200 p-2">
+        <article className=" bg-white rounded-lg shadow-md border border-gray-200 p-4">
             <section className="">
                 <table className="w-full">
                     <thead className="text-left text-2xl">
