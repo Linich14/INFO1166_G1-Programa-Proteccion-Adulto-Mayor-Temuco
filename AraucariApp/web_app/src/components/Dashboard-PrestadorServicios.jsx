@@ -2,7 +2,7 @@ import CitasEnCurso from "./CitasEnCurso-PrestadorServicios";
 import ContadorHorasServicio from "./ContadorEstadosServicios";
 import ResumenDiarioServicios from "./ResumenDiario-PrestadorSerivcios";
 import RotacionSemanal from "./RotacionSemanal";
-import RelojActual from './reloj';
+
 
 
 function Dashboard_PrestadorServicios() {
@@ -11,6 +11,7 @@ function Dashboard_PrestadorServicios() {
         horaInicio: "22:00", 
         horaFin: "23:00"
     };
+    
 
     return (
         <div className="mx-20 my-2">
