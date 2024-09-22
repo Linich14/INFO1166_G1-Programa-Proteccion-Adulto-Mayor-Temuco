@@ -6,9 +6,9 @@ el div central con la lista de accesos y
 el div de abajo que mostrara el perfil y nombre de usuario
  */
 
-function NavBar ({ onOptionClick })  {
-  const [selectedOption, setSelectedOption] = useState(null);
+function NavBar ({ onOptionClick, persona }) { {
 
+  // funcion que se encarga de enviar el parametro option al componente padre
   const handleOptionClick = (option) => {
     //console.log(option);
     onOptionClick(option); // el parametro option se envia al componente padre
@@ -28,11 +28,12 @@ function NavBar ({ onOptionClick })  {
       </div>
 
       <div className=" text-white p-4 flex flex-col justify-center">
-        <img src="../../avatar.png" alt="" className='w-30 h-30' />
-        <a href="#" onClick={() => handleOptionClick('perfil')}><p className='text-lg hover:text-gray-300 text-center'>Pedro Sanchez</p></a>
+        <img src={persona.photo} alt="" className='w-30 h-30' />
+        <a href="#" onClick={() => handleOptionClick('perfil')}><p className='text-lg hover:text-gray-300 text-center'>{persona.nombre 
+        + " " + persona.apellido}</p></a>
       </div>
     </nav>
   );
 };
-
+}
 export default NavBar;

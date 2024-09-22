@@ -1,32 +1,24 @@
 import React,{useState} from 'react'
-import carnet from '../../public/carnet.svg'
+
 import verificar from '../../public/verificar.svg'
+import adulto from '../assets/persona.js'
 
 function AutorizarUsuario() {
+    // estado del componente, inicializado en falso y el mensaje vacío
     const [showPopup, setShowPopup] = useState(false);
     const [popupMessage, setPopupMessage] = useState('');
-    class adulto {
-        constructor() {
-          this.nombre = "Felipe Andres"
-          this.apellido = "Gonzalez Perez"
-          this.rut = "12345678-9"
-          this.fnac = "01/01/1960"
-          this.edad = "64"
-          this.direccion = "San Martin 1234"
-          this.sector = "Santa Rosa"
-          this.ciudad = "Temuco"
-          this.discapacidad = "Si"
-          this.condicion = "Movilidad Reducida"
-          this.carnet = carnet
-        }
-      }
+
+    // llamada de clase y variable
     var verifi = verificar
     var persona = new adulto()
 
+    //funcion para el pop up autorizar, se activa cuando se da click en el boton
     const handleAutorizar = () => {
         setShowPopup(true);
         setPopupMessage(`¿Estás seguro de autorizar a ${persona.nombre} ${persona.apellido}?`);
       };
+
+    // popup para denegar
     const handleDenegar = () => {
         setShowPopup(true);
         setPopupMessage(`¿Quieres denegar a ${persona.nombre} ${persona.apellido}?`);
