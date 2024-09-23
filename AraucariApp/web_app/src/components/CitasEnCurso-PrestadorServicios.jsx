@@ -42,6 +42,16 @@ function CitasEnCurso({ Nombre, Edad, Horario }) {
                     <h3 className="inline-block w-1/6 border-r-2 text-xl font-bold">Horario</h3>
                     <p className="text-lg ml-2">{Horario.horaInicio} - {Horario.horaFin}</p>
                 </div>
+
+                <div className="flex border-b border-gray-200 pb-2">
+                    <h3 className="inline-block w-1/6 border-r-2 text-xl font-bold">Lugar</h3>
+                    <p className="text-lg ml-2">Santa Rosa</p>
+                </div>
+
+                <div className="flex border-b border-gray-200 pb-2">
+                    <h3 className="inline-block w-1/6 border-r-2 text-xl font-bold">Prestador</h3>
+                    <p className="text-lg ml-2">Juan Carlos</p>
+                </div>
             </section>
             {/*bg-gray-200 rounded-full h-6*/}
             <section className="">

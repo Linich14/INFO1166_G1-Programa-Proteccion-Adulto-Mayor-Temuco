@@ -20,7 +20,7 @@ function ResumenDiarioServicios () {
                     <tbody className="text-xl">
                         <tr className="">
                             <td className="">8:00AM</td>
-                            <td className="">Pedro Sanchez</td>
+                            <td className="">Jaime Guzman</td>
                             <td className="">38</td>
                             <td className="">
                                 <span className="inline-block w-4 h-4 rounded-full bg-red-600"></span>
@@ -28,7 +28,7 @@ function ResumenDiarioServicios () {
                         </tr>
                         <tr>
                             <td className="">8:00AM</td>
-                            <td className="">Pedro Sanchez</td>
+                            <td className="">Fabian Perez</td>
                             <td className="">38</td>
                             <td className="">
                                 <span className="inline-block w-4 h-4 rounded-full bg-slate-400 text-center"></span>
@@ -36,7 +36,7 @@ function ResumenDiarioServicios () {
                         </tr>
                         <tr>
                             <td className="">8:00AM</td>
-                            <td className="">Pedro Sanchez</td>
+                            <td className="">Francisca Soto</td>
                             <td className="">38</td>
                             <td className="">
                                 <span className="inline-block w-4 h-4 rounded-full bg-green-500"></span>
@@ -44,7 +44,7 @@ function ResumenDiarioServicios () {
                         </tr>
                         <tr>
                             <td className="">8:00AM</td>
-                            <td className="">Pedro Sanchez</td>
+                            <td className="">Jaime Guzman</td>
                             <td className="">38</td>
                             <td className="">
                                 <span className="inline-block w-4 h-4 rounded-full bg-green-500"></span>
@@ -52,7 +52,7 @@ function ResumenDiarioServicios () {
                         </tr>
                         <tr>
                             <td className="">8:00AM</td>
-                            <td className="">Pedro Sanchez</td>
+                            <td className="">Jaime Guzman</td>
                             <td className="">38</td>
                             <td className="">
                                 <span className="inline-block w-4 h-4 rounded-full bg-green-500"></span>
@@ -60,7 +60,7 @@ function ResumenDiarioServicios () {
                         </tr>
                         <tr>
                             <td className="">8:00AM</td>
-                            <td className="">Pedro Sanchez</td>
+                            <td className="">Jaime Guzman</td>
                             <td className="">38</td>
                             <td className="">
                                 <span className="inline-block w-4 h-4 rounded-full bg-green-500"></span>
@@ -68,7 +68,7 @@ function ResumenDiarioServicios () {
                         </tr>
                         <tr>
                             <td className="">8:00AM</td>
-                            <td className="">Pedro Sanchez</td>
+                            <td className="">Jaime Guzman</td>
                             <td className="">38</td>
                             <td className="">
                                 <span className="inline-block w-4 h-4 rounded-full bg-green-500"></span>
@@ -76,7 +76,7 @@ function ResumenDiarioServicios () {
                         </tr>
                         <tr>
                             <td className="">8:00AM</td>
-                            <td className="">Pedro Sanchez</td>
+                            <td className="">Jaime Guzman</td>
                             <td className="">38</td>
                             <td className="">
                                 <span className="inline-block w-4 h-4 rounded-full bg-green-500"></span>
@@ -84,7 +84,7 @@ function ResumenDiarioServicios () {
                         </tr>
                         <tr>
                             <td className="">8:00AM</td>
-                            <td className="">Pedro Sanchez</td>
+                            <td className="">Jaime Guzman</td>
                             <td className="">38</td>
                             <td className="">
                                 <span className="inline-block w-4 h-4 rounded-full bg-green-500"></span>
@@ -92,7 +92,7 @@ function ResumenDiarioServicios () {
                         </tr>
                         <tr>
                             <td className="">8:00AM</td>
-                            <td className="">Pedro Sanchez</td>
+                            <td className="">Jaime Guzman</td>
                             <td className="">38</td>
                             <td className="">
                                 <span className="inline-block w-4 h-4 rounded-full bg-green-500"></span>
@@ -100,7 +100,7 @@ function ResumenDiarioServicios () {
                         </tr>
                         <tr>
                             <td className="">8:00AM</td>
-                            <td className="">Pedro Sanchez</td>
+                            <td className="">Jaime Guzman</td>
                             <td className="">38</td>
                             <td className="">
                                 <span className="inline-block w-4 h-4 rounded-full bg-green-500"></span>
@@ -108,7 +108,7 @@ function ResumenDiarioServicios () {
                         </tr>
                         <tr>
                             <td className="">8:00AM</td>
-                            <td className="">Pedro Sanchez</td>
+                            <td className="">Jaime Guzman</td>
                             <td className="">38</td>
                             <td className="">
                                 <span className="inline-block w-4 h-4 rounded-full bg-green-500"></span>

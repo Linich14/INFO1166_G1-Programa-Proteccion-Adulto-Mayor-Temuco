@@ -8,12 +8,12 @@ function BarraProgresoHorario({ horaInicio, horaFin }) {
         const ahora = new Date();
         const inicio = new Date();
         const fin = new Date();
-        
+
         // split: Separar la hora en horas y minutos
         // map: Convertir los valores a números
-        const [horasInicio, minutosInicio] = horaInicio.split(':').map(Number);
-        const [horasFin, minutosFin] = horaFin.split(':').map(Number);
-        
+        const [horasInicio, minutosInicio] = horaInicio.split(":").map(Number);
+        const [horasFin, minutosFin] = horaFin.split(":").map(Number);
+
         // Hora de inicio y fin
         inicio.setHours(horasInicio, minutosInicio, 0, 0);
         fin.setHours(horasFin, minutosFin, 0, 0);
@@ -31,26 +31,24 @@ function BarraProgresoHorario({ horaInicio, horaFin }) {
         }
     };
 
-    // Efecto que actualiza el progreso cada minuto
+    // Efecto que actualiza el progreso cada 6 segundos
     useEffect(() => {
         calcularProgreso();
-        const intervalo = setInterval(calcularProgreso, 6000); // Actualizar cada 60 segundos (1 minuto)
-
-        // Limpiar el intervalo cuando el componente se desmonte
+        const intervalo = setInterval(calcularProgreso, 6000);
         return () => clearInterval(intervalo);
     }, [horaInicio, horaFin]);
 
     return (
-        <div>
-            <div 
-                className="bg-blue-500 rounded-full transition-all duration-300 h-8"
-                style={{ width: `${progreso}%` }}
-            >
-                <p className="h-10 text-center">Progreso numero: {Math.round(progreso)}%</p>
-            </div>
+        <div className="flex flex-col items-center">
+            <progress
+                className="w-full h-8 bg-blue-600 rounded-lg overflow-hidden border border-blue-600"
+                value={progreso}
+                max="100"
+            />
+            <p className="mt-2 text-center">Progreso: {Math.round(progreso)}%</p>
         </div>
-
     );
 }
 
 export default BarraProgresoHorario;
+
