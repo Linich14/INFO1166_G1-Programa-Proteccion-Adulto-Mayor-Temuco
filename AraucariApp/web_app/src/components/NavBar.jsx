@@ -24,6 +24,8 @@ function NavBar ({ onOptionClick, persona }) { {
         <ul >
           <li className="mb-5"><a href="#" onClick={() => handleOptionClick('home')} ><img src="../../public/home.png" alt="" className=' ' /></a></li>
           <li className="mb-5"><a href="#" onClick={() => handleOptionClick('menu')} ><img src="../../public/menu.png" alt="" /></a></li>
+          <li className="mb-5"><a href="#" onClick={() => handleOptionClick('notificacion')} ><img src="../../public/mensaje.png" alt="" className='h-7' /></a></li>
+          <li className="mb-5"><a href="#" onClick={() => handleOptionClick('historial')} ><img src="../../public/historial.png" alt="" className='h-7' /></a></li>
         </ul>
       </div>
 

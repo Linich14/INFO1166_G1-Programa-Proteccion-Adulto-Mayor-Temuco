@@ -3,8 +3,10 @@ import NavBar from './components/NavBar'
 import Dashboard_PrestadorServicios from './components/Dashboard-PrestadorServicios'
 import AutorizarUsuario from './components/AutorizarUsuario'
 import PerfilMunicipal from './components/PerfilMunicipal'
-
+import CrearNotificacion from './components/CrearNotificacion'
 import municipal from './assets/municipal'
+import Historialcompleto from './components/Historialcompleto'
+
 
 function App() {
 
@@ -29,6 +31,8 @@ function App() {
           {/*Aquí irán los dashbaord: (De ejemplo está el de prestador de servicios.)*/}
           {selectedOption == 'home' && <Dashboard_PrestadorServicios/>}
           {selectedOption == 'menu' && <AutorizarUsuario/>}
+          {selectedOption == 'notificacion' && <CrearNotificacion/>}
+          {selectedOption == 'historial' && <Historialcompleto/>}
         </div>
     </div>
         
