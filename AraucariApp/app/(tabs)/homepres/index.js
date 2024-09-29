@@ -22,12 +22,14 @@ export default function Home() {
               Bienvenido, Elliot Mardones
             </Text>
           </View>
+          <Link href="/ajustes" asChild>
           <TouchableOpacity className="bg-yellow-500 rounded-l-full p-2">
             <View className="items-center">
-              <MaterialIcons name="settings" size={24} color="white" className=""/>
+              <MaterialIcons name="settings" size={24} color="white" />
             </View>
             <Text className="text-white">Ajustes</Text>
           </TouchableOpacity>
+        </Link>
         </View>
         <View className="bg-muni-50 rounded-b-2xl py-1 pb-2">
           <View className="bg-white rounded-r-full py-1 my-1 mr-28">
