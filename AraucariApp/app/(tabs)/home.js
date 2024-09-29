@@ -4,7 +4,8 @@ import {
   Text,
   TouchableOpacity,
   View,
-  Image
+  Image,
+  ScrollView
 } from "react-native";
 import { styled } from "nativewind";
 import { MaterialIcons } from '@expo/vector-icons';
@@ -18,7 +19,7 @@ export default function Home() {
       <View className="flex-row justify-between items-center bg-[#0060AF] py-2">
         <View className="bg-white py-2 rounded-r-full px-3">
           <Text className="text-black text-xl font-bold px-2">
-            Bienvenido, Señor George Soto
+            Bienvenido, George Soto
           </Text>
         </View>
         <Link href="/ajustes" asChild>
@@ -42,7 +43,7 @@ export default function Home() {
             </View>
             <View className="pl-4 place-content-center">
               <Text className="text-center font-bold">Lunes 19 de Septiembre</Text>
-              <Text className="text-center">Peluqeria con el señor/a {'\n'} Pedro Sanchez</Text>
+              <Text className="text-center">Peluqueria con el señor/a {'\n'} Pedro Sanchez</Text>
               <Text className="font-bold underline text-center">18:30 hrs</Text>
             </View>
           </View>
@@ -63,54 +64,56 @@ export default function Home() {
       </View>
       {/* Separa */}
       <View className="mt-6">
-        <View className="bg-white py-2 rounded-r-full mb-4 mr-28">
+        <View className="bg-white py-2 rounded-r-full mr-28">
           <Text className="text-black text-xl font-bold px-2 text-center">
             ¿Qué quieres hacer?
           </Text>
         </View>
-        <View className="flex-row justify-between">
+        <ScrollView>
+          <View className="flex-row justify-between">
 
-          <View className="pl-4 p-1 items-center flex-1">
-            <Text className="text-center text-black font-bold text-xl">Buscar Servicios</Text>
+            <View className="pl-4 p-1 items-center flex-1">
+              <Text className="text-center text-black font-bold text-xl">Buscar Servicios</Text>
+            </View>
+
+            <View className="pl-4 p-1 items-center flex-1">
+              <Text className="text-center text-black font-bold text-xl">Ver mi agenda</Text>
+            </View>
           </View>
 
-          <View className="pl-4 p-1 items-center flex-1">
-            <Text className="text-center text-black font-bold text-xl">Ver mi agenda</Text>
-          </View>
-        </View>
+          <View className="flex-row justify-between">
 
-        <View className="flex-row justify-between">
+            <Link href="/servicios" asChild>
+              <TouchableOpacity className="bg-white rounded-lg p-6 items-center flex-1 mx-2">
+                <Image 
+                  source={require('../../assets/HomeIcons/servicios.png')} 
+                  style={{ width: 119, height: 121 }}
+                />
+              </TouchableOpacity>
+            </Link>
 
-          <Link href="/servicios" asChild>
-            <TouchableOpacity className="bg-white rounded-lg p-6 items-center flex-1 mx-2">
-              <Image 
-                source={require('../../assets/HomeIcons/servicios.png')} 
-                style={{ width: 119, height: 121 }}
-              />
-            </TouchableOpacity>
-          </Link>
+            <Link href="/agenda" asChild>
+              <TouchableOpacity className="bg-white rounded-lg p-6 items-center flex-1 mx-2 ">
+                <Image 
+                  source={require('../../assets/HomeIcons/calendario.png')}
+                  style={{ width: 130, height: 130 }}
+                />
+              </TouchableOpacity>
+            </Link>
 
-          <Link href="/agenda" asChild>
-            <TouchableOpacity className="bg-white rounded-lg p-6 items-center flex-1 mx-2 ">
-              <Image 
-                source={require('../../assets/HomeIcons/calendario.png')}
-                style={{ width: 130, height: 130 }}
-              />
-            </TouchableOpacity>
-          </Link>
-
-        </View>
-
-        <View className="flex-row justify-between">
-
-          <View className="p-4 items-center flex-1 mr-2">
-            <Text className="text-center text-black font-bold text-base">Consulta los servicios que puedes atenderte en tu zona</Text>
           </View>
 
-          <View className="p-4 items-center flex-1 ml-2">
-            <Text className="text-center text-black font-bold text-base">Consulta tu agenda para ver tus horas recientes o por atenderte</Text>
+          <View className="flex-row justify-between">
+
+            <View className="p-4 items-center flex-1 mr-2">
+              <Text className="text-center text-black font-bold text-base">Consulta los servicios que puedes atenderte en tu zona</Text>
+            </View>
+
+            <View className="p-4 items-center flex-1 ml-2">
+              <Text className="text-center text-black font-bold text-base">Consulta tu agenda para ver tus horas recientes o por atenderte</Text>
+            </View>
           </View>
-        </View>
+        </ScrollView>
 
       </View>
     </SafeAreaView>

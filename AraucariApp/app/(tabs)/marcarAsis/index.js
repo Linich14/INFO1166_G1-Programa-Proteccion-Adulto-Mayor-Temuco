@@ -11,14 +11,15 @@ import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const StyledText = styled(Text);
+
 //
-export default function Home() {
+export default function Perfil() {
   return (
     <SafeAreaView className="flex-1 bg-gray-300">
         <View className="flex-row justify-between items-center bg-[#0060AF] py-2">
           <View className="bg-white py-2 rounded-r-full px-3">
             <Text className="text-black text-xl font-bold px-2">
-              Bienvenido, Señor Elliot Mardones
+              Bienvenido, Elliot Mardones
             </Text>
           </View>
           <TouchableOpacity className="bg-yellow-500 rounded-l-full p-2">
@@ -60,22 +61,26 @@ export default function Home() {
         </View>
         <View className="p-2">
           <View className="bg-white rounded-[16px] p-2">
-            <TouchableOpacity className="bg-green-600 p-4 flex flex-row items-center justify-center rounded-[16px] my-2 mb-12 border-2 border-white mx-3">
-              <View className="ml-3 p-2 mr-8">
-                <MaterialCommunityIcons name="check-decagram-outline" size={60} color="white" className=""/>
-              </View>
-              <View className="p-2">
-                <Text className="text-white text-center font-bold text-2xl">Marcar entrada</Text>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity className="bg-red-500 p-4 flex flex-row items-center justify-center rounded-[16px] mx-3 mb-2">
-              <View className="p-2 mr-8"> 
-                <MaterialIcons name="exit-to-app" size={60} color="white" className=""/>
-              </View>
-              <View className="p-2">
-                <Text className="text-white text-center font-bold text-2xl">Marcar Salida</Text>
-              </View>
-            </TouchableOpacity>
+            <Link href="/marcarEntrada" asChild>
+              <TouchableOpacity className="bg-green-600 p-4 flex flex-row items-center justify-center rounded-[16px] my-2 mb-12 border-2 border-white mx-3">
+                <View className="ml-3 p-2 mr-8">
+                  <MaterialCommunityIcons name="check-decagram-outline" size={60} color="white" className=""/>
+                </View>
+                <View className="p-2">
+                  <Text className="text-white text-center font-bold text-2xl">Marcar entrada</Text>
+                </View>
+              </TouchableOpacity>
+            </Link>
+            <Link href="/marcarSalida" asChild>
+              <TouchableOpacity className="bg-red-500 p-4 flex flex-row items-center justify-center rounded-[16px] mx-3 mb-2">
+                <View className="p-2 mr-8"> 
+                  <MaterialIcons name="exit-to-app" size={60} color="white" className=""/>
+                </View>
+                <View className="p-2">
+                  <Text className="text-white text-center font-bold text-2xl">Marcar Salida</Text>
+                </View>
+              </TouchableOpacity>
+            </Link>
             
           </View>
         </View>
