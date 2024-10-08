@@ -1,4 +1,3 @@
-import PendingClient from '../../public/PendingClient.svg?react';
 import { useState } from 'react';
 import BarraProgresoHorario from "./BarraProgresoHorario";
 
@@ -14,7 +13,7 @@ function CitasEnCurso({ Nombre, Edad, Horario }) {
             {/*Encabezado */}
             <section className="border-b border-black flex items-center mb-2">
                 <div className="mr-1">
-                    <img src={PendingClient} alt="icono_pending" />
+                    <img src="/PendingClient.svg?react" alt="PendingClient_Icon" />
                 </div>
 
                 <div className="flex-1 w-1/2">
