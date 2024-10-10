@@ -87,12 +87,13 @@ WSGI_APPLICATION = 'BackendApp.wsgi.application'
 
 DATABASES = {
      'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.getenv("BD_NAME") ,
-        "USER": os.getenv("BD_USER") ,
-        "PASSWORD": os.getenv("BD_PASSWORD"),
-        "HOST": os.getenv("BD_HOST"),
-        "PORT": os.getenv("BD_PORT"),
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / "db.sqlite3",
+#       'NAME': os.getenv("BD_NAME") ,
+#        "USER": os.getenv("BD_USER") ,
+#        "PASSWORD": os.getenv("BD_PASSWORD"),
+#        "HOST": os.getenv("BD_HOST"),
+#        "PORT": os.getenv("BD_PORT"),
     }
 }
 
