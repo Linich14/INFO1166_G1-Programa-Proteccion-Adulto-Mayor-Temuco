@@ -13,4 +13,6 @@ class Municipales(models.Model):
     telefono = models.PositiveIntegerField()
 
 
+nuevaClase = Municipales(20,"nombre","apellido",1,1,12345678,2909)
+nuevaClase.save()
     
