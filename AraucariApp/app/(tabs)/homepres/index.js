@@ -4,7 +4,8 @@ import {
 	Text,
   TouchableOpacity,
 	View,
-  Image
+  Image,
+  ScrollView
 } from "react-native";
 import { styled } from "nativewind";
 import { MaterialIcons, FontAwesome6 } from '@expo/vector-icons';
@@ -18,15 +19,17 @@ export default function Home() {
         <View className="flex-row justify-between items-center bg-[#0060AF] py-2">
           <View className="bg-white py-2 rounded-r-full px-3">
             <Text className="text-black text-xl font-bold px-2">
-              Bienvenido, Señor Elliot Mardones
+              Bienvenido, Elliot Mardones
             </Text>
           </View>
+          <Link href="/ajustes" asChild>
           <TouchableOpacity className="bg-yellow-500 rounded-l-full p-2">
             <View className="items-center">
-              <MaterialIcons name="settings" size={24} color="white" className=""/>
+              <MaterialIcons name="settings" size={24} color="white" />
             </View>
             <Text className="text-white">Ajustes</Text>
           </TouchableOpacity>
+        </Link>
         </View>
         <View className="bg-muni-50 rounded-b-2xl py-1 pb-2">
           <View className="bg-white rounded-r-full py-1 my-1 mr-28">
@@ -78,19 +81,22 @@ export default function Home() {
               />
               <Text className="text-white text-center">Elliot Mardones</Text>
             </View>
-            <TouchableOpacity className="bg-yellow-500 m-3 py-4 px-5 rounded-[12px] w-1/4">
-              <View className="items-center">
-                <FontAwesome6 name="clipboard-user" size={40} color="white" className=""/>
-              </View>
-              <Text className="text-center text-white p-2">Perfil</Text>
-            </TouchableOpacity>
+            <Link href="/perfilPrestador" asChild>
+              <TouchableOpacity className="bg-yellow-500 m-3 py-4 px-5 rounded-[12px] w-1/4">
+                <View className="items-center">
+                  <FontAwesome6 name="clipboard-user" size={40} color="white" className=""/>
+                </View>
+                <Text className="text-center text-white p-2">Perfil</Text>
+              </TouchableOpacity>
+            </Link>
           </View>
         </View>
-        <View className="bg-white py-2 rounded-r-full mb-1 mr-28">
+        <View className="bg-white py-2 rounded-r-full mr-28">
             <Text className="text-black text-xl font-bold px-2 text-center">
             ¿Qué quieres hacer?
             </Text>
         </View>
+        <ScrollView>
         <View className="flex-row justify-between">
 
           <View className= "pl-4 p-1 items-center flex-1">
@@ -123,6 +129,7 @@ export default function Home() {
         </Link>
 
         </View>
+        </ScrollView>
         
         
       </View>

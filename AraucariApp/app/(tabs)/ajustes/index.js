@@ -1,5 +1,6 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { View, Text, Pressable, Image, TouchableOpacity } from "react-native";
+import Modal from "react-native-modal"; // Importa el componente Modal
 import { FontSizeProvider, FontSizeContext } from '../context/contexto';
 
 export default function App() {
@@ -12,6 +13,17 @@ export default function App() {
 
 function Index() {
     const { fontSize, updateFontSize } = useContext(FontSizeContext); // Uso del contexto
+    const [isModalVisible, setModalVisible] = useState(false); // Estado para controlar la visibilidad del modal
+
+    // Función para mostrar la notificación
+    const showNotification = () => {
+        setModalVisible(true); // Muestra el modal
+    };
+
+    // Función para cerrar el modal
+    const hideModal = () => {
+        setModalVisible(false); // Oculta el modal
+    };
 
     return (
         <View className="w-full h-screen">
@@ -67,6 +79,7 @@ function Index() {
                 </View>
                 
             </View>
+
             <View className="flex p-2 px-2 bg-white border border-black">
                 <View className="mx-auto w-2/3">
                     <Text style={{ fontSize }} className="font-bold text-gris-50 text-center px-1">
@@ -74,11 +87,37 @@ function Index() {
                     </Text>
                 </View>
             </View>
+
             <View className="bg-white p-4 m-4 rounded-lg shadow-lg border border-gray-300">
                 <TouchableOpacity className="bg-red-600 rounded-full p-2">
-                        <Text style={{ fontSize }} className="text-white font-bold text-center text-xl">Cerrar Sesión</Text>
+                    <Text style={{ fontSize }} className="text-white font-bold text-center text-xl">Cerrar Sesión</Text>
                 </TouchableOpacity>
             </View>
+
+            {/* Botón "Notificame" que muestra una notificación */}
+            <View className="bg-white p-4 m-4 rounded-lg shadow-lg border border-gray-300">
+                <TouchableOpacity
+                    onPress={showNotification} // Llama a la función al presionar
+                    className="bg-muni-50 rounded-full p-2"
+                >
+                    <Text style={{ fontSize }} className="text-white font-bold text-center text-xl">Notificame</Text>
+                </TouchableOpacity>
+            </View>
+
+            {/* Modal para la notificación */}
+            <Modal isVisible={isModalVisible} onBackdropPress={hideModal}>
+                <View className="bg-white p-5 rounded">
+                    <Text style={{ fontSize, fontWeight: 'bold', textAlign: 'center' }}>Título de la Notificación</Text>
+                    <Text style={{ fontSize, textAlign: 'center', marginVertical: 10 }}>
+                        Este es el cuerpo de la notificación.
+                    </Text>
+                    <TouchableOpacity onPress={hideModal} style={{ marginTop: 20 }}>
+                        <View className="bg-muni-50 p-2 rounded-full">
+                            <Text style={{ fontSize, color: 'white', textAlign: 'center' }}>OK</Text>
+                        </View>
+                    </TouchableOpacity>
+                </View>
+            </Modal>
         </View>
     );
 }
