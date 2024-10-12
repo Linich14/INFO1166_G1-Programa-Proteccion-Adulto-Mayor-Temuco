@@ -1,19 +1,44 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'expo-router';
-import {
-  Text,
-  TouchableOpacity,
-  View,
-  Image,
-  ScrollView
-} from "react-native";
+import { Text, TouchableOpacity, View, Image, ScrollView } from "react-native";
 import { styled } from "nativewind";
 import { MaterialIcons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import Modal from "react-native-modal"; // Importa el componente Modal
 
 const StyledText = styled(Text);
 
 export default function Home() {
+  const [notifications, setNotifications] = useState([]); // Estado para manejar notificaciones
+  const [currentNotificationIndex, setCurrentNotificationIndex] = useState(0); // Índice de notificación actual
+  const [isModalVisible, setModalVisible] = useState(false);
+
+  // Función para obtener las notificaciones desde el backend
+  const fetchNotifications = async () => {
+    try {
+      const response = await fetch('http://192.168.1.19:8000/api/notificaciones/');
+      const data = await response.json();
+      setNotifications(data);
+      if (data.length > 0) {
+        setModalVisible(true); // Muestra el modal si hay notificaciones
+      }
+    } catch (error) {
+      console.error("Error fetching notifications:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchNotifications(); // Llamar a la función al cargar el componente
+  }, []);
+
+  const hideModal = () => {
+    if (currentNotificationIndex < notifications.length - 1) {
+      setCurrentNotificationIndex(currentNotificationIndex + 1); // Pasa a la siguiente notificación
+    } else {
+      setModalVisible(false); // Cierra el modal si no hay más notificaciones
+    }
+  };
+
   return (
     <SafeAreaView className="flex-1 bg-gray-300">
       <View className="flex-row justify-between items-center bg-[#0060AF] py-2">
@@ -116,6 +141,31 @@ export default function Home() {
         </ScrollView>
 
       </View>
+
+      {/* Modal para mostrar notificaciones */}
+      {notifications.length > 0 && (
+        <Modal isVisible={isModalVisible} onBackdropPress={hideModal}>
+          <View className="bg-white p-5 rounded">
+            {/* Indicador de cantidad de notificaciones en la parte superior izquierda */}
+            <Text style={{ position: 'absolute', top: 10, left: 10, fontSize: 18, fontWeight: 'bold' }}>
+              {`${currentNotificationIndex + 1}/${notifications.length}`}
+            </Text>
+
+            <Text style={{ fontWeight: 'bold', textAlign: 'center', marginTop: 20, fontSize:25 }}>
+              {notifications[currentNotificationIndex].titulo || 'Título de la Notificación'}
+            </Text>
+            <Text style={{ textAlign: 'center', marginVertical: 10, fontSize:15 }}>
+              {notifications[currentNotificationIndex].cuerpo || 'Este es el cuerpo de la notificación.'}
+            </Text>
+
+            <TouchableOpacity onPress={hideModal} style={{ marginTop: 20 }}>
+              <View className="bg-muni-50 p-2 rounded-full">
+                <Text style={{ color: 'white', textAlign: 'center', fontSize:20 }}>OK</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        </Modal>
+      )}
     </SafeAreaView>
   );
 }
