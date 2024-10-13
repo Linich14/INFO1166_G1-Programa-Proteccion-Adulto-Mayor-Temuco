@@ -27,7 +27,8 @@ python -m venv venv
 ```
 - Activar el entorno virtual para python 
 ```
-source source .venv/bin/activate.fish   # Linux
+source .venv/bin/activate.fish   # Linux
+source .venv/bin/activate        # Bash / zsh
 .\venv\Scripts\activate (cmd) o .\venv\Scripts\Activate.ps (PowerShell)
 ```
 - Instalar las dependencias del proyecto, todas estas se encuentran en el archivo **requirements.txt**
