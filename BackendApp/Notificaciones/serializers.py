@@ -5,3 +5,5 @@ class NotificacionesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Notificaciones
         fields = ['id', 'titulo', 'cuerpo']
+
+
