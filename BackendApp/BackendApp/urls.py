@@ -19,6 +19,9 @@ from django.urls import path, include
 from Notificaciones.views import NotificacionesList
 from Notificaciones.views import obtener_notificaciones
 from Municipales.views import MunicipalesView
+from Municipales.views import login_view
+from Municipales.views import get_csrf_token
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,4 +29,6 @@ urlpatterns = [
     path('api/notificaciones/', NotificacionesList.as_view(), name='notificaciones-list'),
     path('api/notificaciones/', obtener_notificaciones, name='obtener_notificaciones'),
     path('municipales/', MunicipalesView.as_view(), name='Municipal'),
+    path('login/', login_view, name='login'),
+    path('get-csrf-token/', get_csrf_token, name='get-csrf-token'),
 ]

@@ -3,28 +3,53 @@ import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
 function AdminPanel() {
   const [Municipal, setMunicipal] = useState({
-    id: 1,
+    id: uuidv4(),
     rut: '',
     nombre: '',
     apellido: '',
-    privilegios: '',
+    privilegios: 1,
     cargo: '',
-    telefono: ''
+    telefono: '',
+    contraseña: ''
   });
-  const handleChange = (e) => {
-    //console.log(e.target.name, e.target.value);
-    setMunicipal({ ...Municipal, [e.target.name]: e.target.value });
-    //console.log(Municipal); 
-  };
 
-  
+  const [Prestador, setPrestador] = useState({
+    id: uuidv4(),
+    rut: '',
+    nombre: '',
+    apellido: '',
+    privilegios: 2,
+    trabajo: '',
+    correo:'',
+    fnac:'',
+    telefono: '',
+    contraseña: ''
+  });
+
+  const [tipoUsuario, setTipoUsuario] = useState('municipal');
+
+  const handleChange = (e) => {
+    if (tipoUsuario === 'municipal') {
+      setMunicipal({ ...Municipal, [e.target.name]: e.target.value });
+    } else {
+      setPrestador({ ...Prestador, [e.target.name]: e.target.value });
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(Municipal);
     try {
-      const response = await axios.post('http://localhost:8000/municipales/', Municipal);
-      console.log(response.data);
+      if (tipoUsuario === 'municipal') {
+        Municipal.contraseña = Municipal.rut;
+        console.log(Municipal);
+        const response = await axios.post('http://localhost:8000/municipales/', Municipal);
+        console.log(response.data);
+      } else {
+        Prestador.contraseña = Prestador.rut;
+        console.log(Prestador);
+        const response = await axios.post('http://localhost:8000/prestadores/', Prestador);
+        console.log(response.data);
+      }
     } catch (error) {
       console.error(error);
     }
@@ -33,88 +58,142 @@ function AdminPanel() {
       rut: '',
       nombre: '',
       apellido: '',
-      privilegios: '',
+      privilegios: 1,
       cargo: '',
-      telefono: ''
+      telefono: '',
+      contraseña: ''
+    });
+    setPrestador({
+      rut: '',
+      nombre: '',
+      apellido: '',
+      privilegios: 2,
+      trabajo: '',
+      correo:'',
+      fnac:'',
+      telefono: '',
+      contraseña: ''
     });
   };
 
   return (
-    <div className="grid  grid-rows-2  bg-[#EBEFF0] h-screen ">
-      <div className=' bg-white  p-4 rounded-lg shadow-md  content-center m-4  autorizarusuarioTOP'>
-        <div>
-          <h1 className='text-3xl font-bold p-1 text-center'>Historial Anual</h1>
-        </div>
-      </div>
-      <div className="grid   p-3  autorizarusuarioAbajo  ">
-        <div className="  p-4 bg-white shadow-md rounded-lg ">
-          <form onSubmit={handleSubmit}>
-            <div className="flex flex-col">
-              <label className="text-lg font-bold">Rut:</label>
+    <div className="container mx-auto mt-8">
+      <div className="flex justify-center">
+        <div className="w-full max-w-xs ">
+          <select value={tipoUsuario} onChange={(e) => setTipoUsuario(e.target.value)} className="w-full mb-4 bg-[#f5f5f5] rounded py-2 px-3">
+            <option value="municipal">Municipal</option>
+            <option value="prestador">Prestador</option>
+          </select>
+          <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+            <div className="mb-4">
+              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="rut">
+                Rut:
+              </label>
               <input
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 type="text"
                 name="rut"
-                value={Municipal.rut}
+                value={tipoUsuario === 'municipal' ? Municipal.rut : Prestador.rut}
                 onChange={handleChange}
-                className="p-2 rounded-lg border border-gray-400"
+                placeholder="Ingrese el rut"
               />
             </div>
-            <div className="flex flex-col">
-              <label className="text-lg font-bold">Nombre:</label>
+            <div className="mb-4">
+              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="nombre">
+                Nombre:
+              </label>
               <input
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 type="text"
                 name="nombre"
-                value={Municipal.nombre}
+                value={tipoUsuario === 'municipal' ? Municipal.nombre : Prestador.nombre}
                 onChange={handleChange}
-                className="p-2 rounded-lg border border-gray-400"
+                placeholder="Ingrese el nombre"
               />
             </div>
-            <div className="flex flex-col">
-              <label className="text-lg font-bold">Apellido:</label>
+            <div className="mb-4">
+              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="apellido">
+                Apellido:
+              </label>
               <input
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 type="text"
                 name="apellido"
-                value={Municipal.apellido}
+                value={tipoUsuario === 'municipal' ? Municipal.apellido : Prestador.apellido}
                 onChange={handleChange}
-                className="p-2 rounded-lg border border-gray-400"
+                placeholder="Ingrese el apellido"
               />
             </div>
-            <div className="flex flex-col">
-              <label className="text-lg font-bold">Privilegios:</label>
+
+            <div className="mb-4">
+              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="cargo">
+                Cargo/Trabajo:
+              </label>
               <input
-                type="text"
-                name="privilegios"
-                value={Municipal.privilegios}
-                onChange={handleChange}
-                className="p-2 rounded-lg border border-gray-400"
-              />
-            </div>
-            <div className="flex flex-col">
-              <label className="text-lg font-bold">Cargo:</label>
-              <input
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 type="text"
                 name="cargo"
-                value={Municipal.cargo}
+                value={tipoUsuario === 'municipal' ? Municipal.cargo : Prestador.trabajo}
                 onChange={handleChange}
-                className="p-2 rounded-lg border border-gray-400"
+                placeholder="Ingrese el cargo/Trabajo"
               />
             </div>
-            <div className="flex flex-col">
-              <label className="text-lg font-bold">Teléfono:</label>
+            <div className="mb-4">
+              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="telefono">
+                Teléfono:
+              </label>
               <input
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 type="text"
                 name="telefono"
-                value={Municipal.telefono}
+                value={tipoUsuario === 'municipal' ? Municipal.telefono : Prestador.telefono}
                 onChange={handleChange}
-                className="p-2 rounded-lg border border-gray-400"
+                placeholder="Ingrese el teléfono"
               />
             </div>
-            <button
-              type="submit"
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            >
-              Agregar
-            </button>
+
+            {tipoUsuario === 'prestador' && (
+              <div className="mb-4">
+                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
+                  Correo:
+                </label>
+                <input
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  type="email"
+                  name="email"
+                  value={Prestador.email}
+                  onChange={handleChange}
+                  placeholder="Ingrese el correo"
+                />
+                
+              </div>
+              
+            )}
+                        {tipoUsuario === 'prestador' && (
+              <div className="mb-4">
+                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="fnac">
+                  Fecha de Nacimiento:
+                </label>
+                <input
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  type="date"
+                  name="fnac"
+                  value={Prestador.fnac}
+                  onChange={handleChange}
+                  placeholder="Ingrese el correo"
+                />
+                
+              </div>
+              
+            )}
+            <div className="flex items-center justify-between">
+              <button
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                type="submit"
+              >
+                Agregar
+              </button>
+            </div>
           </form>
         </div>
       </div>
