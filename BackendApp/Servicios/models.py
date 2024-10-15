@@ -14,7 +14,7 @@ class PrestadorServicio(models.Model):
     telefono = models.IntegerField() 
     
     def __str__(self):
-        return self.id_servicio
+        return self.nombre
 
 
 
@@ -42,7 +42,7 @@ class Usuario(models.Model):
     nacionalidad = models.CharField(max_length=50)
     
     def __str__(self):
-        return self.id_cliente
+        return self.nombre
 
 
 class Atencion(models.Model):

@@ -31,4 +31,6 @@ urlpatterns = [
     path('municipales/', MunicipalesView.as_view(), name='Municipal'),
     path('login/', login_view, name='login'),
     path('get-csrf-token/', get_csrf_token, name='get-csrf-token'),
+
+    path('servicios/', include('Servicios.urls')),
 ]
