@@ -22,11 +22,11 @@ function App() {
   };
   return (
     
-    <div className="grid grid-cols-[auto_1fr] min-h-screen">
-        <div className="fixed h-screen top-0 left-0">
+    <div className="grid grid-cols-[auto_1fr] min-h-screen  ">
+        <div className="fixed h-screen top-0 left-0 ">
           <NavBar onOptionClick={handleOptionChange} persona={new municipal} />
         </div>
-        <div className="ml-[100px] col-span-2">
+        <div className="ml-[100px] col-span-2 ">
           {selectedOption == null && <PerfilMunicipal persona={new municipal}/>}
           {selectedOption == 'perfil' && <PerfilMunicipal persona={new municipal} />}
           {/*Aquí irán los dashbaord: (De ejemplo está el de prestador de servicios.)*/}

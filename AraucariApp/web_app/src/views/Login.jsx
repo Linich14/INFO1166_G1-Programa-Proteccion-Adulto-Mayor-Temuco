@@ -1,20 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-function getCookie(name) {
-    var cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        var cookies = document.cookie.split(';');
-        for (var i = 0; i < cookies.length; i++) {
-            var cookie = cookies[i].trim();
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
-    }
-    return cookieValue;
-}
 
 function Login() {
     const [rut, setrut] = useState('');
@@ -48,12 +34,12 @@ function Login() {
             withCredentials: true
         });
         
-        console.log(response.data);
+        //console.log(response.data);
         const token = response.data.token;
         localStorage.setItem('token', token);
         window.location.href = '/';
     } catch (error) {
-      console.log(csrftoken);
+        //console.log(csrftoken);
         setError('Credenciales inválidas');
     }
 };
@@ -61,7 +47,7 @@ function Login() {
     return (
         <main className="grid grid-cols-2 grid-rows-1 gap-4 h-screen Login text-white">
             <div className='video-foreground video-background'>
-                {(2 < 1) && <iframe src="https://www.youtube.com/embed/4PsAq2pfZjM?original_url=https%3A%2F%2Fyoutu.be%2F4PsAq2pfZjM&iv_load_policy=3&color=white&mute=1&autohide=1&controls=0&showinfo=0&modestbranding=1&version=3&loop=1&wmode=opaque&rel=0&hd=1&videoid=4PsAq2pfZjM&autoplay=1&html5=1&enablejsapi=1&origin=https%3A%2F%2Fwww.temuco.cl&widgetid=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>}
+                {(1 < 2) && <iframe src="https://www.youtube.com/embed/4PsAq2pfZjM?original_url=https%3A%2F%2Fyoutu.be%2F4PsAq2pfZjM&iv_load_policy=3&color=white&mute=1&autohide=1&controls=0&showinfo=0&modestbranding=1&version=3&loop=1&wmode=opaque&rel=0&hd=1&videoid=4PsAq2pfZjM&autoplay=1&html5=1&enablejsapi=1&origin=https%3A%2F%2Fwww.temuco.cl&widgetid=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>}
             </div>
             <div className="flex justify-center items-center difuminado">
                 <div className="p-4 rounded-lg shadow-lg w-1/2">
