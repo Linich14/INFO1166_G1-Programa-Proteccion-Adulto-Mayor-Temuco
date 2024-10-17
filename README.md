@@ -12,11 +12,6 @@ Se creara una api rest mediante el framework django con django-framework para po
 necesario definir las variables de entorno en un **.env** en la raiz del proyecto con los siguientes datos. 
 - **Variables de entorno**
 ``` .env 
-BD_NAME=           # Nombre de la base de datos 
-BD_USER=           # Nombre de usuario  
-BD_PASSWORD=       # Contraseña de usuario
-BD_HOST=localhost  # Direccion de base de datos
-BD_PORT=3306       # Puerto de la base de datos
 HOST_IP=           # IP de la maquina para acceder de un dispositivo externo
 ```
 - **Entorno virtual y instalacion de paquetes** <br/>
@@ -27,7 +22,8 @@ python -m venv venv
 ```
 - Activar el entorno virtual para python 
 ```
-source source .venv/bin/activate.fish   # Linux
+source .venv/bin/activate.fish   # Linux
+source .venv/bin/activate        # Bash / zsh
 .\venv\Scripts\activate (cmd) o .\venv\Scripts\Activate.ps (PowerShell)
 ```
 - Instalar las dependencias del proyecto, todas estas se encuentran en el archivo **requirements.txt**

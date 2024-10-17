@@ -14,7 +14,7 @@ class PrestadorServicio(models.Model):
     telefono = models.IntegerField() 
     
     def __str__(self):
-        return self.id_servicio
+        return self.nombre
 
 
 

@@ -3,9 +3,58 @@ import ContadorHorasServicio from "./ContadorEstadosServicios";
 import ResumenDiarioServicios from "./ResumenDiario-PrestadorSerivcios";
 import RotacionSemanal from "./RotacionSemanal";
 
-
+import { useEffect, useState } from "react";
+import { ObtenerPrestadorPorNombre, ObtenerServicioPorPrestador, ObtenerAtencionesPorServicio } from "../api/DatosDashboardServicios";
 
 function Dashboard_PrestadorServicios() {
+    const [prestador, setPrestador] = useState(null); // Prestador seleccionado
+    const [servicio, setServicio] = useState(null); // Servicio asociado al prestador
+    const [atenciones, setAtenciones] = useState([]); // Atenciones asociadas al servicio
+
+    useEffect(() => {
+        async function CargarPrestador() {
+            try {
+                const prestadorData = await ObtenerPrestadorPorNombre('Karen');
+                console.log('Prestador cargado:', prestadorData);
+                setPrestador(prestadorData);
+            } catch (error) {
+                console.error('Error al cargar el prestador:', error);
+            }
+        }
+        CargarPrestador();
+    }, []);
+
+    // Carga el servicio asociado al prestador
+    useEffect(() => {
+        async function CargarServicio() {
+            if (prestador) {
+                try {
+                    const servicioData = await ObtenerServicioPorPrestador(prestador.id);
+                    setServicio(servicioData);
+                } catch (error) {
+                    console.error('Error al cargar el servicio:', error);
+                }
+            }
+        }
+        CargarServicio();
+    }, [prestador]);
+    
+    // Carga las atenciones asociadas al servicio
+    useEffect(() => {
+        async function CargarAtenciones() {
+            if (servicio) {
+                try {
+                    const atencionesData = await ObtenerAtencionesPorServicio(servicio.id);
+                    console.log('Atenciones cargadas:', atencionesData);
+                    setAtenciones(atencionesData);
+                } catch (error) {
+                    console.error('Error al cargar las atenciones:', error);
+                }
+            }
+        }
+        CargarAtenciones();
+    }, [servicio]);
+    
     {/*Simulando horario */ }
     const horarioCita = {
         horaInicio: "00:00",
@@ -19,7 +68,9 @@ function Dashboard_PrestadorServicios() {
 
                     <div className="grow basis-full">
                         <section className="bg-white p-8 rounded-lg mt-2 shadow-md border border-gray-200">
-                            <h1 className="text-2xl font-bold"> Dashboard </h1>
+                            {servicio && (
+                                <h1 className="text-2xl font-bold">Dashboard: {servicio.nombre}</h1>
+                            )}
                             {/*<RelojActual />*/}
                         </section>
                     </div>
@@ -37,11 +88,14 @@ function Dashboard_PrestadorServicios() {
                                         Edad={35}
                                         Horario={horarioCita}
                                     />
-                                    <CitasEnCurso
-                                        Nombre="Jorge Soto"
-                                        Edad={81}
-                                        Horario={horarioCita}
-                                    />
+                                </section>
+                                <section>
+                                    {/* {atenciones.map(atencion => (
+                                        <div key={atencion.id}>
+                                            <h1>{atencion.clienteID}</h1>
+                                            <p>{atencion.observacion}</p>
+                                        </div>
+                                    ))} */}
                                 </section>
                             </div>
                         </div>
