@@ -14,8 +14,6 @@ from pathlib import Path
 import os
 from dotenv import load_dotenv
 
-# Cargar las variables de entorno
-load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -31,7 +29,9 @@ SECRET_KEY = 'django-insecure-a!tmxzvoll*!6$^rdx4-2(r!qu+x6fsv7--z#pfvl4%xqf1cbo
 DEBUG = True
 
 
-ALLOWED_HOSTS = [os.getenv("HOST_IP"), "localhost"]
+# Direcciones de host permitidas
+# Debera de crear un .env con la variable HOST_IP={La direccion de su PC}
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', os.getenv('HOST_IP')]
 
 
 # Application definition
@@ -43,14 +43,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
     'rest_framework',
     'Municipales',
-    'Servicios'
+    'Servicios',
+    'Usuario'
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -89,11 +92,6 @@ DATABASES = {
      'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / "db.sqlite3",
-#       'NAME': os.getenv("BD_NAME") ,
-#        "USER": os.getenv("BD_USER") ,
-#        "PASSWORD": os.getenv("BD_PASSWORD"),
-#        "HOST": os.getenv("BD_HOST"),
-#        "PORT": os.getenv("BD_PORT"),
     }
 }
 
@@ -138,3 +136,7 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# Permite todas las conexiones entrantes
+CORS_ORIGIN_ALLOW_ALL = True

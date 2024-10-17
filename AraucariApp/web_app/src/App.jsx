@@ -6,6 +6,7 @@ import PerfilMunicipal from './components/PerfilMunicipal'
 import CrearNotificacion from './components/CrearNotificacion'
 import municipal from './assets/municipal'
 import Historialcompleto from './components/Historialcompleto'
+import AdminCalendario from './components/AdminCalendario'
 
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
           {selectedOption == 'menu' && <AutorizarUsuario/>}
           {selectedOption == 'notificacion' && <CrearNotificacion/>}
           {selectedOption == 'historial' && <Historialcompleto/>}
+          {selectedOption == 'adminCalendario' && <AdminCalendario/>}
         </div>
     </div>
         
