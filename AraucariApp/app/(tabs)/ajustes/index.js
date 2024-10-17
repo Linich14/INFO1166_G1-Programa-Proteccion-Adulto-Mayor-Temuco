@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { View, Text, Pressable, Image, TouchableOpacity } from "react-native";
 import Modal from "react-native-modal"; // Importa el componente Modal
 import { FontSizeProvider, FontSizeContext } from '../context/contexto';
@@ -12,17 +12,44 @@ export default function App() {
 }
 
 function Index() {
-    const { fontSize, updateFontSize } = useContext(FontSizeContext); // Uso del contexto
-    const [isModalVisible, setModalVisible] = useState(false); // Estado para controlar la visibilidad del modal
+    const { fontSize, updateFontSize } = useContext(FontSizeContext);
+    const [isModalVisible, setModalVisible] = useState(false);
+    const [notifications, setNotifications] = useState([]); // Estado para almacenar las notificaciones
+    const [currentIndex, setCurrentIndex] = useState(0); // Estado para el índice de la notificación actual
 
-    // Función para mostrar la notificación
-    const showNotification = () => {
-        setModalVisible(true); // Muestra el modal
+    // Función para obtener las notificaciones desde el backend
+    const fetchNotifications = async () => {
+        try {
+            const response = await fetch('http://192.168.1.19:8000/api/notificaciones/');
+            const data = await response.json();
+            setNotifications(data); // Almacena todas las notificaciones
+            console.log(data); // Verifica la respuesta
+            setCurrentIndex(0); // Reinicia el índice al comienzo
+            if (data.length > 0) {
+                setModalVisible(true); // Muestra el modal solo si hay notificaciones
+            }
+        } catch (error) {
+            console.error("Error fetching notifications:", error);
+        }
+    };
+
+    // Función para mostrar las notificaciones
+    const showNotifications = () => {
+        fetchNotifications(); // Llama a la función para obtener las notificaciones
     };
 
     // Función para cerrar el modal
     const hideModal = () => {
-        setModalVisible(false); // Oculta el modal
+        setModalVisible(false);
+    };
+
+    // Función para ir a la siguiente notificación
+    const nextNotification = () => {
+        if (currentIndex < notifications.length - 1) {
+            setCurrentIndex(currentIndex + 1); // Aumenta el índice para mostrar la siguiente notificación
+        } else {
+            hideModal(); // Cierra el modal si no hay más notificaciones
+        }
     };
 
     return (
@@ -77,7 +104,6 @@ function Index() {
                         </Pressable>
                     </View>
                 </View>
-                
             </View>
 
             <View className="flex p-2 px-2 bg-white border border-black">
@@ -94,24 +120,35 @@ function Index() {
                 </TouchableOpacity>
             </View>
 
-            {/* Botón "Notificame" que muestra una notificación */}
+            {/* Botón "Notificame" que muestra las notificaciones */}
             <View className="bg-white p-4 m-4 rounded-lg shadow-lg border border-gray-300">
                 <TouchableOpacity
-                    onPress={showNotification} // Llama a la función al presionar
+                    onPress={showNotifications} // Llama a la función al presionar
                     className="bg-muni-50 rounded-full p-2"
                 >
                     <Text style={{ fontSize }} className="text-white font-bold text-center text-xl">Notificame</Text>
                 </TouchableOpacity>
             </View>
 
-            {/* Modal para la notificación */}
+            {/* Modal para las notificaciones */}
             <Modal isVisible={isModalVisible} onBackdropPress={hideModal}>
                 <View className="bg-white p-5 rounded">
-                    <Text style={{ fontSize, fontWeight: 'bold', textAlign: 'center' }}>Título de la Notificación</Text>
-                    <Text style={{ fontSize, textAlign: 'center', marginVertical: 10 }}>
-                        Este es el cuerpo de la notificación.
-                    </Text>
-                    <TouchableOpacity onPress={hideModal} style={{ marginTop: 20 }}>
+                    {notifications.length > 0 ? (
+                        <>
+                            <Text style={{ fontSize, textAlign: 'left', marginBottom: 10 }}>
+                                {currentIndex + 1}/{notifications.length} {/* Muestra el índice actual y el total */}
+                            </Text>
+                            <Text style={{ fontSize, fontWeight: 'bold', textAlign: 'center' }}>
+                                {notifications[currentIndex].titulo}
+                            </Text>
+                            <Text style={{ fontSize, textAlign: 'center', marginVertical: 10 }}>
+                                {notifications[currentIndex].cuerpo}
+                            </Text>
+                        </>
+                    ) : (
+                        <Text>No hay notificaciones.</Text>
+                    )}
+                    <TouchableOpacity onPress={nextNotification} style={{ marginTop: 20 }}>
                         <View className="bg-muni-50 p-2 rounded-full">
                             <Text style={{ fontSize, color: 'white', textAlign: 'center' }}>OK</Text>
                         </View>
