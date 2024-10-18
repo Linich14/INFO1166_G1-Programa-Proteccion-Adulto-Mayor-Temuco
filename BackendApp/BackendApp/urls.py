@@ -32,5 +32,5 @@ urlpatterns = [
     path('login/', login_view, name='login'),
     path('get-csrf-token/', get_csrf_token, name='get-csrf-token'),
 
-    path('servicios/', include('Servicios.urls')),
+    path('api/servicios/', include('Servicios.urls')),
 ]

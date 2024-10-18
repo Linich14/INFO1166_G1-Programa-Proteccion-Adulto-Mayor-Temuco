@@ -9,8 +9,9 @@ router.register(r'usuarios', views.UsuarioView, 'usuarios')
 router.register(r'atenciones', views.AtencionView, 'atenciones')
 
 urlpatterns = [
-    path("api/", include(router.urls)),
-    path('api/prestador/<str:nombre>/', views.obtener_prestador_por_nombre, name='obtener_prestador_por_nombre'),
-    path('api/servicio/<int:prestador_id>/', views.obtener_servicio_por_prestador, name='obtener_servicio_por_prestador'),
-    path('api/atenciones/<int:servicio_id>/', views.obtener_atenciones_por_servicio, name='obtener_atenciones_por_servicio'),
+    path('prestador/<str:nombre>/', views.obtener_prestador_por_nombre, name='obtener_prestador_por_nombre'),
+    path('prestador/estado/<str:nombre>/', views.obtener_prestador_estado, name='obtener_prestador_estado'),
+    path('marcar-asistencia/<str:rut>/', views.marcar_asistencia, name='marcar_asistencia'),
+    path('servicio/<int:prestador_id>/', views.obtener_servicio_por_prestador, name='obtener_servicio_por_prestador'),
+    path('atenciones/<int:servicio_id>/', views.obtener_atenciones_por_servicio, name='obtener_atenciones_por_servicio'),
 ]

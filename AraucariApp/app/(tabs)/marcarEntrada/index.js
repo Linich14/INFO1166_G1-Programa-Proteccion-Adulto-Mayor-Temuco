@@ -51,6 +51,32 @@ export default function Home() {
       setRut((prevRut) => prevRut.slice(0, -1));
     }
     console.log(contador.current)
+  
+  };
+
+
+
+  const marcarEntrada = async () => {
+    try {
+      const response = await fetch(`http://192.168.0.13:8000/api/marcar-asistencia/215901076/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ estado: true }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        Alert.alert('Entrada registrada', 'La asistencia fue marcada correctamente.');
+      } else {
+        Alert.alert('Error', 'Hubo un problema al marcar la asistencia.');
+      }
+    } catch (error) {
+      console.error('Error en la solicitud:', error);
+      Alert.alert('Error', 'Hubo un error al enviar la solicitud.');
+    }
   };
 
   return (
@@ -158,7 +184,7 @@ export default function Home() {
         </View>
       </View>
       <View className="items-center mt-1">
-        <TouchableOpacity className="bg-green-500 rounded-[12px] w-[200px] py-2 flex flex-row items-center justify-center border-2 border-white">
+        <TouchableOpacity onPress={marcarEntrada} className="bg-green-500 rounded-[12px] w-[200px] py-2 flex flex-row items-center justify-center border-2 border-white">
           <Text className="text-white text-xl font-bold text-center pr-6">Entrar</Text>
           <MaterialCommunityIcons name="check-decagram-outline" size={40} color="white" className=""/>
         </TouchableOpacity>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { Link } from 'expo-router';
 import {
 	Text,
@@ -15,6 +15,40 @@ const StyledText = styled(Text);
 //
 export default function Home() {
   const StyledIcon = styled(MaterialIcons);
+  const [trabajo, setTrabajo] = useState("");
+  const [nombre, setNombre] = useState("");
+  const [numero, setNumero] = useState("");
+  const [correo, setCorreo] = useState("");
+  const [nacimiento, setNacimiento] = useState("");
+
+  // Función para obtener los datos del prestador
+  const obtenerDatos = async () => {
+    try {
+      const response = await fetch(`http://192.168.0.13:8000/api/servicios/prestador/Daniel/`);
+      const data = await response.json();
+      
+      if (response.ok) {
+        // Asigna los valores obtenidos desde la API
+        setNombre(`${data.nombre} ${data.apellido}`);
+        setTrabajo(data.trabajo);
+        setNumero(data.telefono);
+        setCorreo(data.email);
+        setNacimiento(data.nacimiento);
+      } else {
+        Alert.alert('Error', 'No se pudo obtener los datos del prestador.');
+      }
+    } catch (error) {
+      console.error('Error en la solicitud:', error);
+      Alert.alert('Error', 'Hubo un error al obtener los datos.');
+    }
+  };
+
+  // Llama a la función obtenerDatos al cargar el componente
+  useEffect(() => {
+    obtenerDatos();
+  }, []);
+
+
   return (
     <SafeAreaView className="flex-1 bg-gray-300">
         <View className="flex-row justify-between items-center bg-[#0060AF] py-2">
@@ -38,12 +72,15 @@ export default function Home() {
           </View>
           <View className="flex flex-row items-center justify-center pb-2 my-1">
               <View className="bg-white p-2 rounded-[12px]">
-                <View className="p-1 px-2 mx-2 items-center ">
+                <View className="p-1 px-2 mx-2 items-center">
+                  <View className="flex flex-row static">
                   <Image className="bg-white rounded-full border-2 border-black"
                   source={require('../../../assets/UsersIcons/avatar.png')}
                   style={{ width: 100, height: 100 }}
                   />
-                  <Text className="text-center">Elliot Mardones</Text>
+                  <TouchableOpacity className="bg-yellow-500 rounded-full p-2 absolute"><FontAwesome name='pencil' color='white' size={16}/></TouchableOpacity>
+                  </View>
+                  <Text className="text-center">{nombre || "Cargando..."}</Text>
                 </View>
               </View>
             <View>
@@ -51,7 +88,7 @@ export default function Home() {
                 <View className="bg-white my-1 p-1 rounded-r-full mr-14">
                   <Text className="font-bold text-center">Cargo: </Text>
                 </View>
-                <Text className="p-2 m-1 text-white text-center font-bold text-lg">Podologo</Text>{/*ESTADO DE SERVICIO*/}
+                <Text className="p-2 m-1 text-white text-center font-bold text-lg">{trabajo || "Cargando..."}</Text>{/*ESTADO DE SERVICIO*/}
               </View>
               <View className="ml-2">
                 <TouchableOpacity className="bg-[#D42B2B] p-2 rounded-[32px] border border-white flex flex-row">
@@ -71,28 +108,28 @@ export default function Home() {
                   <StyledIcon name="person" className=" text-black" size={40}/>
                   <View className="ml-6">
                     <Text>Nombre</Text>
-                    <Text className="font-bold text-xl">Elliot Mardones Arias</Text>
+                    <Text className="font-bold text-xl">{nombre || "Cargando..."}</Text>
                   </View>
                 </View>
                 <View className="flex flex-row p-1 mb-2">
                   <Feather name='phone-call' size={40}/>
                   <View className="ml-6">
                     <Text>Numero</Text>
-                    <Text className="font-bold text-xl">+56 9 1234 4567</Text>
+                    <Text className="font-bold text-xl">{numero || "Cargando..."}</Text>
                   </View>
                 </View>
                 <View className="flex flex-row p-1 mb-2">
                   <MaterialCommunityIcons name='email' size={40}/>
                   <View className="ml-6">
                     <Text>Correo</Text>
-                    <Text className="font-bold text-2xl">correo@outlook.com</Text>
+                    <Text className="font-bold text-xl">{correo || "Cargando..."}</Text>
                   </View>
                 </View>                
                 <View className="flex flex-row p-1 mb-2">
                   <FontAwesome name='birthday-cake' size={40}/>
                   <View className="ml-6">
                     <Text>Fecha de nacimiento</Text>  
-                    <Text className="font-bold text-2xl">12-05-1989</Text>
+                    <Text className="font-bold text-2xl">{nacimiento || "Cargando..."}</Text>
                   </View>
                 </View>
               </ScrollView>

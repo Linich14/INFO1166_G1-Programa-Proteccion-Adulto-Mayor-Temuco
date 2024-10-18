@@ -16,7 +16,7 @@ export default function Home() {
   // Función para obtener las notificaciones desde el backend
   const fetchNotifications = async () => {
     try {
-      const response = await fetch('http://192.168.1.19:8000/api/notificaciones/');
+      const response = await fetch('http://192.168.0.13:8000/api/notificaciones/');
       const data = await response.json();
       setNotifications(data);
       if (data.length > 0) {

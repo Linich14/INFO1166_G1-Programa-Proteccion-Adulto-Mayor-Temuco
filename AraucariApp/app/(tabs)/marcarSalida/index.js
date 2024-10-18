@@ -51,6 +51,54 @@ export default function Home() {
       setRut((prevRut) => prevRut.slice(0, -1));
     }
     console.log(contador.current)
+
+    const checkConnection = async () => {
+      try {
+        const response = await fetch('http://192.168.0.13:8000/api/servicios/', { 
+          method: 'GET', // O usa 'POST' si es el método de prueba
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        
+        if (response.ok) {
+          const data = await response.json();
+          console.log("Conexión exitosa:", data);
+          alert('Conexión exitosa con la API');
+        } else {
+          console.error("Error de conexión:", response.status);
+          alert('Error al conectar con la API');
+        }
+      } catch (error) {
+        console.error("Error en la solicitud:", error);
+        alert('Error al realizar la solicitud');
+      }
+    };
+    
+    checkConnection();
+    
+    // Función para marcar la salida
+    const marcarSalida = async () => {
+      try {
+        const response = await fetch(`http://127.0.0.1:8000/api/marcar-asistencia/${rut}/`, { //http://127.0.0.1:8000/api/marcar-asistencia/${rut}/
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+  
+        const data = await response.json();
+        console.log("Respuesta del servidor:", data);
+        if (data.success) {
+          alert('Salida registrada correctamente');
+        } else {
+          alert('Error al registrar la salida');
+        }
+      } catch (error) {
+        console.error("Error en la solicitud:", error);
+        alert('Hubo un error al enviar la solicitud');
+      }
+    };
   };
 
   return (
@@ -158,7 +206,7 @@ export default function Home() {
         </View>
       </View>
       <View className="items-center mt-1">
-        <TouchableOpacity className="bg-red-500 rounded-[12px] w-[200px] py-2 flex flex-row items-center justify-center border-2 border-white">
+        <TouchableOpacity onPress={marcarSalida} className="bg-red-500 rounded-[12px] w-[200px] py-2 flex flex-row items-center justify-center border-2 border-white">
           <Text className="text-white text-xl font-bold text-center pr-6">Salir</Text>
           <MaterialCommunityIcons name="check-decagram-outline" size={40} color="white" className=""/>
         </TouchableOpacity>
