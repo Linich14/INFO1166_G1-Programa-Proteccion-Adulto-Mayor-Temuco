@@ -5,6 +5,8 @@ import { styled } from "nativewind";
 import { MaterialIcons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Modal from "react-native-modal"; // Importa el componente Modal
+import { API_URL } from '@env';
+
 
 const StyledText = styled(Text);
 
@@ -16,7 +18,7 @@ export default function Home() {
   // Función para obtener las notificaciones desde el backend
   const fetchNotifications = async () => {
     try {
-      const response = await fetch('http://192.168.0.13:8000/api/notificaciones/');
+      const response = await fetch(`${API_URL}/api/notificaciones/`);
       const data = await response.json();
       setNotifications(data);
       if (data.length > 0) {
@@ -29,6 +31,7 @@ export default function Home() {
 
   useEffect(() => {
     fetchNotifications(); // Llamar a la función al cargar el componente
+    console.log(API_URL)
   }, []);
 
   const hideModal = () => {

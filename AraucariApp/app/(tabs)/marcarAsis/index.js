@@ -10,6 +10,8 @@ import {
 import { styled } from "nativewind";
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { API_URL } from '@env';
+
 
 const StyledText = styled(Text);
 
@@ -20,7 +22,7 @@ export default function Perfil() {
   // Función para obtener el estado del prestador
   const obtenerEstado = async () => {
     try {
-      const response = await fetch(`http://192.168.0.13:8000/api/servicios/prestador/estado/Daniel/`);
+      const response = await fetch(`${API_URL}/api/servicios/prestador/estado/Daniel/`);
       const data = await response.json();
       
       if (response.ok) {  // Verifica si la respuesta fue exitosa

@@ -10,8 +10,8 @@ import {
 import { styled } from "nativewind";
 import { MaterialIcons, Feather, MaterialCommunityIcons, FontAwesome} from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { API_URL } from '@env';
 
-const StyledText = styled(Text);
 //
 export default function Home() {
   const StyledIcon = styled(MaterialIcons);
@@ -24,7 +24,7 @@ export default function Home() {
   // Función para obtener los datos del prestador
   const obtenerDatos = async () => {
     try {
-      const response = await fetch(`http://192.168.0.13:8000/api/servicios/prestador/Daniel/`);
+      const response = await fetch(`${API_URL}/api/servicios/prestador/Daniel/`);
       const data = await response.json();
       
       if (response.ok) {
