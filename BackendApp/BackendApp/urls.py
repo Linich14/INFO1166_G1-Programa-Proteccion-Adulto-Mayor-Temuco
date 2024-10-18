@@ -26,6 +26,7 @@ from Municipales.views import get_csrf_token
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/calendario/', include('Calendario.urls')),
+    path('api/usuario', include('Usuario.urls')),
     path('api/notificaciones/', NotificacionesList.as_view(), name='notificaciones-list'),
     path('api/notificaciones/', obtener_notificaciones, name='obtener_notificaciones'),
     path('municipales/', MunicipalesView.as_view(), name='Municipal'),

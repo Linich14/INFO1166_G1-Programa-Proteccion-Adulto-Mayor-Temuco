@@ -14,8 +14,6 @@ from pathlib import Path
 import os
 from dotenv import load_dotenv
 
-# Cargar las variables de entorno
-load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -48,11 +46,13 @@ INSTALLED_APPS = [
     'Municipales',
     'Servicios',
     'Notificaciones',
+    'Usuario'
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'corsheaders.middleware.CorsMiddleware',
@@ -92,11 +92,6 @@ DATABASES = {
      'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / "db.sqlite3",
-#       'NAME': os.getenv("BD_NAME") ,
-#        "USER": os.getenv("BD_USER") ,
-#        "PASSWORD": os.getenv("BD_PASSWORD"),
-#        "HOST": os.getenv("BD_HOST"),
-#        "PORT": os.getenv("BD_PORT"),
     }
 }
 
