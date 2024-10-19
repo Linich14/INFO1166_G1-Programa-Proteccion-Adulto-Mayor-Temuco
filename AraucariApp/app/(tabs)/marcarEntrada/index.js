@@ -9,6 +9,7 @@ import {
 import { styled } from "nativewind";
 import { MaterialIcons, Feather ,MaterialCommunityIcons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { API_URL } from '@env';
 
 const StyledText = styled(Text);
 
@@ -58,7 +59,7 @@ export default function Home() {
 
   const marcarEntrada = async () => {
     try {
-      const response = await fetch(`http://192.168.0.13:8000/api/marcar-asistencia/215901076/`, {
+      const response = await fetch(`${API_URL}/api/marcar-asistencia/215901076/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

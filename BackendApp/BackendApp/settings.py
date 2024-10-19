@@ -32,6 +32,10 @@ DEBUG = True
 ALLOWED_HOSTS = [os.getenv("HOST_IP"),"192.168.0.4", "localhost", "127.0.0.1"]
 
 
+#Manejo de subida de archivos
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -46,7 +50,8 @@ INSTALLED_APPS = [
     'Municipales',
     'Servicios',
     'Notificaciones',
-    'Usuario'
+    'Usuario',
+    'Documentos'
 ]
 
 MIDDLEWARE = [
