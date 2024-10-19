@@ -5,12 +5,14 @@ import {
   TouchableOpacity,
 	View,
   Image,
-  ScrollView
+  ScrollView,
+  Modal
 } from "react-native";
 import { styled } from "nativewind";
 import { MaterialIcons, Feather, MaterialCommunityIcons, FontAwesome} from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { API_URL } from '@env';
+import * as ImagePicker from 'expo-image-picker';
 
 //
 export default function Home() {
@@ -20,6 +22,8 @@ export default function Home() {
   const [numero, setNumero] = useState("");
   const [correo, setCorreo] = useState("");
   const [nacimiento, setNacimiento] = useState("");
+  const [modalVisible, setModalVisible] = useState(false); // Estado para manejar el modal
+  const [image, setImage] = useState(null); // Estado para manejar la imagen seleccionada
 
   // Función para obtener los datos del prestador
   const obtenerDatos = async () => {
@@ -34,6 +38,10 @@ export default function Home() {
         setNumero(data.telefono);
         setCorreo(data.email);
         setNacimiento(data.nacimiento);
+      // Verifica si hay una URL para la imagen
+      if (data.fotoperfil_url) {
+        setImage(data.fotoperfil_url);  // Asigna la URL de la imagen
+      }
       } else {
         Alert.alert('Error', 'No se pudo obtener los datos del prestador.');
       }
@@ -46,7 +54,95 @@ export default function Home() {
   // Llama a la función obtenerDatos al cargar el componente
   useEffect(() => {
     obtenerDatos();
-  }, []);
+  }, []);  // Solo se ejecuta al montar el componente
+
+  // Función para abrir la galería
+  const pickImage = async () => {
+    try {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+      });
+
+      if (!result.canceled) {
+        const { uri } = result.assets[0];
+        const name = uri.split('/').pop(); // Extraer el nombre del archivo de la URI
+        const mimeType = 'image/jpeg'; // Asumimos que la imagen es JPEG, puedes ajustar si es necesario
+
+        uploadImage(uri, name, mimeType); // Llamar a la función para subir la imagen
+      } else {
+        console.log("Selección de imagen cancelada");
+      }
+    } catch (error) {
+      console.error("Error al seleccionar imagen:", error);
+    }
+  };
+
+  // Función para capturar una foto
+  const takePhoto = async () => {
+    try {
+      const { status } = await ImagePicker.requestCameraPermissionsAsync();
+      if (status !== 'granted') {
+        Alert.alert('Permiso denegado', 'Se requiere acceso a la cámara');
+        return;
+      }
+
+      let result = await ImagePicker.launchCameraAsync({
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+      });
+
+      if (!result.canceled) {
+        const { uri } = result.assets[0];
+        const name = uri.split('/').pop(); // Extraer el nombre del archivo de la URI
+        const mimeType = 'image/jpeg'; // Asumimos que la imagen es JPEG, puedes ajustar si es necesario
+
+        uploadImage(uri, name, mimeType); // Llamar a la función para subir la imagen
+      } else {
+        console.log("Captura de foto cancelada");
+      }
+    } catch (error) {
+      console.error("Error al capturar foto:", error);
+    }
+  };
+
+// Función para subir la imagen al servidor
+const uploadImage = async (uri, name, mimeType) => {
+  try {
+    const formData = new FormData();
+    formData.append('fotoperfil', {
+      uri: uri,
+      name: name,
+      type: mimeType,
+    });
+
+    const response = await fetch(`${API_URL}/api/servicios/prestador/Daniel/subir_foto_perfil/`, {
+      method: 'POST',
+      body: formData,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+
+    const data = await response.json();
+
+    // Verifica la respuesta del backend
+    if (response.ok) {
+      // Ahora, solo concatenamos la ruta de la imagen, sin la base
+      const fotoPerfilUrl = data.fotoperfil_url;
+      setImage(fotoPerfilUrl);  // Asignamos la nueva URL de la imagen al estado
+      console.log(fotoPerfilUrl)
+      alert("Imagen subida con éxito");
+    } else {
+      alert("Error al subir la imagen");
+    }
+  } catch (error) {
+    console.error("Error al subir la imagen:", error);
+  }
+};
 
 
   return (
@@ -74,15 +170,31 @@ export default function Home() {
               <View className="bg-white p-2 rounded-[12px]">
                 <View className="p-1 px-2 mx-2 items-center">
                   <View className="flex flex-row static">
-                  <Image className="bg-white rounded-full border-2 border-black"
-                  source={require('../../../assets/UsersIcons/avatar.png')}
-                  style={{ width: 100, height: 100 }}
+                  <Image
+                    className="bg-white rounded-full border-2 border-black"
+                    source={image ? { uri: image } : require('../../../assets/UsersIcons/avatar.png')}
+                    style={{ width: 100, height: 100 }}
                   />
-                  <TouchableOpacity className="bg-yellow-500 rounded-full p-2 absolute"><FontAwesome name='pencil' color='white' size={16}/></TouchableOpacity>
+                  <TouchableOpacity onPress={() => setModalVisible(true)} className="bg-yellow-500 rounded-full p-2 absolute"><FontAwesome name='pencil' color='white' size={16}/></TouchableOpacity>
                   </View>
                   <Text className="text-center">{nombre || "Cargando..."}</Text>
                 </View>
               </View>
+              <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => setModalVisible(false)} // Cerrar el modal al presionar fuera
+            >
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.6)' }}>
+              <View className="bg-white p-4 rounded-md">
+                <Text className="text-lg font-bold mb-4">Cambiar foto de perfil</Text>
+                <TouchableOpacity className="bg-blue-500 p-2 rounded-[32px] mb-2" onPress={pickImage}><Text className="text-white text-center">Elegir de la galería</Text></TouchableOpacity>
+                <TouchableOpacity className="bg-blue-500 p-2 rounded-[32px] mb-2" onPress={takePhoto}><Text className="text-white text-center">Tomar una foto</Text></TouchableOpacity>
+                <TouchableOpacity className="bg-red-500 p-2 rounded-[32px] mb-2" onPress={() => setModalVisible(false)}><Text className="text-white text-center" >Cancelar</Text></TouchableOpacity>
+              </View>
+            </View>
+          </Modal>
             <View>
               <View className="bg-yellow-500 rounded-r-[12px] pt-1 mb-2">
                 <View className="bg-white my-1 p-1 rounded-r-full mr-14">
@@ -135,7 +247,6 @@ export default function Home() {
               </ScrollView>
             </View>
           </View>
-        
       
     </SafeAreaView>
   );

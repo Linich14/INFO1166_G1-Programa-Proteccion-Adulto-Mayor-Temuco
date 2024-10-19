@@ -31,7 +31,6 @@ export default function Home() {
 
   useEffect(() => {
     fetchNotifications(); // Llamar a la función al cargar el componente
-    console.log(API_URL)
   }, []);
 
   const hideModal = () => {

@@ -13,9 +13,10 @@ class PrestadorServicio(models.Model):
     nacimiento = models.DateField()
     telefono = models.IntegerField()
     estado = models.BooleanField(default=True)  #TRUE = ESTADO DEL USUARIO TRABAJANDO, FALSE = ESTADO DEL USUARIO SIN TRABAJAR
+    fotoperfil = models.FileField(upload_to='archivos/', null=True)
     
     def __str__(self):
-        return self.nombre
+        return self.rut
 
 
 

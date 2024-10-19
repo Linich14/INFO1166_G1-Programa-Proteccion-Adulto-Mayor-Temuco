@@ -1,4 +1,7 @@
 import json
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
@@ -33,7 +36,7 @@ def obtener_prestador_por_nombre(request, nombre):
         'email': prestador.email,
         'nacimiento': prestador.nacimiento,
         'telefono': prestador.telefono,
-        'estado': prestador.estado
+        'estado': prestador.estado,
     })
 
 def obtener_prestador_estado(request, nombre):
@@ -62,7 +65,33 @@ def obtener_atenciones_por_servicio(request, servicio_id):
         print(f"Atencion ID: {atencion['id']}, Cliente ID: {atencion['clienteID']}, Observacion: {atencion['observacion']}")  # Detailed log
     return JsonResponse(atenciones_list, safe=False)
 
+@api_view(['POST'])
+def subir_foto_perfil(request, nombre):
+    try:
+        prestador = PrestadorServicio.objects.get(nombre=nombre)
+        
+        if 'fotoperfil' not in request.FILES:
+            return Response({"error": "No se ha proporcionado ninguna imagen."}, status=status.HTTP_400_BAD_REQUEST)
 
+        # Guardar el archivo
+        prestador.fotoperfil = request.FILES['fotoperfil']
+        prestador.save()
+
+        # Generar la URL completa para la imagen
+        if prestador.fotoperfil:
+            fotoperfil_url = prestador.fotoperfil.url
+            # Convertimos la ruta relativa en una URL completa
+            fotoperfil_url_completa = request.build_absolute_uri(fotoperfil_url)
+        else:
+            fotoperfil_url_completa = None
+
+        return Response({
+            "message": "Foto de perfil actualizada con éxito",
+            "fotoperfil_url": fotoperfil_url_completa
+        }, status=status.HTTP_200_OK)
+
+    except PrestadorServicio.DoesNotExist:
+        return Response({"error": "Prestador de servicio no encontrado."}, status=status.HTTP_404_NOT_FOUND)
 def marcar_asistencia(request, rut):
     if request.method == 'POST':
         try:

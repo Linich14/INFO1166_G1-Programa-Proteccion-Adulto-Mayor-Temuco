@@ -1,6 +1,8 @@
 from django.urls import path, include
 from rest_framework import routers #Lee vista y genera URLs
 from Servicios import views
+from django.conf.urls.static import static
+from django.conf import settings
 
 router = routers.DefaultRouter()
 router.register(r'prestadores', views.PrestadorServicioView, 'prestadores')
@@ -14,4 +16,8 @@ urlpatterns = [
     path('marcar-asistencia/<str:rut>/', views.marcar_asistencia, name='marcar_asistencia'),
     path('servicio/<int:prestador_id>/', views.obtener_servicio_por_prestador, name='obtener_servicio_por_prestador'),
     path('atenciones/<int:servicio_id>/', views.obtener_atenciones_por_servicio, name='obtener_atenciones_por_servicio'),
-]
+    path('prestador/<str:nombre>/subir_foto_perfil/', views.subir_foto_perfil, name='subir_foto_perfil'),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
