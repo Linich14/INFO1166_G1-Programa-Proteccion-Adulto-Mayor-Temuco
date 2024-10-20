@@ -4,7 +4,8 @@ import {
   TouchableOpacity,
   View,
   Image,
-  TextInput
+  TextInput,
+  Alert
 } from "react-native";
 import { styled } from "nativewind";
 import { MaterialIcons, Feather ,MaterialCommunityIcons } from '@expo/vector-icons';
@@ -15,92 +16,73 @@ const StyledText = styled(Text);
 
 export default function Home() {
   const [rut, setRut] = useState("");
+  const [rutSinFormato, setRutSinFormato] = useState(""); // Variable para el RUT sin formato
   const contador = useRef([]);
 
   // Función para agregar dígitos al campo RUT
   const handleKeyPress = (value) => {
-      setRut((prevRut) => prevRut + value);
-      contador.current.push(value); 
-    
-    let tamano = contador.current.length;
-    if (tamano == 2){
-      setRut((prevRut) => prevRut + ".");
-      contador.current.push(".");
-    } else if(tamano == 6){
-      setRut((prevRut) => prevRut + ".");
-      contador.current.push(".");
-    } else if(tamano == 10){
-      setRut((prevRut) => prevRut + "-");
-      contador.current.push("-");
-    }
-    console.log(contador.current);
+    // Guardar el RUT sin formato (sin puntos y guiones)
+    setRutSinFormato((prevRut) => prevRut + value);
+
+    setRut((prevRut) => {
+      let nuevoRut = prevRut + value;
+      let tamano = contador.current.length + 1;
+
+      // Agregar puntos y guion automáticamente
+      if (tamano === 2 || tamano === 5) {
+        nuevoRut += ".";
+      } else if (tamano === 8) {
+        nuevoRut += "-";
+      }
+
+      // Actualizar el contador y el RUT
+      contador.current.push(value);
+      return nuevoRut;
+    });
   };
 
   // Función para eliminar el último dígito
   const handleDelete = () => {
-    setRut((prevRut) => prevRut.slice(0, -1));
-    contador.current.pop();
-    let tamano = (contador.current.length);
-    if (tamano == 3){
-      contador.current.pop()
-      setRut((prevRut) => prevRut.slice(0, -1));
-    } if(tamano == 7){
-      contador.current.pop()
-      setRut((prevRut) => prevRut.slice(0, -1));
-    } else if(tamano == 11){
-      contador.current.pop()
-      setRut((prevRut) => prevRut.slice(0, -1));
-    }
-    console.log(contador.current)
+    setRut((prevRut) => {
+      let nuevoRut = prevRut.slice(0, -1);
+      contador.current.pop();
 
-    const checkConnection = async () => {
-      try {
-        const response = await fetch(`${API_URL}/api/servicios/`, { 
-          method: 'GET', // O usa 'POST' si es el método de prueba
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
-        
-        if (response.ok) {
-          const data = await response.json();
-          console.log("Conexión exitosa:", data);
-          alert('Conexión exitosa con la API');
-        } else {
-          console.error("Error de conexión:", response.status);
-          alert('Error al conectar con la API');
-        }
-      } catch (error) {
-        console.error("Error en la solicitud:", error);
-        alert('Error al realizar la solicitud');
+      // Eliminar puntos y guion si es necesario
+      if (nuevoRut.length === 3 || nuevoRut.length === 7) {
+        contador.current.pop();
+        nuevoRut = nuevoRut.slice(0, -1);
       }
-    };
-    
-    checkConnection();
-    
-    // Función para marcar la salida
+
+      return nuevoRut;
+    });
+
+    // Actualizar el RUT sin formato
+    setRutSinFormato((prevRut) => prevRut.slice(0, -1));
+  };
+
+
     const marcarSalida = async () => {
       try {
-        const response = await fetch(`http://127.0.0.1:8000/api/marcar-asistencia/${rut}/`, { //http://127.0.0.1:8000/api/marcar-asistencia/${rut}/
+        const response = await fetch(`${API_URL}/api/servicios/marcar-asistencia/${rutSinFormato}/`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
+          body: JSON.stringify({ estado: false }),
         });
   
         const data = await response.json();
-        console.log("Respuesta del servidor:", data);
+  
         if (data.success) {
-          alert('Salida registrada correctamente');
+          Alert.alert('Salida registrada', 'La asistencia fue marcada correctamente.');
         } else {
-          alert('Error al registrar la salida');
+          Alert.alert('Error', 'Hubo un problema al marcar la asistencia.');
         }
       } catch (error) {
-        console.error("Error en la solicitud:", error);
-        alert('Hubo un error al enviar la solicitud');
+        console.error('Error en la solicitud:', error);
+        Alert.alert('Error', 'Hubo un error al enviar la solicitud.');
       }
     };
-  };
 
   return (
     <SafeAreaView className="flex-1 bg-gray-300">

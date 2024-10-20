@@ -8,7 +8,7 @@ from django.utils import timezone
 from django.http import JsonResponse
 from rest_framework import viewsets
 from .serializer import  PrestadorServicioSerializaer, ServicioSerializer, UsuarioSerializer, AtencionSerializer # Importo PrestadorServicioSerializaer
-from .models import PrestadorServicio, Servicio, Usuario, Atencion
+from .models import PrestadorServicio, Servicio, Usuario, Atencion, Asistencia
 
 class PrestadorServicioView(viewsets.ModelViewSet):
     serializer_class = PrestadorServicioSerializaer
@@ -30,6 +30,21 @@ def obtener_prestador_por_nombre(request, nombre):
     prestador = get_object_or_404(PrestadorServicio, nombre=nombre)
     return JsonResponse({
         'id': prestador.id,
+        'rut': prestador.rut,
+        'nombre': prestador.nombre,
+        'apellido': prestador.apellido,
+        'trabajo': prestador.trabajo,
+        'email': prestador.email,
+        'nacimiento': prestador.nacimiento,
+        'telefono': prestador.telefono,
+        'estado': prestador.estado,
+    })
+
+def obtener_prestador_por_rut(request, rut):
+    prestador = get_object_or_404(PrestadorServicio, rut=rut)
+    return JsonResponse({
+        'id': prestador.id,
+        'rut': prestador.rut,
         'nombre': prestador.nombre,
         'apellido': prestador.apellido,
         'trabajo': prestador.trabajo,
@@ -66,21 +81,18 @@ def obtener_atenciones_por_servicio(request, servicio_id):
     return JsonResponse(atenciones_list, safe=False)
 
 @api_view(['POST'])
-def subir_foto_perfil(request, nombre):
+def subir_foto_perfil(request, rut):
     try:
-        prestador = PrestadorServicio.objects.get(nombre=nombre)
+        prestador = PrestadorServicio.objects.get(rut=rut)
         
         if 'fotoperfil' not in request.FILES:
             return Response({"error": "No se ha proporcionado ninguna imagen."}, status=status.HTTP_400_BAD_REQUEST)
 
-        # Guardar el archivo
         prestador.fotoperfil = request.FILES['fotoperfil']
         prestador.save()
 
-        # Generar la URL completa para la imagen
         if prestador.fotoperfil:
             fotoperfil_url = prestador.fotoperfil.url
-            # Convertimos la ruta relativa en una URL completa
             fotoperfil_url_completa = request.build_absolute_uri(fotoperfil_url)
         else:
             fotoperfil_url_completa = None
@@ -92,11 +104,14 @@ def subir_foto_perfil(request, nombre):
 
     except PrestadorServicio.DoesNotExist:
         return Response({"error": "Prestador de servicio no encontrado."}, status=status.HTTP_404_NOT_FOUND)
+    
+
+@api_view(['POST'])
 def marcar_asistencia(request, rut):
     if request.method == 'POST':
         try:
             # Extraer el estado de la solicitud (True para entrada, False para salida)
-            data = json.loads(request.body)  # Aseguramos que se extraiga el JSON correctamente
+            data = json.loads(request.body)
             estado = data.get('estado')
 
             if estado is None:
@@ -109,20 +124,29 @@ def marcar_asistencia(request, rut):
             prestador.estado = estado
             prestador.save()
 
-            # Retornar el resultado con la hora correspondiente
+            # Crear una nueva entrada en el modelo Asistencia
+            asistencia = Asistencia.objects.create(
+                prestador=prestador,
+                hora_entrada=timezone.now() if estado else None,
+                hora_salida=timezone.now() if not estado else None,
+                estado=estado,
+            )
+            asistencia.save()
+
+            # Responder con la información adecuada
             if estado:  # Si es entrada
                 return JsonResponse({
                     'success': True,
                     'message': 'Entrada registrada',
                     'estado': prestador.estado,
-                    'hora_entrada': timezone.now().strftime('%Y-%m-%d %H:%M:%S')
+                    'hora_entrada': asistencia.hora_entrada.strftime('%Y-%m-%d %H:%M:%S')
                 })
             else:  # Si es salida
                 return JsonResponse({
                     'success': True,
                     'message': 'Salida registrada',
                     'estado': prestador.estado,
-                    'hora_salida': timezone.now().strftime('%Y-%m-%d %H:%M:%S')
+                    'hora_salida': asistencia.hora_salida.strftime('%Y-%m-%d %H:%M:%S')
                 })
         except json.JSONDecodeError:
             return JsonResponse({"success": False, "message": "Error en el formato JSON"}, status=400)
@@ -130,3 +154,26 @@ def marcar_asistencia(request, rut):
             return JsonResponse({"success": False, "message": "Prestador no encontrado"}, status=404)
     else:
         return JsonResponse({"success": False, "message": "Método no permitido"}, status=405)
+    
+@api_view(['PUT', 'PATCH'])
+def actualizar_prestador(request, rut):
+    try:
+        prestador = PrestadorServicio.objects.get(rut=rut)
+        data = request.data
+        prestador.nombre = data.get('nombre', prestador.nombre)
+        prestador.apellido = data.get('apellido', prestador.apellido)
+        prestador.telefono = data.get('telefono', prestador.telefono)
+        prestador.email = data.get('email', prestador.email)
+        prestador.save()
+
+        return Response({
+            "message": "Datos actualizados correctamente",
+            "prestador": {
+                "nombre": prestador.nombre,
+                "apellido": prestador.apellido,
+                "telefono": prestador.telefono,
+                "email": prestador.email
+            }
+        }, status=status.HTTP_200_OK)
+    except PrestadorServicio.DoesNotExist:
+        return Response({"error": "Prestador no encontrado"}, status=status.HTTP_404_NOT_FOUND)
