@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { Link } from 'expo-router';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
 	Text,
   TouchableOpacity,
@@ -17,6 +17,7 @@ import { MaterialIcons, Feather, MaterialCommunityIcons, FontAwesome, AntDesign}
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { API_URL } from '@env';
 import * as ImagePicker from 'expo-image-picker';
+import shadowStyles from "../../styles/shadowStyles";
 
 //
 export default function Home() {
@@ -154,19 +155,18 @@ const uploadImage = async (uri, name, mimeType) => {
   }
 };
 
-// Función para actualizar los datos del prestador
 const actualizarDatos = async () => {
   try {
     const response = await fetch(`${API_URL}/api/servicios/cambiar-datos/215901076/`, {
-      method: 'PATCH',  // Método PATCH para actualizar datos
+      method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        nombre: nombre,        // Nombre del prestador actualizado
-        apellido: apellido,    // Apellido del prestador actualizado
-        telefono: numero,      // Teléfono del prestador actualizado
-        email: correo,         // Correo del prestador actualizado
+        nombre: nombre,
+        apellido: apellido,
+        telefono: numero,
+        email: correo,
       }),
     });
 
@@ -175,6 +175,14 @@ const actualizarDatos = async () => {
       Alert.alert('Éxito', 'Datos actualizados correctamente');
       setEditModalVisible(false); // Cerrar el modal después de la actualización
       obtenerDatos(); // Actualizar la información en la UI
+
+      // Guardar los nuevos datos en AsyncStorage
+      await AsyncStorage.setItem('perfil', JSON.stringify({
+        nombre: nombre,
+        apellido: apellido,
+        telefono: numero,
+        email: correo,
+      }));
     } else {
       Alert.alert('Error', 'No se pudo actualizar los datos.');
     }
@@ -184,16 +192,37 @@ const actualizarDatos = async () => {
   }
 };
 
+const cargarPerfil = async () => {
+  try {
+    const perfilGuardado = await AsyncStorage.getItem('perfil');
+    if (perfilGuardado) {
+      const perfil = JSON.parse(perfilGuardado);
+      setNombre(perfil.nombre);
+      setApellido(perfil.apellido);
+      setNumero(perfil.telefono);
+      setCorreo(perfil.email);
+    }
+  } catch (error) {
+    console.error('Error al cargar el perfil:', error);
+  }
+};
+
+// Llama a cargarPerfil en useEffect para cargar los datos al iniciar la app
+useEffect(() => {
+  console.log(nombre)
+  cargarPerfil();
+}, []);
+
 
   return (
     <SafeAreaView className="flex-1 bg-gray-300">
         <View className="flex-row justify-between items-center bg-[#0060AF] py-2">
-          <View className="bg-white py-2 rounded-r-full px-3">
+          <View className="bg-white py-2 rounded-r-full px-3" style={shadowStyles.shadow}>
             <Text className="text-black text-xl font-bold px-2">
               Bienvenido, {nombresito}
             </Text>
           </View>
-          <TouchableOpacity className="bg-yellow-500 rounded-l-full p-2">
+          <TouchableOpacity className="bg-yellow-500 rounded-l-full p-2" style={shadowStyles.shadow}>
             <View className="items-center">
               <MaterialIcons name="settings" size={24} color="white" className=""/>
             </View>
@@ -201,13 +230,13 @@ const actualizarDatos = async () => {
           </TouchableOpacity>
         </View>
         <View className="bg-muni-50 rounded-b-2xl py-1 pb-2">
-          <View className="bg-white py-2 rounded-r-full mb-2 mt-1 mr-28">
+          <View className="bg-white py-2 rounded-r-full mb-2 mt-1 mr-28" style={shadowStyles.shadow}>
               <Text className="text-black text-xl font-bold px-2 text-center">
               Perfil de Usuario
               </Text>
           </View>
           <View className="flex flex-row items-center justify-center pb-2 my-1">
-              <View className="bg-white p-2 rounded-[12px]">
+              <View className="bg-white p-2 rounded-[12px]" style={shadowStyles.shadow}>
                 <View className="p-1 px-2 mx-2 items-center">
                   <View className="flex flex-row static">
                   <Image
@@ -236,14 +265,14 @@ const actualizarDatos = async () => {
             </View>
           </Modal>
             <View>
-              <View className="bg-yellow-500 rounded-r-[12px] pt-1 mb-2">
+              <View className="bg-yellow-500 rounded-r-[12px] pt-1 mb-2" style={shadowStyles.shadow}>
                 <View className="bg-white my-1 p-1 rounded-r-full mr-14">
                   <Text className="font-bold text-center">Cargo: </Text>
                 </View>
                 <Text className="p-2 m-1 text-white text-center font-bold text-lg">{trabajo || "Cargando..."}</Text>{/*ESTADO DE SERVICIO*/}
               </View>
               <View className="ml-2">
-                <TouchableOpacity className="bg-[#D42B2B] p-2 rounded-[32px] border border-white flex flex-row">
+                <TouchableOpacity className="bg-[#D42B2B] p-2 rounded-[32px] border border-white flex flex-row" style={shadowStyles.shadow}>
                   <Feather name='lock' color="white" size={16}/>
                   <Text className="text-white ml-2">Cambiar Contraseña</Text>
                 </TouchableOpacity>
@@ -253,10 +282,10 @@ const actualizarDatos = async () => {
         </View>
         {/* Separa */}
           <View className="p-2">
-            <View className="bg-white p-2 rounded-[12px]">
+            <View className="bg-white p-2 rounded-[12px]" style={shadowStyles.shadow}>
               <View className="p-2 ml-2 flex flex-row">
                 <Text className="font-bold text-2xl">Informacion de la cuenta</Text>
-                <TouchableOpacity onPress={() => setEditModalVisible(true)} className="bg-yellow-500 rounded-full p-2 ml-2">
+                <TouchableOpacity onPress={() => setEditModalVisible(true)} className="bg-yellow-500 rounded-full p-2 ml-2" style={shadowStyles.shadow}>
                   <View className="px-4"><FontAwesome name='pencil' color='white' size={16}/></View>
                   </TouchableOpacity>
               </View>
@@ -279,30 +308,26 @@ const actualizarDatos = async () => {
                       </TouchableOpacity>
                     </View>
 
-                    <Text>Nombre</Text>
-                    <TextInput
-                      style={{ borderBottomWidth: 1, marginBottom: 10 }}
+                    <Text className="font-bold">Nombre</Text>
+                    <TextInput className="rounded-full border p-2 m-1"
                       value={nombre}
                       onChangeText={setNombre}
                     />
-                    <Text>Apellido</Text>
-                    <TextInput
-                      style={{ borderBottomWidth: 1, marginBottom: 10 }}
+                    <Text className="font-bold">Apellido</Text>
+                    <TextInput className="rounded-full border p-2 m-1"
                       value={apellido}
                       onChangeText={setApellido}
                     />
 
-                    <Text>Teléfono</Text>
-                    <TextInput
-                      style={{ borderBottomWidth: 1, marginBottom: 10 }}
+                    <Text className="font-bold">Teléfono</Text>
+                    <TextInput className="rounded-full border p-2 m-1"
                       value={numero}
                       onChangeText={setNumero}
                       keyboardType="numeric"
                     />
 
-                    <Text>Correo</Text>
-                    <TextInput
-                      style={{ borderBottomWidth: 1, marginBottom: 10 }}
+                    <Text className="font-bold">Correo</Text>
+                    <TextInput className="rounded-full border p-2 m-1"
                       value={correo}
                       onChangeText={setCorreo}
                       keyboardType="email-address"
