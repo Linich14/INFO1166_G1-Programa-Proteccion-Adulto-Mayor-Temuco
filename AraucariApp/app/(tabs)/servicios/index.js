@@ -1,37 +1,63 @@
-import { View, Text, Pressable } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, Text, ActivityIndicator } from "react-native";
 import BotonServicio from "../../../components/BotonServicio";
-import { list } from "postcss";
+import { API_URL } from '@env';
 
 export default function Index() {
-	const servicios = [
-		["Peluqueria", "bg-[#00B2FF]"],
-		["Kinesiologo", "bg-white"],
-		["Abogado", "bg-[#FF6060]"],
-		["Podologo", "bg-[#FF7D04]"],
-		["Asistente_Social", "bg-[#E1F352]"],
-		["Psicologia", "bg-[#4D8B1E]"],
-		["Fonoaudiologo", "bg-[#908D8D]"],
-		["Salida_Terreno", "bg-[#322CDB]"],
-	];
-
-	const borderReturn = (index) => {
-		if (index % 2 == 0) {
-			return "border-b-2 border-r-2";
-		} else {
-			return "border-b-2";
-		}
-	};
+	const [servicios, setServicios] = useState([]);
+	const [loading, setLoading] = useState(true);
 
 	const listaImagenes = {
 		Abogado: require("../../../assets/ServiciosIcons/Abogado.png"),
-		Asistente_Social: require("../../../assets/ServiciosIcons/Asistente_Social.png"),
+		"Asistente social": require("../../../assets/ServiciosIcons/Asistente_Social.png"),
 		Fonoaudiologo: require("../../../assets/ServiciosIcons/Fonoaudiologo.png"),
-		Kinesiologo: require("../../../assets/ServiciosIcons/Kinesiologo.png"),
+		Kinesiologia: require("../../../assets/ServiciosIcons/Kinesiologo.png"),
 		Peluqueria: require("../../../assets/ServiciosIcons/Peluqueria.png"),
 		Podologo: require("../../../assets/ServiciosIcons/Podologo.png"),
 		Psicologia: require("../../../assets/ServiciosIcons/Psicologia.png"),
-		Salida_Terreno: require("../../../assets/ServiciosIcons/Salida_Terreno.png"),
+		"Salida Terreno": require("../../../assets/ServiciosIcons/Salida_Terreno.png"),
 	};
+
+	const coloresServicio = {
+		Abogado: 'bg-blue-500',
+		"Asistente social": 'bg-green-500',
+		Fonoaudiologo: 'bg-red-500',
+		Kinesiologia: 'bg-yellow-500',
+		Peluqueria: 'bg-purple-500',
+		Podologo: 'bg-pink-500',
+		Psicologia: 'bg-teal-500',
+		"Salida Terreno": 'bg-orange-500',
+	};
+
+	useEffect(() => {
+		fetch(`${API_URL}/api/servicios/nombres`)
+			.then((response) => {
+				if (!response.ok) {
+					throw new Error("Network response was not ok");
+				}
+				return response.json();
+			})
+			.then((data) => {
+				setServicios(data);
+				setLoading(false);
+			})
+			.catch((error) => {
+				console.error("Error fetching services:", error);
+				setLoading(false);
+			});
+	}, []);
+
+	const borderReturn = (index) => {
+		return index % 2 === 0 ? "border-b-2 border-r-2" : "border-b-2";
+	};
+
+	if (loading) {
+		return (
+			<View className="flex-1 justify-center items-center">
+				<ActivityIndicator size="large" color="#00B2FF" />
+			</View>
+		);
+	}
 
 	return (
 		<View className="h-screen">
@@ -43,15 +69,18 @@ export default function Index() {
 				</View>
 			</View>
 			<View className="w-9/12 flex-row flex-wrap mx-auto border-2 rounded-2xl overflow-hidden">
-				{servicios.map((servicio, index) => (
-					<BotonServicio
-						textClassName={`w-1/2 h-20 ${borderReturn(index)} ${servicio[1]}`}
-						url={`/servicios/${servicio[0]}`}
-						dirImagen={listaImagenes[servicio[0]]}
-						nombre={servicio[0].replace("_", " ")}
-						key={index}
-					/>
-				))}
+				{servicios.map((servicio, index) => {
+					const colorFondo = coloresServicio[servicio.nombre] || 'bg-white'; // Color por defecto si no se encuentra el servicio
+					return (
+						<BotonServicio
+							textClassName={`w-1/2 h-20 ${borderReturn(index)} ${colorFondo}`}
+							url={`/servicios/${servicio.nombre}`}
+							dirImagen={listaImagenes[servicio.nombre] || listaImagenes["Default"]}
+							nombre={servicio.nombre}
+							key={servicio.id}
+						/>
+					);
+				})}
 			</View>
 		</View>
 	);

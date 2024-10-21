@@ -29,8 +29,12 @@ SECRET_KEY = 'django-insecure-a!tmxzvoll*!6$^rdx4-2(r!qu+x6fsv7--z#pfvl4%xqf1cbo
 DEBUG = True
 
 
-ALLOWED_HOSTS = [os.getenv("HOST_IP"), "localhost", "127.0.0.1"]
+ALLOWED_HOSTS = [os.getenv("HOST_IP"),"192.168.0.4", "localhost", "127.0.0.1"]
 
+
+#Manejo de subida de archivos
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Application definition
 
@@ -46,7 +50,8 @@ INSTALLED_APPS = [
     'Municipales',
     'Servicios',
     'Notificaciones',
-    'Usuario'
+    'Usuario',
+    'Documentos'
 ]
 
 MIDDLEWARE = [
@@ -142,7 +147,7 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 CSRF_TRUSTED_ORIGINS = ['http://localhost:5173']
-CSRF_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = False #True
 CSRF_COOKIE_HTTPONLY = False
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_ALL_ORIGINS = True

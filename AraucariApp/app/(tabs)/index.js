@@ -1,6 +1,7 @@
 import { Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import "../../constants/styles.css";
+import shadowStyles from '../styles/shadowStyles';
 import { Link, Redirect } from "expo-router";
 
 

@@ -1,19 +1,55 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { Link } from 'expo-router';
 import {
 	Text,
   TouchableOpacity,
 	View,
-  Image
+  Image,
+  Alert
 } from "react-native";
 import { styled } from "nativewind";
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { API_URL } from '@env';
+
 
 const StyledText = styled(Text);
 
 //
 export default function Perfil() {
+  const [estado, setEstado] = useState("");  // Estado para mostrar "En servicio" o "No disponible"
+
+  // Función para obtener el estado del prestador
+  const obtenerEstado = async () => {
+    try {
+      const response = await fetch(`${API_URL}/api/servicios/prestador/estado/Daniel/`);
+      const data = await response.json();
+      
+      if (response.ok) {  // Verifica si la respuesta fue exitosa
+        // Verificar si el estado es true o false y cambiar el texto
+        setEstado(data.estado ? "En servicio" : "No disponible");
+      } else {
+        // Si la respuesta no es exitosa
+        Alert.alert('Error', 'No se pudo obtener el estado del prestador.');
+      }
+    } catch (error) {
+      console.error('Error en la solicitud:', error);
+      Alert.alert('Error', 'Hubo un error al obtener el estado.');
+    }
+  };
+  useEffect(() => {
+    // Llamar a la función al montar el componente
+    obtenerEstado();
+
+    // Establecer un intervalo para actualizar el estado cada 10 segundos
+    const interval = setInterval(() => {
+      obtenerEstado();
+    }, 10000); // 10000 ms = 10 segundos
+
+    // Limpiar el intervalo cuando el componente se desmonte
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <SafeAreaView className="flex-1 bg-gray-300">
         <View className="flex-row justify-between items-center bg-[#0060AF] py-2">
@@ -49,7 +85,7 @@ export default function Perfil() {
               <View className="bg-white my-1 p-1 rounded-r-full mr-14">
                 <Text className="font-bold text-center">Estado: </Text>
               </View>
-              <Text className="p-2 m-1 text-white text-center font-bold text-lg">En servicio</Text>{/*ESTADO DE SERVICIO*/}
+              <Text className="p-2 m-1 text-white text-center font-bold text-lg">{estado}</Text>{/*ESTADO DE SERVICIO*/}
             </View>
           </View>
         </View>

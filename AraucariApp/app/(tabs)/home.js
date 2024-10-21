@@ -5,6 +5,9 @@ import { styled } from "nativewind";
 import { MaterialIcons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Modal from "react-native-modal"; // Importa el componente Modal
+import { API_URL } from '@env';
+import shadowStyles from '../styles/shadowStyles';
+
 
 const StyledText = styled(Text);
 
@@ -16,7 +19,7 @@ export default function Home() {
   // Función para obtener las notificaciones desde el backend
   const fetchNotifications = async () => {
     try {
-      const response = await fetch('http://192.168.1.19:8000/api/notificaciones/');
+      const response = await fetch(`${API_URL}/api/notificaciones/`);
       const data = await response.json();
       setNotifications(data);
       if (data.length > 0) {
@@ -41,14 +44,14 @@ export default function Home() {
 
   return (
     <SafeAreaView className="flex-1 bg-gray-300">
-      <View className="flex-row justify-between items-center bg-[#0060AF] py-2">
+      <View className="flex-row justify-between items-center bg-[#0060AF] py-2" style={shadowStyles.shadow}>
         <View className="bg-white py-2 rounded-r-full px-3">
           <Text className="text-black text-xl font-bold px-2">
             Bienvenido, George Soto
           </Text>
         </View>
         <Link href="/ajustes" asChild>
-          <TouchableOpacity className="bg-yellow-500 rounded-l-full p-2">
+          <TouchableOpacity className="bg-yellow-500 rounded-l-full p-2" style={shadowStyles.shadow}>
             <View className="items-center">
               <MaterialIcons name="settings" size={24} color="white" />
             </View>
@@ -57,11 +60,11 @@ export default function Home() {
         </Link>
       </View>
       <View className="bg-muni-50 rounded-b-2xl py-1 pb-2">
-        <View className="bg-white rounded-r-full py-1 my-1 mr-28">
+        <View className="bg-white rounded-r-full py-1 my-1 mr-28" style={shadowStyles.shadow}>
           <Text className="font-bold text-center">Tienes estas horas pendientes</Text>
         </View>
         <View className="p-1 px-4">
-          <View className="bg-white flex flex-row items-center space-x-2 p-1 py-2 rounded-[32px]">
+          <View className="bg-white flex flex-row items-center space-x-2 p-1 py-2 rounded-[32px]" style={shadowStyles.shadow}>
             <View className="items-center bg-yellow-500 rounded-[32px] p-3 ml-3">
               <Text className="text-white font-bold text-2xl">19</Text>
               <Text className="text-white font-bold">Septiembre</Text>
@@ -74,7 +77,7 @@ export default function Home() {
           </View>
         </View>
         <View className="p-1 px-4">
-          <View className="bg-white flex flex-row items-center space-x-2 p-1 py-2 rounded-[32px]">
+          <View className="bg-white flex flex-row items-center space-x-2 p-1 py-2 rounded-[32px]" style={shadowStyles.shadow}>
             <View className="items-center bg-[#018E11] rounded-[32px] p-3 ml-3">
               <Text className="text-white font-bold text-2xl">21</Text>
               <Text className="text-white font-bold">Septiembre</Text>
@@ -89,7 +92,7 @@ export default function Home() {
       </View>
       {/* Separa */}
       <View className="mt-6">
-        <View className="bg-white py-2 rounded-r-full mr-28">
+        <View className="bg-white py-2 rounded-r-full mr-28" style={shadowStyles.shadow}>
           <Text className="text-black text-xl font-bold px-2 text-center">
             ¿Qué quieres hacer?
           </Text>
@@ -109,7 +112,7 @@ export default function Home() {
           <View className="flex-row justify-between">
 
             <Link href="/servicios" asChild>
-              <TouchableOpacity className="bg-white rounded-lg p-6 items-center flex-1 mx-2">
+              <TouchableOpacity className="bg-white rounded-lg p-6 items-center flex-1 mx-2" style={shadowStyles.shadow}>
                 <Image 
                   source={require('../../assets/HomeIcons/servicios.png')} 
                   style={{ width: 119, height: 121 }}
@@ -118,7 +121,7 @@ export default function Home() {
             </Link>
 
             <Link href="/agenda" asChild>
-              <TouchableOpacity className="bg-white rounded-lg p-6 items-center flex-1 mx-2 ">
+              <TouchableOpacity className="bg-white rounded-lg p-6 items-center flex-1 mx-2 " style={shadowStyles.shadow}>
                 <Image 
                   source={require('../../assets/HomeIcons/calendario.png')}
                   style={{ width: 130, height: 130 }}
