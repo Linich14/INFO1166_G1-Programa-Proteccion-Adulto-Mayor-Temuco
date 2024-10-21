@@ -11,7 +11,7 @@ from django.middleware.csrf import get_token
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
-
+import logging
 
 def get_csrf_token(request):
     return JsonResponse({'csrfToken': get_token(request)})
@@ -42,6 +42,7 @@ class UserDataView(APIView):
     def get(self, request, rut):
         user = Municipales.objects.get(rut=rut)
         data = {
+            'id':user.id,
             'nombre': user.nombre,
             'rut': user.rut,
             'apellido': user.apellido,
@@ -50,3 +51,25 @@ class UserDataView(APIView):
             'telefono': user.telefono,
         }
         return Response(data)
+    
+logger = logging.getLogger(__name__)
+class UsuarioUpdateView(APIView):
+    
+    def put(self, request, pk):
+        print(request.data)
+        try:
+            usuario = Municipales.objects.get(id=pk)
+        except Municipales.DoesNotExist:
+            logger.error('No se encontró el objeto Municipales con el ID proporcionado: %s', pk)
+            return Response({'error': 'No se encontró el objeto Municipales con el ID proporcionado', 'id': pk}, status=status.HTTP_404_NOT_FOUND)
+        
+        serializer = MunicipalesSerializer(usuario, data=request.data)
+        
+        if serializer.is_valid():
+            try:
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            except Exception as e:
+                logger.error('Error al actualizar el objeto Municipales: %s', e)
+                return Response({'error': 'Error al actualizar el objeto Municipales', 'details': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        return Response({'error': 'El objeto JSON no es válido', 'details': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
