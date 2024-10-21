@@ -39,6 +39,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # Application definition
 
 INSTALLED_APPS = [
+    'rest_framework.authtoken',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -53,6 +54,14 @@ INSTALLED_APPS = [
     'Usuario',
     'Documentos'
 ]
+
+REST_FRAMEWORK = {
+    # ...
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+    # ...
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

@@ -9,6 +9,8 @@ from django.middleware.csrf import get_token
 from django.http import JsonResponse
 from django.middleware.csrf import get_token
 from django.views.decorators.csrf import csrf_exempt
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.authtoken.models import Token
 
 
 def get_csrf_token(request):
@@ -24,6 +26,7 @@ class MunicipalesView(APIView):
 #@csrf_protect  
 @csrf_exempt
 def login_view(request):
+    
     if request.method == 'POST':
         rut = request.POST.get('rut')
         contraseña = request.POST.get('contraseña')
@@ -34,3 +37,16 @@ def login_view(request):
         else:
             return JsonResponse({'status': 'Login incorrecto', 'redirect': '/login2'})
     return JsonResponse({'status': 'Login incorrecto', 'redirect': '/login'})
+
+class UserDataView(APIView):
+    def get(self, request, rut):
+        user = Municipales.objects.get(rut=rut)
+        data = {
+            'nombre': user.nombre,
+            'rut': user.rut,
+            'apellido': user.apellido,
+            'privilegios': user.privilegios,
+            'cargo': user.cargo,
+            'telefono': user.telefono,
+        }
+        return Response(data)

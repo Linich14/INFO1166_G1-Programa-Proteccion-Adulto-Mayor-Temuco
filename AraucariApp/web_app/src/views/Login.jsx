@@ -37,6 +37,7 @@ function Login() {
         //console.log(response.data);
         const token = response.data.token;
         localStorage.setItem('token', token);
+        localStorage.setItem('rut', rut); // Almacenar el RUT del usuario en el localStorage
         window.location.href = '/';
     } catch (error) {
         //console.log(csrftoken);

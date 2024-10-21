@@ -6,8 +6,10 @@ el div central con la lista de accesos y
 el div de abajo que mostrara el perfil y nombre de usuario
  */
 
-function NavBar ({ onOptionClick, persona }) { {
-
+function NavBar ({ onOptionClick,municipal}) { {
+  if(municipal === null || municipal === undefined){
+    return null
+  }
   // funcion que se encarga de enviar el parametro option al componente padre
   const handleOptionClick = (option) => {
     //console.log(option);
@@ -32,9 +34,9 @@ function NavBar ({ onOptionClick, persona }) { {
       </div>
 
       <div className=" text-white p-4 flex flex-col justify-center">
-        <img src={persona.photo} alt="" className='w-30 h-30' />
-        <a href="#" onClick={() => handleOptionClick('perfil')}><p className='text-lg hover:text-gray-300 text-center'>{persona.nombre 
-        + " " + persona.apellido}</p></a>
+        <img src=" ../../Logo.png" alt="" className='w-30 h-30' />
+        <a href="" onClick={() => handleOptionClick('perfil')}><p className='text-lg hover:text-gray-300 text-center'>{
+         municipal.nombre + " " + municipal.apellido }</p></a>
       </div>
     </nav>
   );
