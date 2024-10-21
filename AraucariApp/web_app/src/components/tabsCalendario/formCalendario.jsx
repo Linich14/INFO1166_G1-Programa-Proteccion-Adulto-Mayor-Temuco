@@ -1,13 +1,17 @@
 import React, { useState } from "react";
 import axios from "axios";
+import Toast from "../UI/Toast";
 
 const apiIp = import.meta.env.VITE_API_IP;
 
 export default function FormCalendario() {
+	const [visibilidad, setVisibilidad] = useState(false);
+	const [respuesta, setRespuesta] = useState({ mensaje: "", tipo: "" });
+
 	const [formData, setFormData] = useState({
 		nombre: "",
 		descripcion: "",
-		color: "8", 
+		color: "8",
 	});
 
 	const handleChange = (e) => {
@@ -20,12 +24,14 @@ export default function FormCalendario() {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-        try {
-            const response = await axios.post(`${apiIp}/api/calendario/`, formData);
-            console.log("Respuesta de la API:", response.data);
-        } catch (error) {
-            console.error("Error al enviar los datos:", error);
-        }
+		try {
+			const response = await axios.post(`${apiIp}/api/calendario/`, formData);
+			setRespuesta(response.data);
+			setVisibilidad(true);
+		} catch (error) {
+			setRespuesta({ mensaje: "Error al enviar el formulario", tipo: "error" });
+			setVisibilidad(true);
+		}
 	};
 
 	return (
@@ -73,13 +79,13 @@ export default function FormCalendario() {
 					onChange={handleChange}
 					className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
 				>
-                <option value="8">Azul oscuro</option>
-                <option value="9">Gris claro</option>
-                <option value="10">Gris oscuro</option>
-                <option value="11">Rojo</option>
-                <option value="12">Rosa</option>
-                <option value="13">Verde claro</option>
-                <option value="14">Verde oscuro</option>
+					<option value="8">Azul oscuro</option>
+					<option value="9">Gris claro</option>
+					<option value="10">Gris oscuro</option>
+					<option value="11">Rojo</option>
+					<option value="12">Rosa</option>
+					<option value="13">Verde claro</option>
+					<option value="14">Verde oscuro</option>
 				</select>
 			</div>
 
@@ -89,6 +95,11 @@ export default function FormCalendario() {
 			>
 				Enviar
 			</button>
+			<Toast
+				respuesta={respuesta}
+				visibilidad={visibilidad}
+				funcVisibilidad={setVisibilidad}
+			/>
 		</form>
 	);
 }

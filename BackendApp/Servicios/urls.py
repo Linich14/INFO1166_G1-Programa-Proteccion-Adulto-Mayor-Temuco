@@ -19,6 +19,7 @@ urlpatterns = [
     path('servicio/<int:prestador_id>/', views.obtener_servicio_por_prestador, name='obtener_servicio_por_prestador'),
     path('atenciones/<int:servicio_id>/', views.obtener_atenciones_por_servicio, name='obtener_atenciones_por_servicio'),
     path('prestador/rut/<str:rut>/subir_foto_perfil/', views.subir_foto_perfil, name='subir_foto_perfil'),
+    path('nombres/', views.obtener_nombres_servicios, name='obtener_nombres_servicios'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:
