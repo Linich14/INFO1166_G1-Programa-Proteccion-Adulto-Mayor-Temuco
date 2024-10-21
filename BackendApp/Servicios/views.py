@@ -26,6 +26,12 @@ class AtencionView(viewsets.ModelViewSet):
     serializer_class = AtencionSerializer
     queryset = Atencion.objects.all()
 
+
+
+def obtener_nombres_servicios(request):
+    servicios = Servicio.objects.values('id', 'nombre')
+    return JsonResponse(list(servicios), safe=False)
+
 def obtener_prestador_por_nombre(request, nombre):
     prestador = get_object_or_404(PrestadorServicio, nombre=nombre)
     return JsonResponse({

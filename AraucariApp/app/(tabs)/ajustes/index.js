@@ -161,7 +161,7 @@ function Index() {
     
 
     return (
-        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+        <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 40 }}>
             <View className="w-full h-screen">
                 <View className="bg-muni-50 py-2">
                     <View className="rounded-full bg-white mx-auto w-2/3">
@@ -291,7 +291,7 @@ function Index() {
                 {/* Botón para capturar una foto */}
                 <View className="bg-white p-4 m-4 rounded-lg shadow-lg border border-gray-300">
                     <TouchableOpacity onPress={takePhoto} className="bg-muni-50 rounded-full p-2">
-                        <Text style={{ fontSize }} className="text-white font-bold text-center text-xl">Capturar Foto</Text>
+                        <Text style={{ fontSize }} className="text-white font-bold text-center text-xl">Tomar Foto</Text>
                     </TouchableOpacity>
                 </View>
             </View>
