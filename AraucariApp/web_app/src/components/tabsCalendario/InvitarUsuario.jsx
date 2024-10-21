@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Toast from "../UI/Toast";
 
 const apiIp = import.meta.env.VITE_API_IP;
 
 export default function InvitarCalendario() {
+	const [visibilidad, setVisibilidad] = useState(false);
+	const [respuesta, setRespuesta] = useState({ mensaje: "", tipo: "" });
+
 	const [formData, setFormData] = useState({
 		idCalendario: "",
 		email: "",
@@ -28,12 +32,11 @@ export default function InvitarCalendario() {
 				`${apiIp}/api/calendario/invitar/`,
 				formData
 			);
-			console.log("Respuesta del servidor:", response.data);
 
-			alert("Invitacion creada");
+			setRespuesta(response.data);
+			setVisibilidad(true);
 		} catch (error) {
 			console.error("Error al enviar el formulario:", error);
-			alert("Ocurrió un error al enviar el formulario");
 		}
 	};
 
@@ -118,6 +121,11 @@ export default function InvitarCalendario() {
 			>
 				Enviar
 			</button>
+			<Toast
+				respuesta={respuesta}
+				visibilidad={visibilidad}
+				funcVisibilidad={setVisibilidad}
+			/>
 		</form>
 	);
 }
