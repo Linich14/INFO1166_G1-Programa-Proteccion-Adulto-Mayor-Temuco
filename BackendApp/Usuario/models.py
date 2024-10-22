@@ -13,4 +13,5 @@ class Usuario(models.Model):
     nacionalidad = models.CharField(max_length=50)
     
     def __str__(self):
-        return self.id_cliente
+        return f"ID: {self.id}, RUT: {self.rut}"
+

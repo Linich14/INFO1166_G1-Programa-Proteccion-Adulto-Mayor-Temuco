@@ -30,7 +30,7 @@ class Servicio(models.Model):
     disponibilidad = models.DateField()   
     
     def __str__(self):
-        return self.nombre
+        return f"{self.nombre} ({self.id})"
 
 
 class Atencion(models.Model):

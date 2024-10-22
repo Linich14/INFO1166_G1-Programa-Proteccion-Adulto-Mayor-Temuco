@@ -4,58 +4,22 @@ import ResumenDiarioServicios from "./ResumenDiario-PrestadorSerivcios";
 import RotacionSemanal from "./RotacionSemanal";
 
 import { useEffect, useState } from "react";
-import { ObtenerPrestadorPorNombre, ObtenerServicioPorPrestador, ObtenerAtencionesPorServicio } from "../api/DatosDashboardServicios";
 
 function Dashboard_PrestadorServicios() {
-    const [prestador, setPrestador] = useState(null); // Prestador seleccionado
-    const [servicio, setServicio] = useState(null); // Servicio asociado al prestador
-    const [atenciones, setAtenciones] = useState([]); // Atenciones asociadas al servicio
+    const [atenciones, setAtenciones] = useState([]);
+    const servicioId = "1"; // Reemplaza esto con el identificador real del servicio
 
     useEffect(() => {
-        async function CargarPrestador() {
-            try {
-                const prestadorData = await ObtenerPrestadorPorNombre('Karen');
-                console.log('Prestador cargado:', prestadorData);
-                setPrestador(prestadorData);
-            } catch (error) {
-                console.error('Error al cargar el prestador:', error);
-            }
-        }
-        CargarPrestador();
-    }, []);
+        // Realizar la solicitud al backend
+        fetch(`http://127.0.0.1:8000/api/servicios/atenciones/${servicioId}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log('Fetched data:', data);
+                setAtenciones(data);
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    }, [servicioId]);
 
-    // Carga el servicio asociado al prestador
-    useEffect(() => {
-        async function CargarServicio() {
-            if (prestador) {
-                try {
-                    const servicioData = await ObtenerServicioPorPrestador(prestador.id);
-                    setServicio(servicioData);
-                } catch (error) {
-                    console.error('Error al cargar el servicio:', error);
-                }
-            }
-        }
-        CargarServicio();
-    }, [prestador]);
-    
-    // Carga las atenciones asociadas al servicio
-    useEffect(() => {
-        async function CargarAtenciones() {
-            if (servicio) {
-                try {
-                    const atencionesData = await ObtenerAtencionesPorServicio(servicio.id);
-                    console.log('Atenciones cargadas:', atencionesData);
-                    setAtenciones(atencionesData);
-                } catch (error) {
-                    console.error('Error al cargar las atenciones:', error);
-                }
-            }
-        }
-        CargarAtenciones();
-    }, [servicio]);
-    
-    {/*Simulando horario */ }
     const horarioCita = {
         horaInicio: "00:00",
         horaFin: "20:00"
@@ -68,9 +32,7 @@ function Dashboard_PrestadorServicios() {
 
                     <div className="grow basis-full">
                         <section className="bg-white p-8 rounded-lg mt-2 shadow-md border border-gray-200">
-                            {servicio && (
-                                <h1 className="text-2xl font-bold">Dashboard: {servicio.nombre}</h1>
-                            )}
+                            <h1 className="text-2xl font-bold">Dashboard:</h1>
                             {/*<RelojActual />*/}
                         </section>
                     </div>
@@ -82,28 +44,23 @@ function Dashboard_PrestadorServicios() {
                                     <ContadorHorasServicio />
                                 </section>
 
-                                <section>
-                                    <CitasEnCurso
-                                        Nombre="Juan Pérez"
-                                        Edad={35}
-                                        Horario={horarioCita}
-                                    />
-                                </section>
-                                <section>
-                                    {/* {atenciones.map(atencion => (
-                                        <div key={atencion.id}>
-                                            <h1>{atencion.clienteID}</h1>
-                                            <p>{atencion.observacion}</p>
-                                        </div>
-                                    ))} */}
-                                </section>
+                                {/* Modifica esta parte adecuado a los datos solicitados*/}
+                                {atenciones.map(atencion => (
+                                    <section key={atencion.id}>
+                                        <CitasEnCurso
+                                            Nombre={atencion.cliente_nombre}  // Asegúrate de que este campo existe en la respuesta del backend
+                                            Edad={atencion.edad}               // Si no tienes la edad, debes agregarla o calcularla
+                                            Horario={horarioCita}
+                                        />
+                                    </section>
+                                ))}
                             </div>
                         </div>
 
                         <div className="shrink w-1/2">
                             <div className="flex flex-col gap-4">
                                 <section >
-                                    <ResumenDiarioServicios />
+                                    <ResumenDiarioServicios atenciones={atenciones} />
                                 </section>
 
                                 <section>
