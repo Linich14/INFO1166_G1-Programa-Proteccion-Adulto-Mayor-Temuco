@@ -11,6 +11,14 @@ router.register(r'usuarios', views.UsuarioView, 'usuarios')
 router.register(r'atenciones', views.AtencionView, 'atenciones')
 
 urlpatterns = [
+    path('Listarservicios/', views.obtener_servicios, name='obtener_servicios'),
+    path('ListarPrestadores/', views.obtener_prestadores, name='obtener_prestadores'),
+    path('servicios_detalle/',views. obtener_servicios_detalle, name='obtener_servicios_detalle'),
+    path('crear_servicio/', views.crear_servicio, name='crear_servicio'),
+    path('Listarservicios/<int:pk>/', views.eliminar_servicio, name='eliminar_servicio'),
+    path('Listarservicios/actualizar/<int:pk>',  views.actualizar_servicio, name='actualizar_servicio'),
+    path('atenciones/<str:servicio_id>/',  views.datosServicio, name='atenciones'),
+
     path('prestador/nombre/<str:nombre>/', views.obtener_prestador_por_nombre, name='obtener_prestador_por_nombre'),
     path('prestador/rut/<str:rut>/', views.obtener_prestador_por_rut, name='obtener_prestador_por_rut'),
     path('prestador/estado/<str:nombre>/', views.obtener_prestador_estado, name='obtener_prestador_estado'),

@@ -34,6 +34,7 @@ function NavBar ({ onOptionClick,municipal, handleLogout}) { {
         <ul >
           <li className="mb-5"><a href="#" onClick={() => handleOptionClick('home')} ><img src="/home.png" alt="" className=' ' /></a></li>
           <li className="mb-5"><a href="#" onClick={() => handleOptionClick('menu')} ><img src="/menu.png" alt="" /></a></li>
+          <li className="mb-5"><a href="#" onClick={() => handleOptionClick('VistaServicios')} ><img src="/menu.png" alt="" /></a></li>
           <li className="mb-5"><a href="#" onClick={() => handleOptionClick('notificacion')} ><img src="/mensaje.png" alt="" className='h-7' /></a></li>
           <li className="mb-5"><a href="#" onClick={() => handleOptionClick('historial')} ><img src="/historial.png" alt="" className='h-7' /></a></li>
           <li className="mb-5"><a href="#" onClick={() => handleOptionClick('adminpanel')} ><img src="/historial.png" alt="" className='h-7' /></a></li>

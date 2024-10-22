@@ -26,6 +26,52 @@ class AtencionView(viewsets.ModelViewSet):
     serializer_class = AtencionSerializer
     queryset = Atencion.objects.all()
 
+def obtener_servicios(request):
+    servicios = Servicio.objects.all().values('id', 'nombre', 'tipo', 'direccion', 'descripcion', 'disponibilidad')
+    return JsonResponse(list(servicios), safe=False)
+
+def obtener_prestadores(request):
+    prestadores = PrestadorServicio.objects.all().values('id', 'rut', 'nombre', 'apellido', 'trabajo', 'email', 'nacimiento', 'telefono', 'estado')
+    return JsonResponse(list(prestadores), safe=False)
+
+def obtener_servicios_detalle(request):
+    servicios = Servicio.objects.all().values('id', 'nombre', 'prestadorID__nombre')
+    servicios_list = [
+        {
+            'id': servicio['id'],
+            'nombre_servicio': servicio['nombre'],
+            'nombre_prestador': servicio['prestadorID__nombre']
+        }
+        for servicio in servicios
+    ]
+    return JsonResponse(servicios_list, safe=False)
+
+def datosServicio(request, servicio_id):
+    try:
+        # Filtrar las atenciones por el servicio_id proporcionado y hacer un join con los datos de Usuario
+        atenciones = Atencion.objects.filter(servicioID=servicio_id).select_related('clienteID')
+        
+        # Crear una lista de diccionarios con los datos que necesitas
+        atenciones_list = []
+        for atencion in atenciones:
+            atenciones_list.append({
+                "id": atencion.id,
+                "cliente_id": atencion.clienteID.id,
+                "cliente_nombre": atencion.clienteID.nombre,
+                "cliente_apellido": atencion.clienteID.apellido,
+                "observacion": atencion.observacion,
+                "sector": atencion.sector,
+                "fecha": atencion.fecha,
+                "hora": atencion.hora,
+            })
+        
+        # Log para depuración
+        print(f"Atenciones encontradas para el servicio {servicio_id}: {atenciones_list}")
+        
+        # Devolver las atenciones en formato JSON
+        return JsonResponse(atenciones_list, safe=False)
+    except Atencion.DoesNotExist:
+        return JsonResponse({"error": "No se encontraron atenciones para el servicio proporcionado."}, status=404)
 
 
 def obtener_nombres_servicios(request):
@@ -85,6 +131,47 @@ def obtener_atenciones_por_servicio(request, servicio_id):
     for atencion in atenciones_list:
         print(f"Atencion ID: {atencion['id']}, Cliente ID: {atencion['clienteID']}, Observacion: {atencion['observacion']}")  # Detailed log
     return JsonResponse(atenciones_list, safe=False)
+
+
+
+@api_view(['POST'])
+def crear_servicio(request):
+    if request.method == 'POST':
+        serializer = ServicioSerializer(data=request.data)
+        if serializer.is_valid():
+            servicio = serializer.save()
+            prestador = PrestadorServicio.objects.get(id=servicio.prestadorID.id)
+            response_data = {
+                'id': servicio.id,
+                'nombre_servicio': servicio.nombre,
+                'nombre_prestador': f"{prestador.nombre} {prestador.apellido}"
+            }
+            return Response(response_data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    return Response({"detail": "Method not allowed"}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
+@api_view(['DELETE'])
+def eliminar_servicio(request, pk):
+    try:
+        servicio = Servicio.objects.get(pk=pk)
+        servicio.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+    except Servicio.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+@api_view(['PATCH'])
+def actualizar_servicio(request, pk):
+    try:
+        servicio = Servicio.objects.get(pk=pk)
+    except Servicio.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    serializer = ServicioSerializer(servicio, data=request.data, partial=True)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 @api_view(['POST'])
 def subir_foto_perfil(request, rut):

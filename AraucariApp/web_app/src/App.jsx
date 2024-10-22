@@ -7,6 +7,7 @@ import CrearNotificacion from './components/CrearNotificacion'
 import Historialcompleto from './components/Historialcompleto'
 import AdminPanel from './components/AdminPanel'
 import AdminCalendario from './components/AdminCalendario'
+import VistaServicios from './components/VistaServicios'
 import { UserContext } from './components/userContext';
 
 function App({  }) {
@@ -35,6 +36,7 @@ function App({  }) {
           {selectedOption == 'historial' && <Historialcompleto />}
           {selectedOption == 'adminpanel' && <AdminPanel />}
           {selectedOption == 'adminCalendario' && <AdminCalendario />}
+          {selectedOption == 'VistaServicios' && <VistaServicios/>}
         </div>
     </div>
         
