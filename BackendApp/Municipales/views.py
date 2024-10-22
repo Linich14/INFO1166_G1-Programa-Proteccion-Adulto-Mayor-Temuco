@@ -73,3 +73,19 @@ class UsuarioUpdateView(APIView):
                 logger.error('Error al actualizar el objeto Municipales: %s', e)
                 return Response({'error': 'Error al actualizar el objeto Municipales', 'details': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         return Response({'error': 'El objeto JSON no es válido', 'details': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+    
+
+
+class UpdatePasswordView(APIView):
+    def put(self, request, pk):
+        try:
+            municipales = Municipales.objects.get(id=pk)
+        except Municipales.DoesNotExist:
+            return Response({'error': 'No se encontró el objeto Municipales con el ID proporcionado'}, status=status.HTTP_404_NOT_FOUND)
+
+        password = request.data.get('password')
+
+        municipales.set_contraseña(password)
+        municipales.save()
+
+        return Response({'message': 'Contraseña actualizada correctamente'}, status=status.HTTP_200_OK)

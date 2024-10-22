@@ -29,7 +29,7 @@ function PerfilMunicipal({municipal }) {
             cargo: usuariomunicipal.cargo,
             telefono: usuariomunicipal.telefono,
           });
-          console.log(usuariomunicipal)
+          //console.log(usuariomunicipal)
         axios.put(`http://localhost:8000/api/usuarios/${municipal.id}/`, usuariomunicipal)
           .then((response) => {
             console.log(response.data);
@@ -42,6 +42,29 @@ function PerfilMunicipal({municipal }) {
           });
       };
 
+    const handleUpdatePassword = async (event) => {
+        event.preventDefault();
+        const password = event.target.password.value;
+        const confirmPassword = event.target.confirmPassword.value;
+      
+        if (password !== confirmPassword) {
+          alert('Las contraseñas no coinciden');
+          return;
+        }
+      
+        try {
+          const response = await axios.put(`http://localhost:8000/api/usuarios/${municipal.id}/update-password/`, {
+            id: municipal.id,
+            password,
+          });
+          console.log(response.data);
+          alert('Contraseña actualizada correctamente');
+        } catch (error) {
+          console.error(error);
+          alert('Error al actualizar la contraseña');
+        }
+      };
+
   return (
     <div className="grid  grid-rows-2  bg-[#EBEFF0] h-screen">
       <div className="grid  grid-rows-2 p-3  ">
@@ -49,7 +72,7 @@ function PerfilMunicipal({municipal }) {
           <img src="" className='bg-white rounded-full m-2' alt="foto municipal" />
           <h1 className='text-3xl font-bold'>{ municipal.nombre + " "  + municipal.apellido}</h1>
         </div>
-        <div className=" row-start-2 flex bg-white  p-3 rounded-lg shadow-md w-1/3  m-3 items-center justify-center h-full">
+        <div className=" row-start-2  bg-white  p-3 rounded-lg shadow-md w-2/3  m-2 items-center justify-center h-full">
           <div className="container   ">
             {editMode ? (
               <form>
@@ -106,6 +129,25 @@ function PerfilMunicipal({municipal }) {
                 </button>
               </div>
             )}
+          </div>
+
+        </div>
+        <div className=" row-start-2 flex bg-white  p-2 rounded-lg shadow-md w-1/2  m-2 items-center justify-center h-full">
+          <div className="container   ">
+            <h1 className='text-3xl font-bold'>Actualizar Contraseña</h1>
+                <form onSubmit={handleUpdatePassword}>
+                  <div className="mb-2">
+                    <label>Nueva Contraseña:</label>
+                    <input type="password" name="password" className=' m-2 border border-black' />
+                  </div>
+                  <div className="mb-2">
+                    <label>Conf. contraseña:</label>
+                    <input type="password" name="confirmPassword" className='m-2 border border-black' />
+                  </div>
+                  <button type="submit" className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' >
+                    Actualizar
+                  </button>
+                </form>
           </div>
         </div>
       </div>

@@ -8,12 +8,12 @@ class MunicipalesSerializer(serializers.ModelSerializer):
         partial = True
         fields = ['id', 'rut', 'nombre', 'apellido', 'privilegios', 'cargo', 'telefono','contraseña']
         extra_kwargs = {
-            'rut': {'required': True},
-            'nombre': {'required': True},
-            'apellido': {'required': True},
-            'privilegios': {'required': True},
-            'cargo': {'required': True},
-            'telefono': {'required': True},
+            'rut': {'required': False},
+            'nombre': {'required': False},
+            'apellido': {'required': False},
+            'privilegios': {'required': False},
+            'cargo': {'required': False},
+            'telefono': {'required': False},
             'contraseña': {'required': False}
         }
 

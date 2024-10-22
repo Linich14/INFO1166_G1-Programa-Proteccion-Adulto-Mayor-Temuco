@@ -26,6 +26,7 @@ from Documentos.views import subir_documento
 from django.conf.urls.static import static
 from Municipales.views import UserDataView
 from Municipales.views import UsuarioUpdateView
+from Municipales.views import UpdatePasswordView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -36,7 +37,7 @@ urlpatterns = [
     path('municipales/', MunicipalesView.as_view(), name='Municipal'),
     path('login/', login_view, name='login'),
     path('api/usuarios/<str:pk>/', UsuarioUpdateView.as_view(), name='usuario_update'),
-   
+    path('api/usuarios/<str:pk>/update-password/', UpdatePasswordView.as_view(), name='update-password'),
     path('get-csrf-token/', get_csrf_token, name='get-csrf-token'),
     path('api/servicios/', include('Servicios.urls')),
     path('api/subir_documento/', subir_documento, name='subir_documento'),

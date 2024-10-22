@@ -10,6 +10,7 @@ const AuthRoute = ({ component: Component, ...rest }) => {
   const { setUserData } = useContext(UserContext);
   const [initialized, setInitialized] = useState(false); // Nueva variable de estado
 
+  
   useEffect(() => {
     if (!initialized) {
       const token = localStorage.getItem('token');

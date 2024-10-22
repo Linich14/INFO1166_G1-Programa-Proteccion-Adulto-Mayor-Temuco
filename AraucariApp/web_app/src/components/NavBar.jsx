@@ -1,12 +1,13 @@
 import React, {useState} from 'react'
-
+import {useNavigate} from 'react-router-dom';
 /*
 Dividi el navbar en 3 secciones, el div de arriba que contiene la imagen, 
 el div central con la lista de accesos y
 el div de abajo que mostrara el perfil y nombre de usuario
  */
 
-function NavBar ({ onOptionClick,municipal}) { {
+function NavBar ({ onOptionClick,municipal, handleLogout}) { {
+  const navigate = useNavigate();
   if(municipal === null || municipal === undefined){
     return null
   }
@@ -16,9 +17,16 @@ function NavBar ({ onOptionClick,municipal}) { {
     onOptionClick(option); // el parametro option se envia al componente padre
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('rut');
+    navigate('/login');
+  };
+
   return (
     <nav className="h-screen flex flex-col justify-between ">
       <div className=" text-white p-4 flex justify-center">
+        
         <img src="../../Logo.png" alt="Logo Municipalidad de Temuco" className='' />
       </div>
 
@@ -38,6 +46,9 @@ function NavBar ({ onOptionClick,municipal}) { {
         <a href="" onClick={() => handleOptionClick('perfil')}><p className='text-lg hover:text-gray-300 text-center'>{
          municipal.nombre + " " + municipal.apellido }</p></a>
       </div>
+      <button onClick={handleLogout} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+    Cerrar sesión
+    </button>
     </nav>
   );
 };

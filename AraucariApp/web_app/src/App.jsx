@@ -24,7 +24,7 @@ function App({  }) {
     
     <div className="grid grid-cols-[auto_1fr] min-h-screen  ">
         <div className="fixed h-screen top-0 left-0 ">
-          <NavBar onOptionClick={handleOptionChange} municipal={userData}  />
+          <NavBar onOptionClick={handleOptionChange} municipal={userData} />
         </div>
         <div className="ml-[100px] col-span-2 ">
           {selectedOption == null && <PerfilMunicipal municipal={userData} />}
