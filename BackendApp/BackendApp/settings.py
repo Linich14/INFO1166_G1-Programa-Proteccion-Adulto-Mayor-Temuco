@@ -28,8 +28,8 @@ SECRET_KEY = 'django-insecure-a!tmxzvoll*!6$^rdx4-2(r!qu+x6fsv7--z#pfvl4%xqf1cbo
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-
-ALLOWED_HOSTS = [os.getenv("HOST_IP"),"192.168.0.4", "localhost", "127.0.0.1"]
+load_dotenv()
+ALLOWED_HOSTS = [os.getenv("HOST_IP"), "localhost", "127.0.0.1"]
 
 
 #Manejo de subida de archivos
@@ -39,7 +39,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # Application definition
 
 INSTALLED_APPS = [
-    'rest_framework.authtoken',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -54,14 +53,6 @@ INSTALLED_APPS = [
     'Usuario',
     'Documentos'
 ]
-
-REST_FRAMEWORK = {
-    # ...
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',
-    ],
-    # ...
-}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -134,7 +125,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'es'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Santiago'
 
 USE_I18N = True
 

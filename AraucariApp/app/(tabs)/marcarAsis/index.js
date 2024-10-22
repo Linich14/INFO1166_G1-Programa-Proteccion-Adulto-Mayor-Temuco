@@ -22,7 +22,7 @@ export default function Perfil() {
   // Función para obtener el estado del prestador
   const obtenerEstado = async () => {
     try {
-      const response = await fetch(`${API_URL}/api/servicios/prestador/estado/Daniel/`);
+      const response = await fetch(`${API_URL}/api/servicios/prestador/rut/215901076/`);
       const data = await response.json();
       
       if (response.ok) {  // Verifica si la respuesta fue exitosa
