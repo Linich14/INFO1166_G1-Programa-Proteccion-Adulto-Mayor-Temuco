@@ -4,11 +4,13 @@ import {
 	Text,
   TouchableOpacity,
 	View,
-  Image
+  Image,
+  ScrollView
 } from "react-native";
 import { styled } from "nativewind";
 import { MaterialIcons, FontAwesome6 } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import shadowStyles from '../../styles/shadowStyles';
 
 const StyledText = styled(Text);
 //
@@ -16,24 +18,26 @@ export default function Home() {
   return (
     <SafeAreaView className="flex-1 bg-gray-300">
         <View className="flex-row justify-between items-center bg-[#0060AF] py-2">
-          <View className="bg-white py-2 rounded-r-full px-3">
+          <View className="bg-white py-2 rounded-r-full px-3" style={shadowStyles.shadow}>
             <Text className="text-black text-xl font-bold px-2">
-              Bienvenido, Señor Elliot Mardones
+              Bienvenido, Elliot Mardones
             </Text>
           </View>
-          <TouchableOpacity className="bg-yellow-500 rounded-l-full p-2">
+          <Link href="/ajustes" asChild>
+          <TouchableOpacity className="bg-yellow-500 rounded-l-full p-2" style={shadowStyles.shadow}>
             <View className="items-center">
-              <MaterialIcons name="settings" size={24} color="white" className=""/>
+              <MaterialIcons name="settings" size={24} color="white" />
             </View>
             <Text className="text-white">Ajustes</Text>
           </TouchableOpacity>
+        </Link>
         </View>
         <View className="bg-muni-50 rounded-b-2xl py-1 pb-2">
-          <View className="bg-white rounded-r-full py-1 my-1 mr-28">
+          <View className="bg-white rounded-r-full py-1 my-1 mr-28" style={shadowStyles.shadow}>
             <Text className="font-bold text-center">Tienes estas horas pendientes</Text>
           </View>
           <View className="p-1 px-4">
-            <View className="bg-white flex flex-row items-center space-x-2 p-1 py-2 rounded-[32px]">
+            <View className="bg-white flex flex-row items-center space-x-2 p-1 py-2 rounded-[32px]" style={shadowStyles.shadow}>
               <View className="items-center bg-yellow-500 rounded-[32px] p-3 ml-3">
                 <Text className="text-white font-bold text-2xl">19</Text>
                 <Text className="text-white font-bold">Septiembre</Text>
@@ -46,7 +50,7 @@ export default function Home() {
             </View>
           </View>
           <View className="p-1 px-4">
-            <View className="bg-white flex flex-row items-center space-x-2 p-1 py-2 rounded-[32px]">
+            <View className="bg-white flex flex-row items-center space-x-2 p-1 py-2 rounded-[32px]"style={shadowStyles.shadow} >
               <View className="items-center bg-[#018E11] rounded-[32px] p-3 ml-3">
                 <Text className="text-white font-bold text-2xl">21</Text>
                 <Text className="text-white font-bold">Septiembre</Text>
@@ -61,36 +65,40 @@ export default function Home() {
         </View>
         {/* Separa */}
         <View className="mt-1">
+        <ScrollView>
         <View className="items-center mb-2">
-          <View className="bg-white flex flex-row rounded-[12px] p-1">
+          <View className="bg-white flex flex-row rounded-[12px] p-1" style={shadowStyles.shadow}>
             <Link href="/marcarAsis" asChild>
-              <TouchableOpacity className="bg-yellow-500 m-3 py-4 rounded-[12px] w-1/4">
+              <TouchableOpacity className="bg-yellow-500 m-3 py-4 rounded-[12px] w-1/4" style={shadowStyles.shadow}>
                 <View className="items-center">
                   <MaterialIcons name="fingerprint" size={40} color="white" className=""/>
                 </View>
                 <Text className="text-center text-white">Marcar {'\n'}Asistencia</Text>
               </TouchableOpacity>
             </Link>
-            <View className="bg-muni-50 p-1 px-2 mx-2 items-center rounded-[12px]">
+            <View className="bg-muni-50 p-1 px-2 mx-2 items-center rounded-[12px]" style={shadowStyles.shadow}>
               <Image className="bg-white rounded-full border-2 border-white"
               source={require('../../../assets/UsersIcons/avatar.png')}
               style={{ width: 100, height: 100 }}
               />
               <Text className="text-white text-center">Elliot Mardones</Text>
             </View>
-            <TouchableOpacity className="bg-yellow-500 m-3 py-4 px-5 rounded-[12px] w-1/4">
-              <View className="items-center">
-                <FontAwesome6 name="clipboard-user" size={40} color="white" className=""/>
-              </View>
-              <Text className="text-center text-white p-2">Perfil</Text>
-            </TouchableOpacity>
+            <Link href="/perfilPrestador" asChild>
+              <TouchableOpacity className="bg-yellow-500 m-3 py-4 px-5 rounded-[12px] w-1/4" style={shadowStyles.shadow}>
+                <View className="items-center">
+                  <FontAwesome6 name="clipboard-user" size={40} color="white" className=""/>
+                </View>
+                <Text className="text-center text-white p-2">Perfil</Text>
+              </TouchableOpacity>
+            </Link>
           </View>
         </View>
-        <View className="bg-white py-2 rounded-r-full mb-1 mr-28">
+        <View className="bg-white py-2 rounded-r-full mr-28" style={shadowStyles.shadow}>
             <Text className="text-black text-xl font-bold px-2 text-center">
             ¿Qué quieres hacer?
             </Text>
         </View>
+        
         <View className="flex-row justify-between">
 
           <View className= "pl-4 p-1 items-center flex-1">
@@ -105,7 +113,7 @@ export default function Home() {
         <View className="flex-row justify-between">
 
         <Link href="/servicios" asChild>
-          <TouchableOpacity className="bg-white rounded-lg p-6 items-center flex-1 mx-2">
+          <TouchableOpacity className="bg-white rounded-lg p-6 items-center flex-1 mx-2" style={shadowStyles.shadow}>
             <Image 
             source={require('../../../assets/HomeIcons/servicios.png')} 
             style={{ width: 119, height: 121 }}
@@ -114,7 +122,7 @@ export default function Home() {
         </Link>
         
         <Link href="/agenda" asChild>
-          <TouchableOpacity className="bg-white rounded-lg p-6 items-center flex-1 mx-2 ">
+          <TouchableOpacity className="bg-white rounded-lg p-6 items-center flex-1 mx-2 " style={shadowStyles.shadow}>
             <Image 
             source={require('../../../assets/HomeIcons/calendario.png')}
             style={{ width: 130, height: 130 }}
@@ -123,6 +131,7 @@ export default function Home() {
         </Link>
 
         </View>
+        </ScrollView>
         
         
       </View>

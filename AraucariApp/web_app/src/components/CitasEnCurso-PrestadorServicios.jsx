@@ -1,8 +1,7 @@
-import PendingClient from '../../public/PendingClient.svg?react';
 import { useState } from 'react';
 import BarraProgresoHorario from "./BarraProgresoHorario";
 
-function CitasEnCurso({ Nombre, Edad, Horario }) {
+function CitasEnCurso({ Nombre }) {
     const [mostrarContenido, setMostrarContenido] = useState(false);
 
     const alternarContenido = () => {
@@ -14,7 +13,7 @@ function CitasEnCurso({ Nombre, Edad, Horario }) {
             {/*Encabezado */}
             <section className="border-b border-black flex items-center mb-2">
                 <div className="mr-1">
-                    <img src={PendingClient} alt="icono_pending" />
+                    <img src="/PendingClient.svg?react" alt="PendingClient_Icon" />
                 </div>
 
                 <div className="flex-1 w-1/2">
@@ -35,12 +34,12 @@ function CitasEnCurso({ Nombre, Edad, Horario }) {
 
                 <div className="flex border-b border-gray-200 pb-2">
                     <h3 className="inline-block w-1/6 border-r-2 text-xl font-bold">Edad</h3>
-                    <p className="text-lg ml-2">{Edad}</p>
+                    <p className="text-lg ml-2"></p>
                 </div>
 
                 <div className="flex border-b border-gray-200 pb-2">
                     <h3 className="inline-block w-1/6 border-r-2 text-xl font-bold">Horario</h3>
-                    <p className="text-lg ml-2">{Horario.horaInicio} - {Horario.horaFin}</p>
+                    <p className="text-lg ml-2"></p>
                 </div>
 
                 <div className="flex border-b border-gray-200 pb-2">
