@@ -1,5 +1,5 @@
 from django.db import models
-from Usuario.models import Usuario
+from Usuario.models import UserData
 # Create your models here.
 
 
@@ -36,7 +36,7 @@ class Servicio(models.Model):
 class Atencion(models.Model):
     id = models.AutoField(primary_key=True)
     servicioID = models.ForeignKey(Servicio, on_delete=models.CASCADE)
-    clienteID = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    clienteID = models.ForeignKey(UserData, on_delete=models.CASCADE)
     fecha = models.DateField()
     sector = models.CharField(max_length=50)
     hora = models.TimeField()

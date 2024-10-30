@@ -26,7 +26,7 @@ class EventosSerializer(serializers.Serializer):
     
     def validate_fechaInicio(self, value):
         # Por que la hora no me coincide al verlo en el gcalendar
-        value = value + timedelta(hours=3)
+        #value = value + timedelta(hours=3)
         if value < timezone.now():
             raise serializers.ValidationError("La fecha de inicio no puede ser menor a la fecha actual")
         return value 

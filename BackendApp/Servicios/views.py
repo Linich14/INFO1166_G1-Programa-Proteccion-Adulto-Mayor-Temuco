@@ -7,8 +7,9 @@ from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from django.http import JsonResponse
 from rest_framework import viewsets
-from .serializer import  PrestadorServicioSerializaer, ServicioSerializer, UsuarioSerializer, AtencionSerializer # Importo PrestadorServicioSerializaer
-from .models import PrestadorServicio, Servicio, Usuario, Atencion, Asistencia
+from .serializer import  PrestadorServicioSerializaer, ServicioSerializer, AtencionSerializer # Importo PrestadorServicioSerializaer 
+#UsuarioSerializer,
+from .models import PrestadorServicio, Servicio, Atencion, Asistencia #Usuario,
 
 class PrestadorServicioView(viewsets.ModelViewSet):
     serializer_class = PrestadorServicioSerializaer
@@ -18,9 +19,9 @@ class ServicioView(viewsets.ModelViewSet):
     serializer_class = ServicioSerializer
     queryset = Servicio.objects.all()
 
-class UsuarioView(viewsets.ModelViewSet):
+"""class UsuarioView(viewsets.ModelViewSet):
     serializer_class = UsuarioSerializer
-    queryset = Usuario.objects.all()
+    queryset = Usuario.objects.all()"""
 
 class AtencionView(viewsets.ModelViewSet):
     serializer_class = AtencionSerializer

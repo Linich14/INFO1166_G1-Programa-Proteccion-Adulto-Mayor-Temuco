@@ -1,10 +1,10 @@
 from django.contrib import admin
-from .models import PrestadorServicio, Servicio, Usuario, Atencion, Asistencia
+from .models import PrestadorServicio, Servicio, UserData, Atencion, Asistencia
 
 # Register your models here.
 admin.site.register(PrestadorServicio)
 admin.site.register(Servicio)
-admin.site.register(Usuario)
+#admin.site.register(UsuarioDatos)
 admin.site.register(Atencion)
 
 # Registrar el modelo de Asistencia

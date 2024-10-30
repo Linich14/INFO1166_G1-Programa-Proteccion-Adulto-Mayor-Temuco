@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
-import { Link } from "expo-router";
+import axios from "axios";
+import { Link, Redirect } from "expo-router";
 import {
 	Alert,
 	Keyboard,
@@ -14,42 +15,66 @@ import {
 import { styled } from "nativewind";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import Svg, { Ellipse } from "react-native-svg";
+import { API_URL } from "@env";
+import { useSession } from "../../core/Autentificacion";
+
+import { useRouter } from "expo-router";
 
 export default function Login() {
+	const { signIn } = useSession();
+
+	const router = useRouter();
+
 	const StyledIcon = styled(MaterialIcons);
 
 	const userInputRef = useRef(null);
 	const passwordInputRef = useRef(null);
 
-	const [name, onChangeName] = useState("");
-	const [password, onChangepassword] = useState("");
+	const [formData, setFormData] = useState({
+		email: "",
+		password: "",
+	});
 
-	const createTwoButtonAlert = () => {
-		Alert.alert(
-			"Se a iniciado sesion",
-			`Su nombre es ${name} \ncontraseña ${password}`,
-			[
-				{
-					text: "Cancelar",
-					onPress: () => console.log("Cancel Pressed"),
-					style: "cancel",
-				},
-				{ text: "Continuar", onPress: () => console.log("OK Pressed") },
-			]
-		);
+	const handleInputChange = (field, value) => {
+		setFormData((prevData) => ({ ...prevData, [field]: value }));
 	};
 
-	const StyledText = styled(Text);
+	// Función para enviar datos a la API
+	const handleLogin = async () => {
+		try {
+			const respuesta = await axios.post(
+				`${API_URL}/api/auth/inicio_sesion/`,
+				formData
+			);
+
+			if (respuesta.status === 200) {
+				const { access, refresh } = respuesta.data;
+				console.log("access", access);
+				console.log("refresh", refresh);
+				signIn(access, refresh);
+				router.replace("/(tabs)/home");
+				Alert.alert(
+					"Inicio de sesión exitoso",
+					`Bienvenido, ${formData.nombre}`
+				);
+			} else {
+				Alert.alert("Error", "Credenciales incorrectas");
+			}
+		} catch (error) {
+			Alert.alert("Error", "No se pudo conectar con el servidor");
+			console.error("Error en el inicio de sesión:", error);
+		}
+	};
 
 	return (
-		<View className="h-screen ">
-			<Svg className="w-full h-1/5 ">
+		<View className="h-screen">
+			<Svg className="w-full h-1/5">
 				<Ellipse cx="70" cy="5" ry="89" rx="103" fill="#FFB236" />
 				<Ellipse cx="180" cy="-20" ry="89" rx="103" fill="#0071CE" />
 			</Svg>
 			<KeyboardAvoidingView
 				behavior={Platform.OS === "ios" ? "padding" : "height"}
-				className="h-3/5 flex flex-col "
+				className="h-3/5 flex flex-col"
 			>
 				<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
 					<View className="h-full flex flex-col">
@@ -71,9 +96,9 @@ export default function Login() {
 								<TextInput
 									keyboardType="text"
 									ref={userInputRef}
-									onChangeText={onChangeName}
-									value={name}
-									placeholder="Usuario"
+									onChangeText={(value) => handleInputChange("email", value)}
+									value={formData.email}
+									placeholder="Ingrese correo electrónico"
 									className="text-xl font-bold flex-1 py-2 text-gris-50"
 								/>
 							</Pressable>
@@ -82,16 +107,17 @@ export default function Login() {
 								onPress={() =>
 									passwordInputRef.current && passwordInputRef.current.focus()
 								}
-								className="flex flex-row items-center gap-1 "
+								className="flex flex-row items-center gap-1"
 							>
 								<StyledIcon name="lock" className="text-3xl text-gris-50" />
 								<TextInput
 									keyboardType="text"
 									ref={passwordInputRef}
-									onChangeText={onChangepassword}
-									value={password}
-									placeholder="Contraseña"
+									onChangeText={(value) => handleInputChange("password", value)}
+									value={formData.password}
+									placeholder="Ingrese contraseña"
 									className="flex-1 text-xl font-bold py-2 text-gris-50"
+									secureTextEntry={true} // Ocultar contraseña
 								/>
 							</Pressable>
 						</View>
@@ -104,16 +130,13 @@ export default function Login() {
 						<View className="flex flex-col mx-auto mb-auto">
 							<Pressable
 								className="w-fit bg-muni-50 p-3 px-5 rounded-full items-center mb-1"
-								onPress={createTwoButtonAlert}
+								onPress={handleLogin}
 							>
 								<Text className="text-white font-bold text-xl">
 									Iniciar Sesion
 								</Text>
 							</Pressable>
-							<Pressable
-								className="w-fit bg-muni-50 p-3 px-5 rounded-full items-center"
-								children
-							>
+							<Pressable className="w-fit bg-muni-50 p-3 px-5 rounded-full items-center">
 								<Link href="sign_up" className="text-white font-bold text-xl">
 									Registrarse
 								</Link>

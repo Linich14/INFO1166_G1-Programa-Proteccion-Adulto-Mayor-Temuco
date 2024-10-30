@@ -7,7 +7,7 @@ from django.conf import settings
 router = routers.DefaultRouter()
 router.register(r'prestadores', views.PrestadorServicioView, 'prestadores')
 router.register(r'servicios', views.ServicioView, 'servicios')
-router.register(r'usuarios', views.UsuarioView, 'usuarios')
+#router.register(r'usuarios', views.UsuarioView, 'usuarios')
 router.register(r'atenciones', views.AtencionView, 'atenciones')
 
 urlpatterns = [

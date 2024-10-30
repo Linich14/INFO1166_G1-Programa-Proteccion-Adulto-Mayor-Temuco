@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import PrestadorServicio, Servicio, Usuario, Atencion
+from .models import PrestadorServicio, Servicio, Atencion #Usuario, 
 
 # Json!
 
@@ -20,10 +20,10 @@ class ServicioSerializer(serializers.ModelSerializer):
         model = Servicio
         fields = '__all__'
 
-class UsuarioSerializer(serializers.ModelSerializer):
+"""class UsuarioSerializer(serializers.ModelSerializer):
     class Meta:
         model = Usuario
-        fields = '__all__'
+        fields = '__all__'"""
 
 class AtencionSerializer(serializers.ModelSerializer):
     class Meta:

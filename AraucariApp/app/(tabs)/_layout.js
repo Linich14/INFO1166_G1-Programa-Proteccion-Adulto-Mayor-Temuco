@@ -1,9 +1,19 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { Tabs, useRouter, useSegments } from "expo-router";
-import { TouchableOpacity, View, Text, StyleSheet, BackHandler, Alert } from "react-native";
+import { Redirect, Tabs, useRouter, useSegments } from "expo-router";
+import {
+	TouchableOpacity,
+	View,
+	Text,
+	StyleSheet,
+	BackHandler,
+	Alert,
+} from "react-native";
 import { useEffect } from "react";
+import { useSession } from "../../core/Autentificacion";
 
 export default function TabsLayout() {
+	const { session, isLoading } = useSession();
+
 	const router = useRouter();
 	const segments = useSegments(); // Obtener los segmentos de la ruta actual
 
@@ -30,15 +40,26 @@ export default function TabsLayout() {
 							onPress: () => BackHandler.exitApp(),
 							style: "destructive",
 						},
-					],
+					]
 				);
 				return true;
 			}
 		};
 
-		const backHandler = BackHandler.addEventListener("hardwareBackPress", handleBackPress);
+		const backHandler = BackHandler.addEventListener(
+			"hardwareBackPress",
+			handleBackPress
+		);
 		return () => backHandler.remove();
 	}, [router]);
+
+	if (isLoading) {
+		return <Text>Loading...</Text>;
+	}
+
+	if (!session) {
+		return <Redirect href="/(auth)/login" />;
+	}
 
 	return (
 		<View style={styles.container}>
@@ -52,7 +73,7 @@ export default function TabsLayout() {
 						margin: 1,
 						elevation: 0,
 						height: 105,
-						justifyContent: 'space-between',
+						justifyContent: "space-between",
 						borderRadius: 16,
 					},
 					tabBarIconStyle: {
@@ -90,7 +111,11 @@ export default function TabsLayout() {
 					options={{
 						title: "Servicios",
 						tabBarIcon: ({ color }) => (
-							<MaterialCommunityIcons name="briefcase" size={40} color={color} />
+							<MaterialCommunityIcons
+								name="briefcase"
+								size={40}
+								color={color}
+							/>
 						),
 					}}
 				/>
@@ -127,7 +152,7 @@ export default function TabsLayout() {
 										onPress: () => BackHandler.exitApp(),
 										style: "destructive",
 									},
-								],
+								]
 							);
 						}
 					}}
@@ -145,21 +170,21 @@ const styles = StyleSheet.create({
 		flex: 1,
 	},
 	backButton: {
-		position: 'absolute',
+		position: "absolute",
 		bottom: 85,
-		left: '15%',
+		left: "15%",
 		transform: [{ translateX: -50 }],
-		backgroundColor: '#0071CE',
+		backgroundColor: "#0071CE",
 		paddingHorizontal: 20,
 		paddingVertical: 10,
 		borderRadius: 25,
-		alignItems: 'center',
+		alignItems: "center",
 		elevation: 10,
 		borderWidth: 2,
-		borderColor: 'white',
+		borderColor: "white",
 	},
 	backButtonText: {
-		color: 'white',
+		color: "white",
 		fontSize: 16,
 		marginLeft: 10,
 	},

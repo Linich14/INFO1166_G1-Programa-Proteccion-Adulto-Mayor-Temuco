@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',
     'rest_framework',
+    'rest_framework_simplejwt',
     'Municipales',
     'Servicios',
     'Notificaciones',
@@ -65,6 +66,14 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+# Funcionamiento de simplejwt
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+}
+
 
 ROOT_URLCONF = 'BackendApp.urls'
 
@@ -118,6 +127,14 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+# Configuracion del modelo de usuario 
+AUTH_USER_MODEL = 'Usuario.UserData'
+
+# ajustes de simplejwt
+SIMPLE_JWT = {
+  "TOKEN_OBTAIN_SERIALIZER": "BackendApp.serializers.MyTokenObtainPairSerializer",
+}
 
 
 # Internationalization

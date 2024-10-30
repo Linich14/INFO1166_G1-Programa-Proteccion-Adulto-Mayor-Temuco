@@ -28,8 +28,32 @@ from Municipales.views import UserDataView
 from Municipales.views import UsuarioUpdateView
 from Municipales.views import UpdatePasswordView
 
+# Simple jwt
+from rest_framework_simplejwt import views as jwt_views
+
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
+from Usuario.views import CustomTokenObtainPairView
+
+# prueba de autenticacion
+class Protected(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        return Response({"content": "This view is protected"})
+
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    
+    # Rutas para el JWT
+    path('api/auth/inicio_sesion/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/auth/inicio_sesion/refresh', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
+    path('protected/', Protected.as_view(), name='protected'), # Prueba de funcionamiento de autenticación
+    path("api/auth/", include('Usuario.urls')),
+    
     path('api/calendario/', include('Calendario.urls')),
     path('api/usuario', include('Usuario.urls')),
     path('api/notificaciones/', NotificacionesList.as_view(), name='notificaciones-list'),
@@ -42,6 +66,7 @@ urlpatterns = [
     path('api/servicios/', include('Servicios.urls')),
     path('api/subir_documento/', subir_documento, name='subir_documento'),
     path('user-data/<str:rut>/', UserDataView.as_view()),
+    
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:
