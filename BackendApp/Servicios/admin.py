@@ -2,8 +2,16 @@ from django.contrib import admin
 from .models import PrestadorServicio, Servicio, UserData, Atencion, Asistencia
 
 # Register your models here.
-admin.site.register(PrestadorServicio)
-admin.site.register(Servicio)
+
+class PrestadorServicioAdmin (admin.ModelAdmin):
+    list_display = ('id', 'rut', 'nombre', 'apellido', 'trabajo', 'estado' )
+admin.site.register(PrestadorServicio, PrestadorServicioAdmin)
+
+
+class ServicioAdmin(admin.ModelAdmin):
+    list_display = ('id', 'nombre', 'prestadorID')
+admin.site.register(Servicio, ServicioAdmin)
+
 #admin.site.register(UsuarioDatos)
 admin.site.register(Atencion)
 

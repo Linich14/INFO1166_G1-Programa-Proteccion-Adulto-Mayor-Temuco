@@ -53,19 +53,32 @@ urlpatterns = [
     path('api/auth/inicio_sesion/refresh', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
     path('protected/', Protected.as_view(), name='protected'), # Prueba de funcionamiento de autenticación
     path("api/auth/", include('Usuario.urls')),
-    
-    path('api/calendario/', include('Calendario.urls')),
-    path('api/usuario', include('Usuario.urls')),
-    path('api/notificaciones/', NotificacionesList.as_view(), name='notificaciones-list'),
-    path('api/notificaciones/', obtener_notificaciones, name='obtener_notificaciones'),
-    path('municipales/', MunicipalesView.as_view(), name='Municipal'),
-    path('login/', login_view, name='login'),
+
+    # Rutas de Usuarios
+    path('api/usuario/', include('Usuario.urls')),
     path('api/usuarios/<str:pk>/', UsuarioUpdateView.as_view(), name='usuario_update'),
     path('api/usuarios/<str:pk>/update-password/', UpdatePasswordView.as_view(), name='update-password'),
-    path('get-csrf-token/', get_csrf_token, name='get-csrf-token'),
-    path('api/servicios/', include('Servicios.urls')),
-    path('api/subir_documento/', subir_documento, name='subir_documento'),
     path('user-data/<str:rut>/', UserDataView.as_view()),
+
+    # Servicios
+    path('api/servicios/', include('Servicios.urls')),
+
+
+    # Calendario
+    path('api/calendario/', include('Calendario.urls')),
+
+    # Notificaciones
+    path('api/notificaciones/', NotificacionesList.as_view(), name='notificaciones-list'),
+    path('api/notificaciones/', obtener_notificaciones, name='obtener_notificaciones'),
+
+    # Municipales
+    path('municipales/', MunicipalesView.as_view(), name='Municipal'),\
+    
+
+    path('login/', login_view, name='login'),
+    path('get-csrf-token/', get_csrf_token, name='get-csrf-token'),
+    
+    path('api/subir_documento/', subir_documento, name='subir_documento'),
     
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

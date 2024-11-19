@@ -16,7 +16,7 @@ class PrestadorServicio(models.Model):
     fotoperfil = models.FileField(upload_to='archivos/', null=True)
     
     def __str__(self):
-        return self.rut
+        return f"{self.rut}  -  {self.nombre}"
 
 
 
@@ -30,7 +30,7 @@ class Servicio(models.Model):
     disponibilidad = models.DateField()   
     
     def __str__(self):
-        return f"{self.nombre} ({self.id})"
+        return f"{self.id} - {self.nombre} - {self.prestadorID.nombre}"
 
 
 class Atencion(models.Model):

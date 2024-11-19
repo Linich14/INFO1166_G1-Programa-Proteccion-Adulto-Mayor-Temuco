@@ -87,4 +87,4 @@ class UserData(AbstractUser):
                        'telefono', 'nacionalidad', 'autorizado', 'password']
         
     def __str__(self):
-        return self.rut
+        return f"{self.nombre} {self.apellido}"

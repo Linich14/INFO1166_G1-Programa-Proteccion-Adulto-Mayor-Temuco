@@ -2,6 +2,7 @@ from django.shortcuts import render
 
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status, generics
 from django.http import Http404
@@ -71,6 +72,12 @@ class UsuarioDetalles(APIView):
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         
+# Devuelve todos los usuarios (usado en historialCompleto.jsx)
+@api_view(['GET'])
+def ObtenerUsuarios (request):
+    usuarios = UserData.objects.all() 
+    serializer = UsuarioSerializers(usuarios, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 # Supuesta customizacion de la vista de login
 class CustomTokenObtainPairView(TokenObtainPairView):

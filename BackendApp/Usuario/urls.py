@@ -5,4 +5,5 @@ urlpatterns = [
   #  path('inicio_sesion/', InicioSesion_Usuario.as_view()),
     path('registro/', Registro_Usuario.as_view()),
     path('usuario/', UsuarioDetalles.as_view()),
+    path('get_usuarios/', ObtenerUsuarios, name='ObtenerUsuarios'),
 ] 
