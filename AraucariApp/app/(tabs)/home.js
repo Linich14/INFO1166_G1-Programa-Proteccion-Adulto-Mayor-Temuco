@@ -223,17 +223,17 @@ export default function Home() {
 								fontWeight: "bold",
 								textAlign: "center",
 								marginTop: 20,
-								fontSize: 25,
+								fontSize: 35,
 							}}
 						>
 							{notifications[currentNotificationIndex].titulo ||
-								"Título de la Notificación"}
+								"No hay notificaciones"}
 						</Text>
 						<Text
-							style={{ textAlign: "center", marginVertical: 10, fontSize: 15 }}
+							style={{ textAlign: "center", marginVertical: 10, fontSize: 20 }}
 						>
 							{notifications[currentNotificationIndex].cuerpo ||
-								"Este es el cuerpo de la notificación."}
+								"No hay cuerpo de notificaciones"}
 						</Text>
 
 						<TouchableOpacity onPress={hideModal} style={{ marginTop: 20 }}>
