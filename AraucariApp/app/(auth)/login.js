@@ -44,7 +44,12 @@ export default function Login() {
 		try {
 			const respuesta = await axios.post(
 				`${API_URL}/api/auth/inicio_sesion/`,
-				formData
+				formData,
+				{
+				headers: {
+				"Content-Type": "application/json",
+				},
+				}
 			);
 
 			if (respuesta.status === 200) {
@@ -53,16 +58,12 @@ export default function Login() {
 				console.log("refresh", refresh);
 				signIn(access, refresh);
 				router.replace("/(tabs)/home");
-				Alert.alert(
-					"Inicio de sesión exitoso",
-					`Bienvenido, ${formData.nombre}`
-				);
 			} else {
 				Alert.alert("Error", "Credenciales incorrectas");
 			}
 		} catch (error) {
 			Alert.alert("Error", "No se pudo conectar con el servidor");
-			console.error("Error en el inicio de sesión:", error);
+			console.error("Error en el inicio de sesión:", error.response.data);
 		}
 	};
 
