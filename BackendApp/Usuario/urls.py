@@ -16,6 +16,7 @@ urlpatterns = [
 
     path('actualizar_usuario/', ActualizarUsuario.as_view(), name='Actualizar_Usuario'),
     path('subir_foto_perfil/', Subir_foto_perfil.as_view(), name='subir_foto_perfil'),
+    path('cambiar_password/', CambiarPassword.as_view(), name='cambiar_password'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:

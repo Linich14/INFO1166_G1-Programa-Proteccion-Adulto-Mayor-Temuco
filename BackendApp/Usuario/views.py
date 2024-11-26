@@ -7,6 +7,7 @@ from rest_framework import status, generics
 from django.http import Http404
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.exceptions import ValidationError
+from django.contrib.auth.hashers import check_password
 
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from Usuario.models import UserData
@@ -204,3 +205,21 @@ class ActualizarUsuario(APIView):
 
         except Exception as e:
             return Response({"error": f"Error inesperado: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+class CambiarPassword(APIView):
+    def post(self, request):
+        usuario = request.user
+        old_password = request.data.get("old_password")
+        new_password = request.data.get("new_password")
+
+        if not old_password or not new_password:
+            return Response({"error": "Faltan datos."}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Verificar contraseña actual
+        if not check_password(old_password, usuario.password):
+            return Response({"error": "La contraseña actual es incorrecta."}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Actualizar contraseña
+        usuario.set_password(new_password)
+        usuario.save()
+        return Response({"message": "Contraseña actualizada correctamente."}, status=status.HTTP_200_OK)

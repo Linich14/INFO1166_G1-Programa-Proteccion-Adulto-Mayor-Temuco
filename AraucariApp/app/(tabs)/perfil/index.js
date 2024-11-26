@@ -38,7 +38,10 @@ export default function Home() {
 	const [modalVisible, setModalVisible] = useState(false);
 	const [editModalVisible, setEditModalVisible] = useState(false); // Nuevo modal para editar datos
 	const [image, setImage] = useState(null); // Estado para manejar la imagen seleccionada
-	const [reload, setReload] = useState(false);
+	const [passwordModalVisible, setPasswordModalVisible] = useState(false);
+	const [oldPassword, setOldPassword] = useState("");
+	const [newPassword, setNewPassword] = useState("");
+	const [confirmPassword, setConfirmPassword] = useState("");
 
 	const { usuario, session } = useSession();
 
@@ -192,7 +195,7 @@ export default function Home() {
 					body: JSON.stringify({
 						nombre: nombre,
 						apellido: apellido,
-						telefono: numero,
+						telefono: telefono,
 						email: correo,
 					}),
 				}
@@ -232,7 +235,7 @@ export default function Home() {
 				setApellido(perfil.apellido || "");
 				setNumero(perfil.telefono || "");
 				setCorreo(perfil.email || "");
-				setNacimiento(perfil.nacimiento || ""); // Asigna la fecha de nacimiento
+				setNacimiento(perfil.nacimiento || "");
 				setNombresito(`${perfil.nombre || ""} ${perfil.apellido || ""}`);
 			}
 		} catch (error) {
@@ -240,14 +243,50 @@ export default function Home() {
 			Alert.alert("Error", "No se pudo cargar el perfil.");
 		}
 	};
-	// Llama a cargarPerfil en useEffect para cargar los datos al iniciar la app
+
+	const handleChangePassword = async () => {
+		if (newPassword !== confirmPassword) {
+			Alert.alert("Error", "Las contraseñas no coinciden.");
+			return;
+		}
+	
+		const session2 = JSON.parse(session);
+		try {
+			const response = await fetch(`${API_URL}/api/usuario/cambiar_password/`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${session2.accessToken}`,
+				},
+				body: JSON.stringify({
+					old_password: oldPassword,
+					new_password: newPassword,
+				}),
+			});
+	
+			const data = await response.json();
+	
+			if (response.ok) {
+				Alert.alert("Éxito", "Contraseña actualizada correctamente.");
+				setPasswordModalVisible(false);
+				setOldPassword("");
+				setNewPassword("");
+				setConfirmPassword("");
+			} else {
+				const errorMsg = data.error || "No se pudo cambiar la contraseña.";
+				Alert.alert("Error", errorMsg);
+			}
+		} catch (error) {
+			console.error("Error al cambiar la contraseña:", error);
+			Alert.alert("Error", "Hubo un error al cambiar la contraseña.");
+		}
+	};
 	useEffect(() => {
-		GetUsuario()
-		// En caso de que el usuario esté autenticado, cargar el perfil
 		if (usuario) {
 			cargarPerfil();
+			GetUsuario();
 		}
-	}, []);
+	}, [usuario]);
 
 	return (
 		<SafeAreaView className="flex-1 bg-gray-300">
@@ -353,13 +392,82 @@ export default function Home() {
 					</Modal>
 					<View>
 						<View className="">
-							<TouchableOpacity
-								className="bg-[#D42B2B] p-2 rounded-[32px] border border-white flex flex-row mt-2"
-								style={shadowStyles.shadow}
-							>
-								<Feather name="lock" color="white" size={16} />
-								<Text className="text-white ml-2">Cambiar Contraseña</Text>
-							</TouchableOpacity>
+						<TouchableOpacity
+    className="bg-[#D42B2B] p-2 rounded-[32px] border border-white flex flex-row mt-2"
+    onPress={() => setPasswordModalVisible(true)}
+    style={shadowStyles.shadow}
+>
+    <Feather name="lock" color="white" size={16} />
+    <Text className="text-white ml-2">Cambiar Contraseña</Text>
+</TouchableOpacity>
+
+<Modal
+    animationType="slide"
+    transparent={true}
+    visible={passwordModalVisible}
+    onRequestClose={() => setPasswordModalVisible(false)}
+>
+    <View
+        style={{
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: "rgba(0, 0, 0, 0.6)",
+        }}
+    >
+        <KeyboardAvoidingView
+            style={{
+                backgroundColor: "white",
+                padding: 20,
+                borderRadius: 10,
+            }}
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+        >
+            <View>
+                <Text className="text-lg font-bold mb-4">Cambiar Contraseña</Text>
+
+                <Text className="font-bold">Contraseña Actual</Text>
+                <TextInput
+                    className="rounded-full border p-2 m-1q"
+                    secureTextEntry
+                    value={oldPassword}
+                    onChangeText={setOldPassword}
+                />
+
+                <Text className="font-bold">Nueva Contraseña</Text>
+                <TextInput
+                    className="rounded-full border p-2 m-1 "
+                    secureTextEntry
+                    value={newPassword}
+                    onChangeText={setNewPassword}
+                />
+
+                <Text className="font-bold">Confirmar Contraseña</Text>
+                <TextInput
+                    className="rounded-full border p-2 m-1"
+                    secureTextEntry
+                    value={confirmPassword}
+                    onChangeText={setConfirmPassword}
+                />
+
+                <TouchableOpacity
+                    className="bg-blue-500 p-2 rounded-[32px] my-2"
+                    onPress={handleChangePassword}
+                >
+                    <Text className="text-white text-center">Guardar Cambios</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                    className="bg-red-500 p-2 rounded-[32px] my-2"
+                    onPress={() => setPasswordModalVisible(false)}
+                >
+                    <Text className="text-white text-center">Cancelar</Text>
+                </TouchableOpacity>
+            </View>
+        </KeyboardAvoidingView>
+    </View>
+</Modal>
+
 						</View>
 					</View>
 				</View>
