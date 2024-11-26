@@ -55,7 +55,7 @@ urlpatterns = [
     path("api/auth/", include('Usuario.urls')),
     
     path('api/calendario/', include('Calendario.urls')),
-    path('api/usuario', include('Usuario.urls')),
+    path('api/usuario/', include('Usuario.urls')),
     path('api/notificaciones/', NotificacionesList.as_view(), name='notificaciones-list'),
     path('api/notificaciones/', obtener_notificaciones, name='obtener_notificaciones'),
     path('municipales/', MunicipalesView.as_view(), name='Municipal'),

@@ -29,7 +29,6 @@ import { useSession } from "../../../core/Autentificacion";
 //
 export default function Home() {
 	const StyledIcon = styled(MaterialIcons);
-	const [trabajo, setTrabajo] = useState("");
 	const [nombre, setNombre] = useState("");
 	const [apellido, setApellido] = useState("");
 	const [nombresito, setNombresito] = useState("");
@@ -39,38 +38,9 @@ export default function Home() {
 	const [modalVisible, setModalVisible] = useState(false);
 	const [editModalVisible, setEditModalVisible] = useState(false); // Nuevo modal para editar datos
 	const [image, setImage] = useState(null); // Estado para manejar la imagen seleccionada
+	const [reload, setReload] = useState(false);
 
-	const { usuario } = useSession();
-
-	// Función para obtener los datos del prestador
-	const obtenerDatos = async () => {
-		try {
-			const response = await fetch(
-				`${API_URL}/api/servicios/prestador/rut/215901076/`
-			);
-
-			if (response.ok) {
-				const data = await response.json();
-				// Asigna los valores obtenidos desde la API
-				setNombre(data.nombre);
-				setApellido(data.apellido);
-				setNombresito(`${data.nombre} ${data.nombre}`);
-				setTrabajo(data.trabajo);
-				setNumero(data.telefono);
-				setCorreo(data.email);
-				setNacimiento(data.nacimiento);
-				// Verifica si hay una URL para la imagen
-				if (data.fotoperfil_url) {
-					setImage(data.fotoperfil_url); // Asigna la URL de la imagen
-				}
-			} else {
-				Alert.alert("Error", "No se pudo obtener los datos del prestador.");
-			}
-		} catch (error) {
-			console.error("Error en la solicitud:", error);
-			Alert.alert("Error", "Hubo un error al obtener los datos.");
-		}
-	};
+	const { usuario, session } = useSession();
 
 	// Función para abrir la galería
 	const pickImage = async () => {
@@ -127,6 +97,8 @@ export default function Home() {
 
 	// Función para subir la imagen al servidor
 	const uploadImage = async (uri, name, mimeType) => {
+		session2 = JSON.parse(session);
+		console.log(session2.accessToken);
 		try {
 			const formData = new FormData();
 			formData.append("fotoperfil", {
@@ -136,12 +108,13 @@ export default function Home() {
 			});
 
 			const response = await fetch(
-				`${API_URL}/api/servicios/prestador/rut/215901076/subir_foto_perfil/`,
+				`${API_URL}/api/usuario/subir_foto_perfil/`,
 				{
 					method: "POST",
 					body: formData,
 					headers: {
 						"Content-Type": "multipart/form-data",
+						'Authorization': `Bearer ${session2.accessToken}`
 					},
 				}
 			);
@@ -163,14 +136,58 @@ export default function Home() {
 		}
 	};
 
-	const actualizarDatos = async () => {
+	const GetUsuario = async () => {
+		const session2 = JSON.parse(session); // Asegurarse de que la sesión esté deserializada
 		try {
 			const response = await fetch(
-				`${API_URL}/api/servicios/cambiar-datos/215901076/`,
+				`${API_URL}/api/usuario/usuario/`,
+				{
+					method: "GET",
+					headers: {
+						"Content-Type": "application/json",
+						"Authorization": `Bearer ${session2.accessToken}`,
+					},
+				}
+			);
+	
+			const data = await response.json();
+	
+			if (response.ok) {
+				// Guardar los datos obtenidos en AsyncStorage
+				await AsyncStorage.setItem(
+					"perfil",
+					JSON.stringify({
+						nombre: data.nombre,
+						apellido: data.apellido,
+						telefono: data.telefono,
+						email: data.email,
+						nacimiento: data.nacimiento,
+					})
+				);
+				return data; // Devuelve los datos obtenidos si todo está correcto
+			} else {
+				// Manejo de errores específicos devueltos por el servidor
+				const errorMsg = data.error || "No se pudo obtener los datos del usuario.";
+				Alert.alert("Error", errorMsg);
+				return null; // Retorna null en caso de error
+			}
+		} catch (error) {
+			console.error("Error al obtener los datos:", error);
+			Alert.alert("Error", "Hubo un error al obtener los datos.");
+			return null; // Retorna null en caso de error
+		}
+	};
+
+	const actualizarDatos = async () => {
+		session2 = JSON.parse(session);
+		try {
+			const response = await fetch(
+				`${API_URL}/api/usuario/actualizar_usuario/`,
 				{
 					method: "PATCH",
 					headers: {
 						"Content-Type": "application/json",
+						'Authorization': `Bearer ${session2.accessToken}`
 					},
 					body: JSON.stringify({
 						nombre: nombre,
@@ -180,25 +197,25 @@ export default function Home() {
 					}),
 				}
 			);
-
+	
 			const data = await response.json();
+	
 			if (response.ok) {
 				Alert.alert("Éxito", "Datos actualizados correctamente");
 				setEditModalVisible(false); // Cerrar el modal después de la actualización
-				obtenerDatos(); // Actualizar la información en la UI
-
-				// Guardar los nuevos datos en AsyncStorage
-				await AsyncStorage.setItem(
-					"perfil",
-					JSON.stringify({
-						nombre: nombre,
-						apellido: apellido,
-						telefono: numero,
-						email: correo,
-					})
-				);
+	
+				// Recargar datos desde el servidor y actualizar el estado local
+				const usuarioActualizado = await GetUsuario();
+				if (usuarioActualizado) {
+					setNombre(usuarioActualizado.nombre);
+					setApellido(usuarioActualizado.apellido);
+					setNumero(usuarioActualizado.telefono);
+					setCorreo(usuarioActualizado.email);
+					setNacimiento(usuarioActualizado.nacimiento || "");
+				}
 			} else {
-				Alert.alert("Error", "No se pudo actualizar los datos.");
+				const errorMsg = data.error || "No se pudo actualizar los datos.";
+				Alert.alert("Error", errorMsg);
 			}
 		} catch (error) {
 			console.error("Error al actualizar los datos:", error);
@@ -211,25 +228,24 @@ export default function Home() {
 			const perfilGuardado = await AsyncStorage.getItem("perfil");
 			if (perfilGuardado) {
 				const perfil = JSON.parse(perfilGuardado);
-				setNombre(perfil.nombre);
-				setApellido(perfil.apellido);
-				setNumero(perfil.telefono);
-				setNombresito(`${perfil.nombre} ${perfil.apellido}`);
-				setNacimiento(perfil.nacimiento);
-				setCorreo(perfil.email);
+				setNombre(perfil.nombre || "");
+				setApellido(perfil.apellido || "");
+				setNumero(perfil.telefono || "");
+				setCorreo(perfil.email || "");
+				setNacimiento(perfil.nacimiento || ""); // Asigna la fecha de nacimiento
+				setNombresito(`${perfil.nombre || ""} ${perfil.apellido || ""}`);
 			}
 		} catch (error) {
 			console.error("Error al cargar el perfil:", error);
+			Alert.alert("Error", "No se pudo cargar el perfil.");
 		}
 	};
-
 	// Llama a cargarPerfil en useEffect para cargar los datos al iniciar la app
 	useEffect(() => {
+		GetUsuario()
 		// En caso de que el usuario esté autenticado, cargar el perfil
 		if (usuario) {
 			cargarPerfil();
-		} else {
-			obtenerDatos();
 		}
 	}, []);
 
@@ -241,7 +257,7 @@ export default function Home() {
 					style={shadowStyles.shadow}
 				>
 					<Text className="text-black text-xl font-bold px-2">
-						Bienvenido, {nombresito}
+						Bienvenido, {nombre || "Cargando..."} {apellido}
 					</Text>
 				</View>
 				<TouchableOpacity
@@ -336,9 +352,9 @@ export default function Home() {
 						</View>
 					</Modal>
 					<View>
-						<View className="ml-2">
+						<View className="">
 							<TouchableOpacity
-								className="bg-[#D42B2B] p-2 rounded-[32px] border border-white flex flex-row"
+								className="bg-[#D42B2B] p-2 rounded-[32px] border border-white flex flex-row mt-2"
 								style={shadowStyles.shadow}
 							>
 								<Feather name="lock" color="white" size={16} />
@@ -354,7 +370,7 @@ export default function Home() {
 					className="bg-white p-2 rounded-[12px]"
 					style={shadowStyles.shadow}
 				>
-					<View className="p-2 ml-2 flex flex-row">
+					<View className="p-2 ml-2 flex flex-row justify-between">
 						<Text className="font-bold text-2xl">Informacion de la cuenta</Text>
 						<TouchableOpacity
 							onPress={() => setEditModalVisible(true)}
@@ -446,7 +462,13 @@ export default function Home() {
 							<View className="ml-6">
 								<Text>Nombre</Text>
 								<Text className="font-bold text-xl">
-									{nombresito || "Cargando..."}
+									{nombre || "Cargando..."}
+								</Text>
+							</View>
+							<View className="ml-8">
+								<Text>Apellido</Text>
+								<Text className="font-bold text-xl">
+									{apellido || "Cargando..."}
 								</Text>
 							</View>
 						</View>

@@ -45,7 +45,12 @@ export default function Login() {
 		try {
 			const respuesta = await axios.post(
 				`${API_URL}/api/auth/inicio_sesion/`,
-				formData
+				formData,
+				{
+				headers: {
+				"Content-Type": "application/json",
+				},
+				}
 			);
 
 			if (respuesta.status === 200) {
