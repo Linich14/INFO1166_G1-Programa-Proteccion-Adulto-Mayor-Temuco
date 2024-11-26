@@ -32,14 +32,13 @@ function NavBar ({ onOptionClick,municipal, handleLogout}) { {
 
       <div className="flex flex-col items-center ">
         <ul >
-          <li className="mb-5"><a href="#" onClick={() => handleOptionClick('home')} ><img src="/Home.svg" alt="" className=' ' /></a></li>
+          <li className="mb-5"><a href="#" onClick={() => handleOptionClick('home')} ><img src="/home.png" alt="" className=' ' /></a></li>
           <li className="mb-5"><a href="#" onClick={() => handleOptionClick('menu')} ><img src="/menu.png" alt="" /></a></li>
-          <li className="mb-5"><a href="#" onClick={() => handleOptionClick('VistaServicios')} ><img src="/Service.svg?react" alt="" /></a></li>
-          <li className="mb-5"><a href="#" onClick={() => handleOptionClick('notificacion')} ><img src="/Notifications.svg" alt="" className='h-7' /></a></li>
-          <li className="mb-5"><a href="#" onClick={() => handleOptionClick('historial')} ><img src="/UserManager.svg" alt="" className='h-7' /></a></li>
+          <li className="mb-5"><a href="#" onClick={() => handleOptionClick('VistaServicios')} ><img src="/menu.png" alt="" /></a></li>
+          <li className="mb-5"><a href="#" onClick={() => handleOptionClick('notificacion')} ><img src="/mensaje.png" alt="" className='h-7' /></a></li>
+          <li className="mb-5"><a href="#" onClick={() => handleOptionClick('historial')} ><img src="/historial.png" alt="" className='h-7' /></a></li>
           <li className="mb-5"><a href="#" onClick={() => handleOptionClick('adminpanel')} ><img src="/historial.png" alt="" className='h-7' /></a></li>
           <li className="mb-5"><a href="#" onClick={() => handleOptionClick('adminCalendario')} ><img src="/calendario.png" alt="" className='h-7' /></a></li>
-          <li className="mb-5"><a href="#" onClick={() => handleOptionClick('Analytics')} ><img src="/Analytics.svg" alt="" className='h-7' /></a></li>
         </ul>
       </div>
 

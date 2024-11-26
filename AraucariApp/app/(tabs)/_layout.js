@@ -1,4 +1,4 @@
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons, FontAwesome } from "@expo/vector-icons";
 import { Redirect, Tabs, useRouter, useSegments } from "expo-router";
 import {
 	TouchableOpacity,
@@ -119,15 +119,25 @@ export default function TabsLayout() {
 						),
 					}}
 				/>
+				<Tabs.Screen
+					name="perfil"
+					options={{
+						title: "Perfil",
+						tabBarIcon: ({ color }) => (
+							<FontAwesome
+								name="user-circle"
+								size={40}
+								color={color}
+							/>
+						),
+					}}
+				/>
 				{/* Pantallas no usadas */}
 				<Tabs.Screen name="index" options={{ href: null }} />
 				<Tabs.Screen name="agenda" options={{ href: null }} />
 				<Tabs.Screen name="reagendar" options={{ href: null }} />
-				<Tabs.Screen name="marcarAsis" options={{ href: null }} />
 				<Tabs.Screen name="ajustes" options={{ href: null }} />
-				<Tabs.Screen name="marcarEntrada" options={{ href: null }} />
-				<Tabs.Screen name="marcarSalida" options={{ href: null }} />
-				<Tabs.Screen name="perfilPrestador" options={{ href: null }} />
+				
 			</Tabs>
 
 			{/* Botón personalizado de Volver, solo se muestra si no estamos en "home" */}

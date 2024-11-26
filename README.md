@@ -31,9 +31,14 @@ source .venv/bin/activate        # Bash / zsh
 pip install -r requirements.txt
 ```
 - Crear base de datos
+```
 python manage.py makemigrations
 python manage.py migrate
-
+```
+- Ejecutar server
+```
+python manage.py runserver 0.0.0.0:8000
+```
 
 
 

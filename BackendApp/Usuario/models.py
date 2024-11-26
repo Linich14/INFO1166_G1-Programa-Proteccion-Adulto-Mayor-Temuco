@@ -71,6 +71,7 @@ class UserData(AbstractUser):
         default=NacionalidadChoices.CHILENO,
     )
     autorizado = models.BooleanField(default=False)
+    fotoperfil = models.FileField(upload_to='archivos/', null=True, blank=True)
     
     # Valores por defecto necesarios por el usuario
     date_joined = models.DateTimeField(auto_now_add=True)
@@ -87,4 +88,4 @@ class UserData(AbstractUser):
                        'telefono', 'nacionalidad', 'autorizado', 'password']
         
     def __str__(self):
-        return f"{self.nombre} {self.apellido}"
+        return str(self.rut)  # Convertir rut a cadena
