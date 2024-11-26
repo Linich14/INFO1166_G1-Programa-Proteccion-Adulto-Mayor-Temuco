@@ -10,7 +10,7 @@ const AuthContext = createContext({
 	signOut: () => null,
 	session: null,
 	usuario: null,
-	isLoading: false,
+	isLoading: true,
 });
 
 export function useSession() {
@@ -39,7 +39,6 @@ export function SessionProvider({ children }) {
 				},
 			});
 			const usuario = response.data;
-			console.log("Usuario:", usuario);
 
 			const sessionData = {
 				accessToken,

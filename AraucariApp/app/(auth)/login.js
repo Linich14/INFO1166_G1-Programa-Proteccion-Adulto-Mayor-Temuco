@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import axios from "axios";
+import { useEffect } from "react";
 import { Link, Redirect } from "expo-router";
 import {
 	Alert,
@@ -21,7 +22,7 @@ import { useSession } from "../../core/Autentificacion";
 import { useRouter } from "expo-router";
 
 export default function Login() {
-	const { signIn } = useSession();
+	const { signIn, session, usuario } = useSession();
 
 	const router = useRouter();
 
@@ -49,22 +50,25 @@ export default function Login() {
 
 			if (respuesta.status === 200) {
 				const { access, refresh } = respuesta.data;
-				console.log("access", access);
-				console.log("refresh", refresh);
 				signIn(access, refresh);
-				router.replace("/(tabs)/home");
-				Alert.alert(
-					"Inicio de sesión exitoso",
-					`Bienvenido, ${formData.nombre}`
-				);
 			} else {
 				Alert.alert("Error", "Credenciales incorrectas");
 			}
 		} catch (error) {
 			Alert.alert("Error", "No se pudo conectar con el servidor");
-			console.error("Error en el inicio de sesión:", error);
+			console.error("Error en el inicio de sesión:", error.response.data);
 		}
 	};
+
+	useEffect(() => {
+		if (session) {
+			router.replace("/(tabs)/home");
+			Alert.alert(
+				"Inicio de sesión exitoso",
+				`Bienvenido, ${usuario.nombre} ${usuario.apellido}`
+			);
+		}
+	}, [session]);
 
 	return (
 		<View className="h-screen">
