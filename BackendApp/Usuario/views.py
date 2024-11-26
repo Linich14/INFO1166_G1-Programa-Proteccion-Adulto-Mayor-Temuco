@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from rest_framework import status, generics
 from django.http import Http404
 
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from Usuario.models import UserData
 from Usuario.serializers import UsuarioSerializers, CustomTokenObtainPairSerializer
 
@@ -48,8 +48,10 @@ class UsuarioDetalles(APIView):
         # Accede a la información del usuario autenticado
         user = request.user
         serializer = UsuarioSerializers(user)
+        
         # Filtramos los datos que queremos mostrar
         usuario = {
+            "id" : serializer.data['id'],
             "rut": serializer.data['rut'],
             "nombre": serializer.data['nombre'],
             "apellido": serializer.data['apellido'],
@@ -70,7 +72,68 @@ class UsuarioDetalles(APIView):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    
+class AutentificacionUsuario(APIView):
+    #permission_classes = [IsAdminUser]
+    def get(self, request):
+        # Accede a la información del usuario autenticado
+        usuariosNoAutorizados = UserData.objects.filter(autorizado=0)
         
+        serializer = UsuarioSerializers(usuariosNoAutorizados, many=True)
+
+        usuarios_filtrados = [
+            {
+                "rut": usuario['rut'],
+                "nombre": usuario['nombre'],
+                "apellido": usuario['apellido'],
+                "email": usuario['email'],
+                "telefono": usuario['telefono'],
+                "direccion": usuario['direccion'],
+                "nacimiento": usuario['nacimiento'],
+                "sector": UserData.objects.get(pk=usuario['id']).get_sector_display(),  
+            }
+            for usuario in serializer.data
+        ]
+        
+        return Response(usuarios_filtrados, status=status.HTTP_201_CREATED)
+    
+    def patch(self, request):
+        rut = request.data.get('rut')  
+        
+        if not rut:
+            return Response({"error": "El campo 'rut' es requerido."}, status=status.HTTP_400_BAD_REQUEST)
+        
+        try:
+            user = UserData.objects.get(rut=rut)
+        except Usuario.DoesNotExist:
+            return Response({"error": "3Usuario no encontrado con el RUT proporcionado."}, status=status.HTTP_404_NOT_FOUND)
+        
+        if 'autorizado' not in request.data:
+            return Response({"error": "El campo 'autorizado' es requerido."}, status=status.HTTP_400_BAD_REQUEST)
+        
+        serializer = UsuarioSerializers(user, data={"autorizado": request.data['autorizado']}, partial=True)
+        
+        if serializer.is_valid():
+            serializer.save()  
+            return Response({"autorizado": serializer.validated_data['autorizado']}, status=status.HTTP_200_OK)
+        
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+    def delete(self, request):
+        rut = request.data.get('rut')  
+        
+        if not rut:
+            return Response({"error": "El campo 'rut' es requerido."}, status=status.HTTP_400_BAD_REQUEST)
+        
+        try:
+            user = UserData.objects.get(rut=rut)
+        except Usuario.DoesNotExist:
+            return Response({"error": "Usuario no encontrado con el RUT proporcionado."}, status=status.HTTP_404_NOT_FOUND)
+        
+        user.delete()
+        return Response({"message": "Usuario eliminado exitosamente."}, status=status.HTTP_204_NO_CONTENT)
+    
 
 # Supuesta customizacion de la vista de login
 class CustomTokenObtainPairView(TokenObtainPairView):

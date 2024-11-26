@@ -50,7 +50,7 @@ urlpatterns = [
     
     # Rutas para el JWT
     path('api/auth/inicio_sesion/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/auth/inicio_sesion/refresh', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/auth/inicio_sesion/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
     path('protected/', Protected.as_view(), name='protected'), # Prueba de funcionamiento de autenticación
     path("api/auth/", include('Usuario.urls')),
     
