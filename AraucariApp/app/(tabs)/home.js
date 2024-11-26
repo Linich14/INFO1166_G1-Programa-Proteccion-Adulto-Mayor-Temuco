@@ -18,6 +18,14 @@ export default function Home() {
 	const [currentNotificationIndex, setCurrentNotificationIndex] = useState(0); // Índice de notificación actual
 	const [isModalVisible, setModalVisible] = useState(false);
 
+	// Estado para controlar si el contenido se muestra o no
+	const [showContent, setShowContent] = useState(false);
+
+	// Función que cambia el estado
+	const Info = () => {
+	setShowContent(!showContent);
+	};
+
 	// Función para obtener las notificaciones desde el backend
 	const fetchNotifications = async () => {
 		try {
@@ -119,15 +127,22 @@ export default function Home() {
 			</View>
 			{/* Separa */}
 			<View className="mt-6">
+				<View className="flex-row items-center justify-between">
 				<View
-					className="bg-white py-2 rounded-r-full mr-28"
+					className="bg-white py-2 px-4 rounded-r-full"
 					style={shadowStyles.shadow}
 				>
 					<Text className="text-black text-xl font-bold px-2 text-center">
 						¿Qué quieres hacer?
 					</Text>
 				</View>
-				<ScrollView>
+				<View className="mr-5">
+					<TouchableOpacity onPress={Info} className="bg-red-500 rounded-full p-2 px-4" style={shadowStyles.shadow}>
+						<Text className="text-white font-bold text-lg">Ayuda</Text>
+					</TouchableOpacity>
+				</View>
+				</View>
+				<View>
 					<View className="flex-row justify-between">
 						<View className="pl-4 p-1 items-center flex-1">
 							<Text className="text-center text-black font-bold text-xl">
@@ -142,7 +157,7 @@ export default function Home() {
 						</View>
 					</View>
 
-					<View className="flex-row justify-between">
+					<View className="flex-row justify-between py-1">
 						<Link href="/servicios" asChild>
 							<TouchableOpacity
 								className="bg-white rounded-lg p-6 items-center flex-1 mx-2"
@@ -168,20 +183,22 @@ export default function Home() {
 						</Link>
 					</View>
 
-					<View className="flex-row justify-between">
+					{showContent && (
+						<View className="flex-row justify-between">
 						<View className="p-4 items-center flex-1 mr-2">
 							<Text className="text-center text-black font-bold text-base">
-								Consulta los servicios que puedes atenderte en tu zona
+							Consulta los servicios que puedes atenderte en tu zona
 							</Text>
 						</View>
 
 						<View className="p-4 items-center flex-1 ml-2">
 							<Text className="text-center text-black font-bold text-base">
-								Consulta tu agenda para ver tus horas recientes o por atenderte
+							Consulta tu agenda para ver tus horas recientes o por atenderte
 							</Text>
 						</View>
-					</View>
-				</ScrollView>
+						</View>
+					)}
+				</View>
 			</View>
 
 			{/* Modal para mostrar notificaciones */}
@@ -206,17 +223,17 @@ export default function Home() {
 								fontWeight: "bold",
 								textAlign: "center",
 								marginTop: 20,
-								fontSize: 25,
+								fontSize: 35,
 							}}
 						>
 							{notifications[currentNotificationIndex].titulo ||
-								"Título de la Notificación"}
+								"No hay notificaciones"}
 						</Text>
 						<Text
-							style={{ textAlign: "center", marginVertical: 10, fontSize: 15 }}
+							style={{ textAlign: "center", marginVertical: 10, fontSize: 20 }}
 						>
 							{notifications[currentNotificationIndex].cuerpo ||
-								"Este es el cuerpo de la notificación."}
+								"No hay cuerpo de notificaciones"}
 						</Text>
 
 						<TouchableOpacity onPress={hideModal} style={{ marginTop: 20 }}>

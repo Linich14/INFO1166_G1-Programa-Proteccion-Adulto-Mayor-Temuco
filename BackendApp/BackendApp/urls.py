@@ -50,35 +50,22 @@ urlpatterns = [
     
     # Rutas para el JWT
     path('api/auth/inicio_sesion/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/auth/inicio_sesion/refresh', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/auth/inicio_sesion/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
     path('protected/', Protected.as_view(), name='protected'), # Prueba de funcionamiento de autenticación
     path("api/auth/", include('Usuario.urls')),
-
-    # Rutas de Usuarios
-    path('api/usuario/', include('Usuario.urls')),
-    path('api/usuarios/<str:pk>/', UsuarioUpdateView.as_view(), name='usuario_update'),
-    path('api/usuarios/<str:pk>/update-password/', UpdatePasswordView.as_view(), name='update-password'),
-    path('user-data/<str:rut>/', UserDataView.as_view()),
-
-    # Servicios
-    path('api/servicios/', include('Servicios.urls')),
-
-
-    # Calendario
+    
     path('api/calendario/', include('Calendario.urls')),
-
-    # Notificaciones
+    path('api/usuario/', include('Usuario.urls')),
     path('api/notificaciones/', NotificacionesList.as_view(), name='notificaciones-list'),
     path('api/notificaciones/', obtener_notificaciones, name='obtener_notificaciones'),
-
-    # Municipales
-    path('municipales/', MunicipalesView.as_view(), name='Municipal'),\
-    
-
+    path('municipales/', MunicipalesView.as_view(), name='Municipal'),
     path('login/', login_view, name='login'),
+    path('api/usuarios/<str:pk>/', UsuarioUpdateView.as_view(), name='usuario_update'),
+    path('api/usuarios/<str:pk>/update-password/', UpdatePasswordView.as_view(), name='update-password'),
     path('get-csrf-token/', get_csrf_token, name='get-csrf-token'),
-    
+    path('api/servicios/', include('Servicios.urls')),
     path('api/subir_documento/', subir_documento, name='subir_documento'),
+    path('user-data/<str:rut>/', UserDataView.as_view()),
     
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

@@ -1,13 +1,14 @@
 from django.shortcuts import render
-
+from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status, generics
 from django.http import Http404
+from django.core.exceptions import ObjectDoesNotExist
+from rest_framework.exceptions import ValidationError
 
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from Usuario.models import UserData
 from Usuario.serializers import UsuarioSerializers, CustomTokenObtainPairSerializer
 
@@ -49,8 +50,10 @@ class UsuarioDetalles(APIView):
         # Accede a la información del usuario autenticado
         user = request.user
         serializer = UsuarioSerializers(user)
+        
         # Filtramos los datos que queremos mostrar
         usuario = {
+            "id" : serializer.data['id'],
             "rut": serializer.data['rut'],
             "nombre": serializer.data['nombre'],
             "apellido": serializer.data['apellido'],
@@ -71,16 +74,133 @@ class UsuarioDetalles(APIView):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    
+class AutentificacionUsuario(APIView):
+    #permission_classes = [IsAdminUser]
+    def get(self, request):
+        # Accede a la información del usuario autenticado
+        usuariosNoAutorizados = UserData.objects.filter(autorizado=0)
         
-# Devuelve todos los usuarios (usado en historialCompleto.jsx)
-@api_view(['GET'])
-def ObtenerUsuarios (request):
-    usuarios = UserData.objects.all() 
-    serializer = UsuarioSerializers(usuarios, many=True)
-    return Response(serializer.data, status=status.HTTP_200_OK)
+        serializer = UsuarioSerializers(usuariosNoAutorizados, many=True)
+
+        usuarios_filtrados = [
+            {
+                "rut": usuario['rut'],
+                "nombre": usuario['nombre'],
+                "apellido": usuario['apellido'],
+                "email": usuario['email'],
+                "telefono": usuario['telefono'],
+                "direccion": usuario['direccion'],
+                "nacimiento": usuario['nacimiento'],
+                "sector": UserData.objects.get(pk=usuario['id']).get_sector_display(),  
+            }
+            for usuario in serializer.data
+        ]
+        
+        return Response(usuarios_filtrados, status=status.HTTP_201_CREATED)
+    
+    def patch(self, request):
+        rut = request.data.get('rut')  
+        
+        if not rut:
+            return Response({"error": "El campo 'rut' es requerido."}, status=status.HTTP_400_BAD_REQUEST)
+        
+        try:
+            user = UserData.objects.get(rut=rut)
+        except Usuario.DoesNotExist:
+            return Response({"error": "3Usuario no encontrado con el RUT proporcionado."}, status=status.HTTP_404_NOT_FOUND)
+        
+        if 'autorizado' not in request.data:
+            return Response({"error": "El campo 'autorizado' es requerido."}, status=status.HTTP_400_BAD_REQUEST)
+        
+        serializer = UsuarioSerializers(user, data={"autorizado": request.data['autorizado']}, partial=True)
+        
+        if serializer.is_valid():
+            serializer.save()  
+            return Response({"autorizado": serializer.validated_data['autorizado']}, status=status.HTTP_200_OK)
+        
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+    def delete(self, request):
+        rut = request.data.get('rut')  
+        
+        if not rut:
+            return Response({"error": "El campo 'rut' es requerido."}, status=status.HTTP_400_BAD_REQUEST)
+        
+        try:
+            user = UserData.objects.get(rut=rut)
+        except Usuario.DoesNotExist:
+            return Response({"error": "Usuario no encontrado con el RUT proporcionado."}, status=status.HTTP_404_NOT_FOUND)
+        
+        user.delete()
+        return Response({"message": "Usuario eliminado exitosamente."}, status=status.HTTP_204_NO_CONTENT)
+    
 
 # Supuesta customizacion de la vista de login
 class CustomTokenObtainPairView(TokenObtainPairView):
     # Replace the serializer with your custom
     serializer_class = CustomTokenObtainPairSerializer
 
+class Subir_foto_perfil(APIView):
+    # Protegemos la vista con autenticación
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        try:
+            # Buscar el usuario autenticado
+            user = request.user
+
+            # Validar si la imagen fue proporcionada en el request
+            if 'fotoperfil' not in request.FILES:
+                return Response({"error": "No se ha proporcionado ninguna imagen."}, status=status.HTTP_400_BAD_REQUEST)
+
+            # Guardar la imagen en el campo fotoperfil del usuario
+            user.fotoperfil = request.FILES['fotoperfil']
+            user.save()
+
+            # Obtener la URL completa de la foto de perfil
+            fotoperfil_url = request.build_absolute_uri(user.fotoperfil.url)
+
+            return Response({
+                "message": "Foto de perfil actualizada con éxito",
+                "fotoperfil_url": fotoperfil_url
+            }, status=status.HTTP_200_OK)
+
+        except ObjectDoesNotExist:
+            return Response({"error": "Usuario no encontrado."}, status=status.HTTP_404_NOT_FOUND)
+
+        except Exception as e:
+            return Response({"error": f"Error inesperado: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+class ActualizarUsuario(APIView):
+    # Protegemos la vista con autenticación
+    permission_classes = [IsAuthenticated]
+
+    def patch(self, request):
+        try:
+            user = request.user
+            data = request.data
+
+            user.nombre = data.get('nombre', user.nombre)
+            user.apellido = data.get('apellido', user.apellido)
+            user.telefono = data.get('telefono', getattr(user, 'telefono', None))
+            user.email = data.get('email', user.email)
+
+            user.save()
+
+            return Response({
+                "message": "Datos actualizados correctamente",
+                "usuario": {
+                    "nombre": user.nombre,
+                    "apellido": user.apellido,
+                    "telefono": getattr(user, 'telefono', None),
+                    "email": user.email
+                }
+            }, status=status.HTTP_200_OK)
+
+        except ValidationError as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+        except Exception as e:
+            return Response({"error": f"Error inesperado: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

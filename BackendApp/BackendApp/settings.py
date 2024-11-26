@@ -29,7 +29,7 @@ SECRET_KEY = 'django-insecure-a!tmxzvoll*!6$^rdx4-2(r!qu+x6fsv7--z#pfvl4%xqf1cbo
 DEBUG = True
 
 load_dotenv()
-ALLOWED_HOSTS = [os.getenv("HOST_IP"), "localhost", "127.0.0.1"]
+ALLOWED_HOSTS = [os.getenv("HOST_IP"), "localhost", "127.0.0.1", f"{os.getenv("HOST_IP")}:8081"]
 
 
 #Manejo de subida de archivos
